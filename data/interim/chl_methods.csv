@@ -1,0 +1,31 @@
+Chl_method,chl_technique,chl_technique_source,n_rows
+,missing,method missing,1069
+U.S. EPA 445.0,fluorometry,dataset+method,749
+NOAA-GLERL Chl - FL,fluorometry,dataset+method,515
+SCOR-UNESCO,spectrophotometry,dataset+method,329
+Eawag Chl - aLH,optical aLH,dataset+method,290
+APHA 10200 H,spectrophotometry,dataset+method,266
+HJ 897-2017,spectrophotometry,dataset+method,249
+U.S. EPA 447.0,HPLC,dataset+method,210
+UNL Chl - FL,fluorometry,dataset+method,204
+IUPUI Chl - SP,spectrophotometry,dataset+method,190
+NIOO-KNAW Chl - HPLC,HPLC,dataset+method,185
+JAMSTEC Chl - FL,fluorometry,dataset+method,121
+CSIRO Chl - HPLC,HPLC,dataset+method,107
+SL88-2012,spectrophotometry,dataset+method,102
+WFU Chl - FL,fluorometry,dataset+method,57
+UCT Chl - SP,spectrophotometry,dataset+method,56
+ISO 10260:1992,spectrophotometry,dataset+method,53
+NOAA-STAR Chl - HPLC,HPLC,dataset+method,53
+WFU Chl - SP,spectrophotometry,dataset+method,48
+LabISA-INPE Chl - SP,spectrophotometry,dataset+method,48
+NOAA-STAR Chl - FL,fluorometry,dataset+method,43
+NEN 6520,spectrophotometry,dataset+method,34
+STIR Chl - HPLC,HPLC,dataset+method,30
+RW Chl - SP,spectrophotometry,dataset+method,28
+DIN 38412-16:1985-12,spectrophotometry,dataset+method,26
+AWI Chl - HPLC,HPLC,dataset+method,22
+U.S. EPA 446.0,spectrophotometry,dataset+method,14
+UiB Chl - FL,fluorometry,dataset+method,14
+NIOZ Chl - HPLC,HPLC,dataset+method,11
+APHA 10200 H,fluorometry,dataset+method,9

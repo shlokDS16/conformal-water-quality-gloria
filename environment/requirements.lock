@@ -1,0 +1,26 @@
+# environment/requirements.lock
+# Full pip freeze of the development environment, pinned versions only.
+# This project's own runtime dependencies are a subset (see code/README.md).
+
+# Project requirements (pinned to the versions used for the reported runs).
+# Python 3.14.3 on Windows 11. Full development freeze: requirements_full.lock
+numpy==2.4.2
+pandas==2.3.3
+scikit-learn==1.8.0
+scipy==1.17.1
+lightgbm==4.7.0
+xgboost==3.4.1
+torch==2.11.0+cu130
+statsmodels==0.15.0
+pyarrow==25.0.1
+matplotlib==3.10.8
+uncertainty-toolbox==0.1.1
+netCDF4==1.7.4
+openpyxl==3.1.5
+rapidfuzz==3.14.5
+pymupdf==1.27.2.3
+Cartopy==0.25.0
+pytest==9.0.2
+joblib==1.5.3
+shapely==2.1.2
+pyproj==3.7.2

@@ -1,0 +1,1026 @@
+{
+ "versions": {
+  "python": "3.14.3",
+  "os": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 198 Stepping 2, GenuineIntel",
+  "numpy": "2.4.2",
+  "pandas": "2.3.3",
+  "scikit-learn": "1.8.0",
+  "pyarrow": "25.0.1",
+  "netCDF4": "1.7.4",
+  "openpyxl": "3.1.5",
+  "scipy": "1.17.1",
+  "pytest": "9.0.2"
+ },
+ "srf_manifest": [
+  {
+   "file": "S3A_OL_SRF_20160713_mean_rsr.nc4",
+   "url": "https://sentiwiki.copernicus.eu/__attachments/a_1376b0c7651794dd4dc96b9372d6cd9142231ae04d8578f9bfc884eba902cbc3/S3A_OL_SRF_20160713_mean_rsr.nc4",
+   "bytes": 47804,
+   "sha256": "e2806df83b6a874e1b5ecd98bd56c70368e4bca6c75e6c7bad6b472cdc5fef7d",
+   "unit": "S3A"
+  },
+  {
+   "file": "S3B_OL_SRF_0_20180109_mean_rsr.nc4",
+   "url": "https://sentiwiki.copernicus.eu/__attachments/a_a3662d25ceecc2d2c0927107c2dcc9a3299a1a1d15dd28c9b7f9e09daece7c4d/S3B_OL_SRF_0_20180109_mean_rsr.nc4",
+   "bytes": 48444,
+   "sha256": "26bfba57971c1c434dd5f1c94f20f128eaa229a46bb3bfbad51c4b22f96e0033",
+   "unit": "S3B"
+  },
+  {
+   "file": "S2_MSI_SRF_v5.0.xlsx",
+   "unit": "S2A/S2B/S2C",
+   "url": "SentiWiki S2 SRF v5.0",
+   "bytes": 1330493,
+   "sha256": "42be3ebd8bfcbde11c37caeb2e2fdda65fefa8d2b6f8329559b7806d02cdc9e2"
+  }
+ ],
+ "qc_flag_counts": {
+  "Noisy_red": 40,
+  "Noisy_blue": 15,
+  "Baseline_shift": 164,
+  "Oxygen_signal": 1311,
+  "Negative_uv_slope": 139,
+  "QWIP_fail": 278,
+  "Suspect": 226,
+  "Flagged": 1779
+ },
+ "qc_keep_counts": {
+  "qc_primary": 6957,
+  "qc_strict": 5793,
+  "qc_none": 7572
+ },
+ "target_counts": [
+  {
+   "target": "Chla",
+   "non_null": 5132,
+   "le_zero": 1,
+   "positive_no_filter": 5131,
+   "positive_primary": 4761,
+   "positive_strict": 3745
+  },
+  {
+   "target": "TSS",
+   "non_null": 4623,
+   "le_zero": 2,
+   "positive_no_filter": 4621,
+   "positive_primary": 4357,
+   "positive_strict": 3458
+  },
+  {
+   "target": "aCDOM440",
+   "non_null": 4393,
+   "le_zero": 6,
+   "positive_no_filter": 4387,
+   "positive_primary": 4101,
+   "positive_strict": 3339
+  },
+  {
+   "target": "Secchi_depth",
+   "non_null": 3948,
+   "le_zero": 3,
+   "positive_no_filter": 3945,
+   "positive_primary": 3723,
+   "positive_strict": 3098
+  }
+ ],
+ "label_flags": {
+  "chla_optical_estimate": 290,
+  "chla_uncorrected": 3208,
+  "chla_hplc_or_corrected": 1180,
+  "chla_primary": 4475,
+  "tss_primary": 4357,
+  "acdom_primary": 4101,
+  "secchi_censored": 17,
+  "secchi_primary": 3709,
+  "shallow_lt3m": 632,
+  "secchi_rounded_half_m": 792,
+  "chla_optical_estimate_primary_qc": 286,
+  "shallow_lt3m_primary_qc": 545,
+  "secchi_censored_primary_qc": 14,
+  "chla_hplc_or_corrected_in_chla_primary": 1086
+ },
+ "chl_technique_counts_chla_primary": {
+  "fluorometry": 1610,
+  "spectrophotometry": 1333,
+  "missing": 955,
+  "HPLC": 577
+ },
+ "region_counts_country_map": {
+  "North America": 3476,
+  "Europe": 2049,
+  "East and South-East Asia": 1110,
+  "South America": 468,
+  "Oceania": 378,
+  "Africa": 91
+ },
+ "groups": {
+  "pairs_spec_hash": 47,
+  "rows_in_dup_spectra": 87,
+  "pairs_same_lat_lon_datetime": 75,
+  "rows_in_same_lat_lon_datetime": 120,
+  "same_lat_lon_datetime_keys_across_datasets": 0,
+  "lat_lon_datetime_target_dups_across_datasets": 0,
+  "near_dup_rows_eligible": 6668,
+  "near_dup_pairs_rms_lt_0.005": 72,
+  "near_dup_rows_rms_lt_0.005": 121,
+  "near_dup_pairs_same_targets_unioned": 11,
+  "pairs_LIMNADES_ID": 2,
+  "LIMNADES_ID_shared_across_datasets": 0,
+  "pairs_LIMNADES_UID": 1,
+  "LIMNADES_UID_shared_across_datasets": 0,
+  "SeaBASS_ID_unique": 24,
+  "SeaBASS_ID_rows": 1093,
+  "names_split_by_region": {
+   "normalised": [
+    "atlantic ocean"
+   ],
+   "raw": [
+    "Atlantic Ocean"
+   ]
+  },
+  "n_raw_names": 486,
+  "n_norm_names": 473,
+  "dossier_def_0.5km": 454,
+  "dossier_def_2.0km": 399,
+  "dossier_def_5.0km": 344,
+  "dossier_def_10.0km": 285,
+  "dossier_def_2.0km_coord_rows_only": 398,
+  "dossier_def_5.0km_coord_rows_only": 343,
+  "stage_2km_plus_region_split": 400,
+  "stage_2km_plus_region_split_plus_merges": 388,
+  "n_wb_group": 387,
+  "n_wb_5km": 340,
+  "n_wb_raw": 486,
+  "n_iid_unit": 7463,
+  "n_contrib_group": 28,
+  "contrib_group_largest": {
+   "cg:BindingC_CA_ECCC": 3057,
+   "cg:BracherA_DE_AWI": 853,
+   "cg:MaR_CN_NIGLAS": 552,
+   "cg:AlikasK_EE_UT-TO": 525,
+   "cg:GiardinoC_IT_CNR-IREA": 319
+  },
+  "contrib_group_datasets": {
+   "cg:BindingC_CA_ECCC": 14,
+   "cg:BracherA_DE_AWI": 5,
+   "cg:DekkerAG_NL_VU": 3,
+   "cg:AlikasK_EE_UT-TO": 3,
+   "cg:MaR_CN_NIGLAS": 3
+  },
+  "wb_groups_spanning_datasets": 24,
+  "region_conflict_groups": 0,
+  "rows_region_ne_region_grp": 0,
+  "na_subregion_conflict_groups": 8,
+  "rows_na_subregion_reassigned": 79,
+  "region_grp_counts": {
+   "North America": 3476,
+   "Europe": 2049,
+   "East and South-East Asia": 1110,
+   "South America": 468,
+   "Oceania": 378,
+   "Africa": 91
+  },
+  "na_subregion_grp_counts": {
+   "NA2 South-East and Mid-Atlantic": 1194,
+   "NA1 Gulf of Mexico and Caribbean": 952,
+   "NA3 Great Lakes and North-East": 934,
+   "NA4 West and Great Plains": 396
+  },
+  "wb_group_size": {
+   "min": 1,
+   "median": 4.0,
+   "max": 614,
+   "n_ge_20": 69,
+   "largest": {
+    "wb2:gulf of mexico, fl": 614,
+    "wb2:lake erie": 611,
+    "wb2:lake geneva": 314,
+    "wb2:ijsselmeer": 269,
+    "wb2:guiana": 254,
+    "wb2:bangs lake, ms": 252
+   }
+  }
+ },
+ "bands": {
+  "flat_max_abs_err": {
+   "S2A": 5.204170427930421e-18,
+   "S2B": 3.469446951953614e-18,
+   "S2C": 3.469446951953614e-18,
+   "S3A": 3.469446951953614e-18,
+   "S3B": 5.204170427930421e-18
+  },
+  "b4_vs_665": {
+   "n_smooth": 882,
+   "frac_within_5pct_smooth": 1.0,
+   "max_rel_diff_smooth": 0.03714028210515004,
+   "median_rel_diff_smooth": 0.01514506646118171,
+   "n_complete": 7553,
+   "frac_within_5pct_all_complete": 0.48139811995233683,
+   "median_rel_diff_all_complete": 0.05129630635461135
+  },
+  "completeness": {
+   "hyp": {
+    "n_features": 69,
+    "n_all": 7156,
+    "frac_all": 0.9451,
+    "Chla: complete/population": "4420/4475",
+    "TSS: complete/population": "4242/4357",
+    "aCDOM440: complete/population": "4049/4101",
+    "Secchi_depth: complete/population": "3377/3709"
+   },
+   "msi": {
+    "n_features": 6,
+    "n_all": 7156,
+    "frac_all": 0.9451,
+    "Chla: complete/population": "4420/4475",
+    "TSS: complete/population": "4242/4357",
+    "aCDOM440: complete/population": "4049/4101",
+    "Secchi_depth: complete/population": "3377/3709"
+   },
+   "olci": {
+    "n_features": 10,
+    "n_all": 7167,
+    "frac_all": 0.9465,
+    "Chla: complete/population": "4427/4475",
+    "TSS: complete/population": "4250/4357",
+    "aCDOM440: complete/population": "4057/4101",
+    "Secchi_depth: complete/population": "3384/3709"
+   },
+   "olci_Oa2-Oa10": {
+    "n_all": 7571,
+    "frac_all": 0.9999,
+    "Chla: complete/population": "4475/4475",
+    "TSS: complete/population": "4357/4357",
+    "aCDOM440: complete/population": "4101/4101",
+    "Secchi_depth: complete/population": "3709/3709"
+   },
+   "msi_B1-B4": {
+    "n_all": 7571,
+    "frac_all": 0.9999,
+    "Chla: complete/population": "4475/4475",
+    "TSS: complete/population": "4357/4357",
+    "aCDOM440: complete/population": "4101/4101",
+    "Secchi_depth: complete/population": "3709/3709"
+   },
+   "hyp_400-750 (original Decision)": {
+    "n_all": 2354,
+    "frac_all": 0.3109,
+    "Chla: complete/population": "1448/4475",
+    "TSS: complete/population": "1527/4357",
+    "aCDOM440: complete/population": "1259/4101",
+    "Secchi_depth: complete/population": "954/3709"
+   },
+   "olci_Oa1-Oa12 (original Decision)": {
+    "n_all": 2354,
+    "frac_all": 0.3109,
+    "Chla: complete/population": "1448/4475",
+    "TSS: complete/population": "1527/4357",
+    "aCDOM440: complete/population": "1259/4101",
+    "Secchi_depth: complete/population": "954/3709"
+   }
+  },
+  "median_rel_diff_vs_default_unit": {
+   "sens_s2b_B1": 0.00347,
+   "sens_s2b_B2": 0.00282,
+   "sens_s2b_B3": 0.00368,
+   "sens_s2b_B4": 0.00568,
+   "sens_s2b_B5": 0.00538,
+   "sens_s2b_B6": 0.02468,
+   "sens_s2c_B1": 0.01435,
+   "sens_s2c_B2": 0.02935,
+   "sens_s2c_B3": 0.00306,
+   "sens_s2c_B4": 0.01806,
+   "sens_s2c_B5": 0.06301,
+   "sens_s2c_B6": 0.00236,
+   "sens_s3b_Oa2": 0.00053,
+   "sens_s3b_Oa3": 0.00022,
+   "sens_s3b_Oa4": 0.00063,
+   "sens_s3b_Oa5": 0.00063,
+   "sens_s3b_Oa6": 0.00034,
+   "sens_s3b_Oa7": 0.00066,
+   "sens_s3b_Oa8": 0.0014,
+   "sens_s3b_Oa9": 0.00056,
+   "sens_s3b_Oa10": 0.00137,
+   "sens_s3b_Oa11": 0.00343
+  }
+ },
+ "splits": {
+  "Chla": {
+   "target": "Chla",
+   "population": "chla_primary",
+   "n": 4475,
+   "n_wb_group": 257,
+   "region_folds": {
+    "region:Africa": {
+     "n_test": 81,
+     "test_wb_groups": 6,
+     "test_datasets": 2,
+     "descriptive_only": true
+    },
+    "region:East and South-East Asia": {
+     "n_test": 961,
+     "test_wb_groups": 24,
+     "test_datasets": 9,
+     "descriptive_only": false
+    },
+    "region:Europe": {
+     "n_test": 775,
+     "test_wb_groups": 84,
+     "test_datasets": 12,
+     "descriptive_only": false
+    },
+    "region:North America": {
+     "n_test": 2199,
+     "test_wb_groups": 64,
+     "test_datasets": 17,
+     "descriptive_only": false
+    },
+    "region:Oceania": {
+     "n_test": 258,
+     "test_wb_groups": 73,
+     "test_datasets": 4,
+     "descriptive_only": false
+    },
+    "region:South America": {
+     "n_test": 201,
+     "test_wb_groups": 6,
+     "test_datasets": 4,
+     "descriptive_only": true
+    },
+    "region_na:NA1 Gulf of Mexico and Caribbean": {
+     "n_test": 523,
+     "test_wb_groups": 4,
+     "test_datasets": 3,
+     "descriptive_only": true
+    },
+    "region_na:NA2 South-East and Mid-Atlantic": {
+     "n_test": 498,
+     "test_wb_groups": 7,
+     "test_datasets": 9,
+     "descriptive_only": true
+    },
+    "region_na:NA3 Great Lakes and North-East": {
+     "n_test": 861,
+     "test_wb_groups": 34,
+     "test_datasets": 7,
+     "descriptive_only": false
+    },
+    "region_na:NA4 West and Great Plains": {
+     "n_test": 317,
+     "test_wb_groups": 19,
+     "test_datasets": 6,
+     "descriptive_only": false
+    }
+   },
+   "contrib_groups": 24,
+   "contrib_groups_never_test": 2,
+   "contrib_group_largest_share": 0.4118435754189944,
+   "contributor_ds_dropped_rows_median": 598.0,
+   "contributor_ds_dropped_rows_max": 917,
+   "leakage_checked_splits": {
+    "spec_hash": 190,
+    "iid_unit": 190,
+    "wb_group": 170,
+    "Dataset_ID": 100,
+    "contrib_group": 50,
+    "region_grp": 30,
+    "na_subregion_grp": 20
+   },
+   "summary": [
+    {
+     "protocol": "contributor",
+     "n_splits": 50,
+     "median_train": 2707.5,
+     "median_cal": 1002.5,
+     "median_test": 657.0,
+     "min_test": 644.0,
+     "max_test": 1843.0,
+     "median_test_groups": 51.0,
+     "median_cal_groups": 73.0,
+     "min_cal_groups": 19.0
+    },
+    {
+     "protocol": "contributor_ds",
+     "n_splits": 50,
+     "median_train": 2311.0,
+     "median_cal": 794.0,
+     "median_test": 892.0,
+     "min_test": 884.0,
+     "max_test": 900.0,
+     "median_test_groups": 42.5,
+     "median_cal_groups": 54.5,
+     "min_cal_groups": 11.0
+    },
+    {
+     "protocol": "random",
+     "n_splits": 20,
+     "median_train": 2685.5,
+     "median_cal": 894.5,
+     "median_test": 893.5,
+     "min_test": 884.0,
+     "max_test": 909.0,
+     "median_test_groups": 151.5,
+     "median_cal_groups": 147.5,
+     "min_cal_groups": 142.0
+    },
+    {
+     "protocol": "region",
+     "n_splits": 30,
+     "median_train": 2711.0,
+     "median_cal": 1052.5,
+     "median_test": 516.5,
+     "min_test": 81.0,
+     "max_test": 2199.0,
+     "median_test_groups": 44.0,
+     "median_cal_groups": 54.0,
+     "min_cal_groups": 44.0
+    },
+    {
+     "protocol": "region_na",
+     "n_splits": 20,
+     "median_train": 2995.5,
+     "median_cal": 783.0,
+     "median_test": 510.5,
+     "min_test": 317.0,
+     "max_test": 861.0,
+     "median_test_groups": 13.0,
+     "median_cal_groups": 61.5,
+     "min_cal_groups": 56.0
+    },
+    {
+     "protocol": "waterbody",
+     "n_splits": 20,
+     "median_train": 2648.5,
+     "median_cal": 843.0,
+     "median_test": 957.5,
+     "min_test": 673.0,
+     "max_test": 1778.0,
+     "median_test_groups": 52.0,
+     "median_cal_groups": 52.0,
+     "min_cal_groups": 52.0
+    }
+   ],
+   "rows": 823181
+  },
+  "TSS": {
+   "target": "TSS",
+   "population": "tss_primary",
+   "n": 4357,
+   "n_wb_group": 313,
+   "region_folds": {
+    "region:Africa": {
+     "n_test": 87,
+     "test_wb_groups": 6,
+     "test_datasets": 2,
+     "descriptive_only": true
+    },
+    "region:East and South-East Asia": {
+     "n_test": 912,
+     "test_wb_groups": 20,
+     "test_datasets": 8,
+     "descriptive_only": false
+    },
+    "region:Europe": {
+     "n_test": 819,
+     "test_wb_groups": 87,
+     "test_datasets": 13,
+     "descriptive_only": false
+    },
+    "region:North America": {
+     "n_test": 1946,
+     "test_wb_groups": 111,
+     "test_datasets": 12,
+     "descriptive_only": false
+    },
+    "region:Oceania": {
+     "n_test": 337,
+     "test_wb_groups": 85,
+     "test_datasets": 4,
+     "descriptive_only": false
+    },
+    "region:South America": {
+     "n_test": 256,
+     "test_wb_groups": 4,
+     "test_datasets": 2,
+     "descriptive_only": true
+    },
+    "region_na:NA1 Gulf of Mexico and Caribbean": {
+     "n_test": 182,
+     "test_wb_groups": 14,
+     "test_datasets": 2,
+     "descriptive_only": false
+    },
+    "region_na:NA2 South-East and Mid-Atlantic": {
+     "n_test": 607,
+     "test_wb_groups": 41,
+     "test_datasets": 3,
+     "descriptive_only": false
+    },
+    "region_na:NA3 Great Lakes and North-East": {
+     "n_test": 836,
+     "test_wb_groups": 34,
+     "test_datasets": 7,
+     "descriptive_only": false
+    },
+    "region_na:NA4 West and Great Plains": {
+     "n_test": 321,
+     "test_wb_groups": 22,
+     "test_datasets": 5,
+     "descriptive_only": false
+    }
+   },
+   "contrib_groups": 23,
+   "contrib_groups_never_test": 1,
+   "contrib_group_largest_share": 0.3736515951342667,
+   "contributor_ds_dropped_rows_median": 503.0,
+   "contributor_ds_dropped_rows_max": 801,
+   "leakage_checked_splits": {
+    "spec_hash": 190,
+    "iid_unit": 190,
+    "wb_group": 170,
+    "Dataset_ID": 100,
+    "contrib_group": 50,
+    "region_grp": 30,
+    "na_subregion_grp": 20
+   },
+   "summary": [
+    {
+     "protocol": "contributor",
+     "n_splits": 50,
+     "median_train": 2646.5,
+     "median_cal": 953.0,
+     "median_test": 683.0,
+     "min_test": 670.0,
+     "max_test": 1628.0,
+     "median_test_groups": 58.5,
+     "median_cal_groups": 64.0,
+     "min_cal_groups": 13.0
+    },
+    {
+     "protocol": "contributor_ds",
+     "n_splits": 50,
+     "median_train": 2421.0,
+     "median_cal": 784.5,
+     "median_test": 870.5,
+     "min_test": 862.0,
+     "max_test": 879.0,
+     "median_test_groups": 57.5,
+     "median_cal_groups": 62.0,
+     "min_cal_groups": 9.0
+    },
+    {
+     "protocol": "random",
+     "n_splits": 20,
+     "median_train": 2616.5,
+     "median_cal": 869.5,
+     "median_test": 870.5,
+     "min_test": 865.0,
+     "max_test": 880.0,
+     "median_test_groups": 175.0,
+     "median_cal_groups": 174.5,
+     "min_cal_groups": 166.0
+    },
+    {
+     "protocol": "region",
+     "n_splits": 30,
+     "median_train": 2865.5,
+     "median_cal": 811.5,
+     "median_test": 578.0,
+     "min_test": 87.0,
+     "max_test": 1946.0,
+     "median_test_groups": 52.5,
+     "median_cal_groups": 65.5,
+     "min_cal_groups": 51.0
+    },
+    {
+     "protocol": "region_na",
+     "n_splits": 20,
+     "median_train": 2966.0,
+     "median_cal": 1020.5,
+     "median_test": 464.0,
+     "min_test": 182.0,
+     "max_test": 836.0,
+     "median_test_groups": 28.0,
+     "median_cal_groups": 71.5,
+     "min_cal_groups": 68.0
+    },
+    {
+     "protocol": "waterbody",
+     "n_splits": 20,
+     "median_train": 2560.0,
+     "median_cal": 828.5,
+     "median_test": 808.0,
+     "min_test": 508.0,
+     "max_test": 1388.0,
+     "median_test_groups": 63.0,
+     "median_cal_groups": 63.0,
+     "min_cal_groups": 63.0
+    }
+   ],
+   "rows": 806820
+  },
+  "aCDOM440": {
+   "target": "aCDOM440",
+   "population": "acdom_primary",
+   "n": 4101,
+   "n_wb_group": 250,
+   "region_folds": {
+    "region:Africa": {
+     "n_test": 59,
+     "test_wb_groups": 3,
+     "test_datasets": 1,
+     "descriptive_only": true
+    },
+    "region:East and South-East Asia": {
+     "n_test": 714,
+     "test_wb_groups": 18,
+     "test_datasets": 6,
+     "descriptive_only": false
+    },
+    "region:Europe": {
+     "n_test": 904,
+     "test_wb_groups": 82,
+     "test_datasets": 13,
+     "descriptive_only": false
+    },
+    "region:North America": {
+     "n_test": 2010,
+     "test_wb_groups": 108,
+     "test_datasets": 15,
+     "descriptive_only": false
+    },
+    "region:Oceania": {
+     "n_test": 172,
+     "test_wb_groups": 34,
+     "test_datasets": 3,
+     "descriptive_only": false
+    },
+    "region:South America": {
+     "n_test": 242,
+     "test_wb_groups": 5,
+     "test_datasets": 3,
+     "descriptive_only": true
+    },
+    "region_na:NA1 Gulf of Mexico and Caribbean": {
+     "n_test": 586,
+     "test_wb_groups": 14,
+     "test_datasets": 2,
+     "descriptive_only": false
+    },
+    "region_na:NA2 South-East and Mid-Atlantic": {
+     "n_test": 784,
+     "test_wb_groups": 44,
+     "test_datasets": 9,
+     "descriptive_only": false
+    },
+    "region_na:NA3 Great Lakes and North-East": {
+     "n_test": 378,
+     "test_wb_groups": 33,
+     "test_datasets": 5,
+     "descriptive_only": false
+    },
+    "region_na:NA4 West and Great Plains": {
+     "n_test": 262,
+     "test_wb_groups": 17,
+     "test_datasets": 5,
+     "descriptive_only": false
+    }
+   },
+   "contrib_groups": 22,
+   "contrib_groups_never_test": 0,
+   "contrib_group_largest_share": 0.415508412582297,
+   "contributor_ds_dropped_rows_median": 221.0,
+   "contributor_ds_dropped_rows_max": 736,
+   "leakage_checked_splits": {
+    "spec_hash": 190,
+    "iid_unit": 190,
+    "wb_group": 170,
+    "Dataset_ID": 100,
+    "contrib_group": 50,
+    "region_grp": 30,
+    "na_subregion_grp": 20
+   },
+   "summary": [
+    {
+     "protocol": "contributor",
+     "n_splits": 50,
+     "median_train": 2536.0,
+     "median_cal": 911.5,
+     "median_test": 600.5,
+     "min_test": 587.0,
+     "max_test": 1704.0,
+     "median_test_groups": 48.0,
+     "median_cal_groups": 48.0,
+     "min_cal_groups": 13.0
+    },
+    {
+     "protocol": "contributor_ds",
+     "n_splits": 50,
+     "median_train": 2266.5,
+     "median_cal": 802.5,
+     "median_test": 817.5,
+     "min_test": 810.0,
+     "max_test": 830.0,
+     "median_test_groups": 49.5,
+     "median_cal_groups": 56.0,
+     "min_cal_groups": 15.0
+    },
+    {
+     "protocol": "random",
+     "n_splits": 20,
+     "median_train": 2459.0,
+     "median_cal": 821.0,
+     "median_test": 823.0,
+     "min_test": 812.0,
+     "max_test": 828.0,
+     "median_test_groups": 150.5,
+     "median_cal_groups": 152.5,
+     "min_cal_groups": 135.0
+    },
+    {
+     "protocol": "region",
+     "n_splits": 30,
+     "median_train": 2762.0,
+     "median_cal": 878.5,
+     "median_test": 478.0,
+     "min_test": 59.0,
+     "max_test": 2010.0,
+     "median_test_groups": 26.0,
+     "median_cal_groups": 56.0,
+     "min_cal_groups": 36.0
+    },
+    {
+     "protocol": "region_na",
+     "n_splits": 20,
+     "median_train": 2771.5,
+     "median_cal": 888.0,
+     "median_test": 482.0,
+     "min_test": 262.0,
+     "max_test": 784.0,
+     "median_test_groups": 25.0,
+     "median_cal_groups": 57.0,
+     "min_cal_groups": 52.0
+    },
+    {
+     "protocol": "waterbody",
+     "n_splits": 20,
+     "median_train": 2347.5,
+     "median_cal": 731.0,
+     "median_test": 968.5,
+     "min_test": 517.0,
+     "max_test": 1686.0,
+     "median_test_groups": 50.0,
+     "median_cal_groups": 50.0,
+     "min_cal_groups": 50.0
+    }
+   ],
+   "rows": 763686
+  },
+  "Secchi_depth": {
+   "target": "Secchi_depth",
+   "population": "secchi_primary",
+   "n": 3709,
+   "n_wb_group": 330,
+   "region_folds": {
+    "region:Africa": {
+     "n_test": 80,
+     "test_wb_groups": 6,
+     "test_datasets": 2,
+     "descriptive_only": true
+    },
+    "region:East and South-East Asia": {
+     "n_test": 593,
+     "test_wb_groups": 18,
+     "test_datasets": 4,
+     "descriptive_only": false
+    },
+    "region:Europe": {
+     "n_test": 1045,
+     "test_wb_groups": 114,
+     "test_datasets": 11,
+     "descriptive_only": false
+    },
+    "region:North America": {
+     "n_test": 1662,
+     "test_wb_groups": 106,
+     "test_datasets": 12,
+     "descriptive_only": false
+    },
+    "region:Oceania": {
+     "n_test": 284,
+     "test_wb_groups": 83,
+     "test_datasets": 3,
+     "descriptive_only": false
+    },
+    "region:South America": {
+     "n_test": 45,
+     "test_wb_groups": 3,
+     "test_datasets": 1,
+     "descriptive_only": true
+    },
+    "region_na:NA1 Gulf of Mexico and Caribbean": {
+     "n_test": 145,
+     "test_wb_groups": 14,
+     "test_datasets": 2,
+     "descriptive_only": false
+    },
+    "region_na:NA2 South-East and Mid-Atlantic": {
+     "n_test": 445,
+     "test_wb_groups": 37,
+     "test_datasets": 4,
+     "descriptive_only": false
+    },
+    "region_na:NA3 Great Lakes and North-East": {
+     "n_test": 748,
+     "test_wb_groups": 32,
+     "test_datasets": 5,
+     "descriptive_only": false
+    },
+    "region_na:NA4 West and Great Plains": {
+     "n_test": 324,
+     "test_wb_groups": 23,
+     "test_datasets": 5,
+     "descriptive_only": false
+    }
+   },
+   "contrib_groups": 18,
+   "contrib_groups_never_test": 0,
+   "contrib_group_largest_share": 0.369641412779725,
+   "contributor_ds_dropped_rows_median": 420.5,
+   "contributor_ds_dropped_rows_max": 910,
+   "leakage_checked_splits": {
+    "spec_hash": 190,
+    "iid_unit": 190,
+    "wb_group": 170,
+    "Dataset_ID": 100,
+    "contrib_group": 50,
+    "region_grp": 30,
+    "na_subregion_grp": 20
+   },
+   "summary": [
+    {
+     "protocol": "contributor",
+     "n_splits": 50,
+     "median_train": 2254.0,
+     "median_cal": 829.5,
+     "median_test": 586.5,
+     "min_test": 570.0,
+     "max_test": 1371.0,
+     "median_test_groups": 56.0,
+     "median_cal_groups": 71.5,
+     "min_cal_groups": 20.0
+    },
+    {
+     "protocol": "contributor_ds",
+     "n_splits": 50,
+     "median_train": 2010.5,
+     "median_cal": 687.5,
+     "median_test": 742.0,
+     "min_test": 730.0,
+     "max_test": 751.0,
+     "median_test_groups": 71.5,
+     "median_cal_groups": 72.0,
+     "min_cal_groups": 7.0
+    },
+    {
+     "protocol": "random",
+     "n_splits": 20,
+     "median_train": 2225.5,
+     "median_cal": 741.0,
+     "median_test": 740.0,
+     "min_test": 734.0,
+     "max_test": 762.0,
+     "median_test_groups": 176.5,
+     "median_cal_groups": 178.0,
+     "min_cal_groups": 163.0
+    },
+    {
+     "protocol": "region",
+     "n_splits": 30,
+     "median_train": 2488.5,
+     "median_cal": 665.0,
+     "median_test": 438.5,
+     "min_test": 45.0,
+     "max_test": 1662.0,
+     "median_test_groups": 50.5,
+     "median_cal_groups": 70.0,
+     "min_cal_groups": 54.0
+    },
+    {
+     "protocol": "region_na",
+     "n_splits": 20,
+     "median_train": 2541.0,
+     "median_cal": 742.5,
+     "median_test": 384.5,
+     "min_test": 145.0,
+     "max_test": 748.0,
+     "median_test_groups": 27.5,
+     "median_cal_groups": 76.0,
+     "min_cal_groups": 74.0
+    },
+    {
+     "protocol": "waterbody",
+     "n_splits": 20,
+     "median_train": 2073.5,
+     "median_cal": 614.5,
+     "median_test": 1031.5,
+     "min_test": 423.0,
+     "max_test": 1681.0,
+     "median_test_groups": 66.0,
+     "median_cal_groups": 66.0,
+     "min_cal_groups": 66.0
+    }
+   ],
+   "rows": 683840
+  }
+ },
+ "outputs": [
+  {
+   "path": "data/processed/gloria.parquet",
+   "rows": 7572,
+   "sha256": "8bf65706e28b2bcf0644844e4b1785c1823feb040a590a8d1d7d8ca2736e5f06"
+  },
+  {
+   "path": "data/processed/splits_Chla.parquet",
+   "rows": 823181,
+   "sha256": "a66dfbdbc2c69b583e5f8e0496a872bf3170b90084d7be668be7fc1c284ac4a1"
+  },
+  {
+   "path": "data/processed/groups_Chla.parquet",
+   "rows": 257,
+   "sha256": "d707d068950eaba73e8149f6bbb3119b2d1a2ccab882c58d841ab1222b81c4c6"
+  },
+  {
+   "path": "data/processed/splits_TSS.parquet",
+   "rows": 806820,
+   "sha256": "a5b7620b687d4f2c56112f36d70ed86dd4a7524a7c030ff2a1bf63caf06190dc"
+  },
+  {
+   "path": "data/processed/groups_TSS.parquet",
+   "rows": 313,
+   "sha256": "93933da908cb112af6570889f784707059da07523e2dd791df26b71fa2a2d7fc"
+  },
+  {
+   "path": "data/processed/splits_aCDOM440.parquet",
+   "rows": 763686,
+   "sha256": "3898d14d219093ec8a0e23490e0cc2991311b68799d276e2d4e28770aee59258"
+  },
+  {
+   "path": "data/processed/groups_aCDOM440.parquet",
+   "rows": 250,
+   "sha256": "9a86f1daaaa6486fc529e267569c6594207566081b1b4a40387e42a992ab70ac"
+  },
+  {
+   "path": "data/processed/splits_Secchi_depth.parquet",
+   "rows": 683840,
+   "sha256": "abf77d6de9a48b3667d93570d40e277f6c607cee31d4852955f9ae910c40b7c2"
+  },
+  {
+   "path": "data/processed/groups_Secchi_depth.parquet",
+   "rows": 330,
+   "sha256": "1feb931b4700cba04a88dca77a14ddcdb1dbded302573c43937dbdc043f4e3e5"
+  },
+  {
+   "path": "data/interim/wb_groups.csv",
+   "rows": 513,
+   "sha256": "a7f2d9f1212492ce4751ffd2b7597923c2b950f751f2ca97c95c84f724f2142c"
+  },
+  {
+   "path": "data/interim/wb_overrides.csv",
+   "rows": 10,
+   "sha256": "e4177e517950ed3d4ee79105db4f57ed0b594b90c36ecb59cbe5dd6d360e0689"
+  },
+  {
+   "path": "data/interim/wb_merge_candidates.csv",
+   "rows": 414,
+   "sha256": "106b5f7717a8627e3c9ad23525112f61fb269456f40f2264996160fb4a3c870a"
+  },
+  {
+   "path": "data/interim/srf_manifest.csv",
+   "rows": 3,
+   "sha256": "9c41bc32c77b3b5ec5ec1f3a8a7e3ccf89fce9ef70652de363af68bd36bc9723"
+  },
+  {
+   "path": "data/interim/srf_bands.csv",
+   "rows": 69,
+   "sha256": "a3bfd43c65189ed210766f3a0ee6b698602a02752a2fc57599320c87f3aed14e"
+  },
+  {
+   "path": "data/interim/band_coverage.csv",
+   "rows": 30,
+   "sha256": "4436dc402d72945f7d308d71fcaccdbcdfddeb2f70b4f1a6d6c9ae45d718a118"
+  },
+  {
+   "path": "data/interim/irradiance_weighting.csv",
+   "rows": 16,
+   "sha256": "c1a85982843e0decf819202e4532268f7a423151e6d782dacf0094c13c3d44bb"
+  },
+  {
+   "path": "data/interim/chl_methods.csv",
+   "rows": 30,
+   "sha256": "7de969f10dbdea9ff71a4585aa37e6f889a7685e3e60936c89b15647039f6b5a"
+  }
+ ],
+ "elapsed_s": 14.1
+}

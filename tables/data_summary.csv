@@ -1,0 +1,349 @@
+key,value,rounding,source_file,filter
+t1.Chla.n_positive_noqc,5131,integer,data/processed/gloria.parquet,Chla > 0
+t1.Chla.n_positive_qcprimary,4761,integer,data/processed/gloria.parquet,Chla > 0 & qc_primary
+t1.Chla.n_rows,4475,integer,data/processed/gloria.parquet,chla_primary
+t1.Chla.n_wb_group,257,integer,data/processed/gloria.parquet,chla_primary; nunique wb_group
+t1.Chla.n_wb_5km,238,integer,data/processed/gloria.parquet,chla_primary; nunique wb_5km
+t1.Chla.n_datasets,43,integer,data/processed/gloria.parquet,chla_primary; nunique Dataset_ID
+t1.Chla.n_regions,6,integer,data/processed/gloria.parquet,chla_primary; nunique region_grp
+t1.Chla.p05,0.4514,3 significant figures,data/processed/gloria.parquet,chla_primary; Chla quantile (linear)
+t1.Chla.median,9.952847499,3 significant figures,data/processed/gloria.parquet,chla_primary; Chla quantile (linear)
+t1.Chla.p95,110.91600000000003,3 significant figures,data/processed/gloria.parquet,chla_primary; Chla quantile (linear)
+t1.Chla.complete_hyp,4420,integer,data/processed/gloria.parquet,chla_primary & complete_hyp
+t1.Chla.anyband_le0_hyp,232,integer,data/processed/gloria.parquet,chla_primary & complete_hyp; any hyp band <= 0
+t1.Chla.complete_msi,4420,integer,data/processed/gloria.parquet,chla_primary & complete_msi
+t1.Chla.anyband_le0_msi,177,integer,data/processed/gloria.parquet,chla_primary & complete_msi; any msi band <= 0
+t1.Chla.complete_olci,4427,integer,data/processed/gloria.parquet,chla_primary & complete_olci
+t1.Chla.anyband_le0_olci,31,integer,data/processed/gloria.parquet,chla_primary & complete_olci; any olci band <= 0
+t1.TSS.n_positive_noqc,4621,integer,data/processed/gloria.parquet,TSS > 0
+t1.TSS.n_positive_qcprimary,4357,integer,data/processed/gloria.parquet,TSS > 0 & qc_primary
+t1.TSS.n_rows,4357,integer,data/processed/gloria.parquet,tss_primary
+t1.TSS.n_wb_group,313,integer,data/processed/gloria.parquet,tss_primary; nunique wb_group
+t1.TSS.n_wb_5km,269,integer,data/processed/gloria.parquet,tss_primary; nunique wb_5km
+t1.TSS.n_datasets,38,integer,data/processed/gloria.parquet,tss_primary; nunique Dataset_ID
+t1.TSS.n_regions,6,integer,data/processed/gloria.parquet,tss_primary; nunique region_grp
+t1.TSS.p05,0.8,3 significant figures,data/processed/gloria.parquet,tss_primary; TSS quantile (linear)
+t1.TSS.median,9.67,3 significant figures,data/processed/gloria.parquet,tss_primary; TSS quantile (linear)
+t1.TSS.p95,76.51000000000015,3 significant figures,data/processed/gloria.parquet,tss_primary; TSS quantile (linear)
+t1.TSS.complete_hyp,4242,integer,data/processed/gloria.parquet,tss_primary & complete_hyp
+t1.TSS.anyband_le0_hyp,14,integer,data/processed/gloria.parquet,tss_primary & complete_hyp; any hyp band <= 0
+t1.TSS.complete_msi,4242,integer,data/processed/gloria.parquet,tss_primary & complete_msi
+t1.TSS.anyband_le0_msi,4,integer,data/processed/gloria.parquet,tss_primary & complete_msi; any msi band <= 0
+t1.TSS.complete_olci,4250,integer,data/processed/gloria.parquet,tss_primary & complete_olci
+t1.TSS.anyband_le0_olci,1,integer,data/processed/gloria.parquet,tss_primary & complete_olci; any olci band <= 0
+t1.aCDOM440.n_positive_noqc,4387,integer,data/processed/gloria.parquet,aCDOM440 > 0
+t1.aCDOM440.n_positive_qcprimary,4101,integer,data/processed/gloria.parquet,aCDOM440 > 0 & qc_primary
+t1.aCDOM440.n_rows,4101,integer,data/processed/gloria.parquet,acdom_primary
+t1.aCDOM440.n_wb_group,250,integer,data/processed/gloria.parquet,acdom_primary; nunique wb_group
+t1.aCDOM440.n_wb_5km,218,integer,data/processed/gloria.parquet,acdom_primary; nunique wb_5km
+t1.aCDOM440.n_datasets,38,integer,data/processed/gloria.parquet,acdom_primary; nunique Dataset_ID
+t1.aCDOM440.n_regions,6,integer,data/processed/gloria.parquet,acdom_primary; nunique region_grp
+t1.aCDOM440.p05,0.031153567,3 significant figures,data/processed/gloria.parquet,acdom_primary; aCDOM440 quantile (linear)
+t1.aCDOM440.median,0.568349848,3 significant figures,data/processed/gloria.parquet,acdom_primary; aCDOM440 quantile (linear)
+t1.aCDOM440.p95,4.306,3 significant figures,data/processed/gloria.parquet,acdom_primary; aCDOM440 quantile (linear)
+t1.aCDOM440.complete_hyp,4049,integer,data/processed/gloria.parquet,acdom_primary & complete_hyp
+t1.aCDOM440.anyband_le0_hyp,215,integer,data/processed/gloria.parquet,acdom_primary & complete_hyp; any hyp band <= 0
+t1.aCDOM440.complete_msi,4049,integer,data/processed/gloria.parquet,acdom_primary & complete_msi
+t1.aCDOM440.anyband_le0_msi,163,integer,data/processed/gloria.parquet,acdom_primary & complete_msi; any msi band <= 0
+t1.aCDOM440.complete_olci,4057,integer,data/processed/gloria.parquet,acdom_primary & complete_olci
+t1.aCDOM440.anyband_le0_olci,32,integer,data/processed/gloria.parquet,acdom_primary & complete_olci; any olci band <= 0
+t1.Secchi_depth.n_positive_noqc,3945,integer,data/processed/gloria.parquet,Secchi_depth > 0
+t1.Secchi_depth.n_positive_qcprimary,3723,integer,data/processed/gloria.parquet,Secchi_depth > 0 & qc_primary
+t1.Secchi_depth.n_rows,3709,integer,data/processed/gloria.parquet,secchi_primary
+t1.Secchi_depth.n_wb_group,330,integer,data/processed/gloria.parquet,secchi_primary; nunique wb_group
+t1.Secchi_depth.n_wb_5km,290,integer,data/processed/gloria.parquet,secchi_primary; nunique wb_5km
+t1.Secchi_depth.n_datasets,33,integer,data/processed/gloria.parquet,secchi_primary; nunique Dataset_ID
+t1.Secchi_depth.n_regions,6,integer,data/processed/gloria.parquet,secchi_primary; nunique region_grp
+t1.Secchi_depth.p05,0.25,3 significant figures,data/processed/gloria.parquet,secchi_primary; Secchi_depth quantile (linear)
+t1.Secchi_depth.median,1.14,3 significant figures,data/processed/gloria.parquet,secchi_primary; Secchi_depth quantile (linear)
+t1.Secchi_depth.p95,6.5,3 significant figures,data/processed/gloria.parquet,secchi_primary; Secchi_depth quantile (linear)
+t1.Secchi_depth.complete_hyp,3377,integer,data/processed/gloria.parquet,secchi_primary & complete_hyp
+t1.Secchi_depth.anyband_le0_hyp,15,integer,data/processed/gloria.parquet,secchi_primary & complete_hyp; any hyp band <= 0
+t1.Secchi_depth.complete_msi,3377,integer,data/processed/gloria.parquet,secchi_primary & complete_msi
+t1.Secchi_depth.anyband_le0_msi,5,integer,data/processed/gloria.parquet,secchi_primary & complete_msi; any msi band <= 0
+t1.Secchi_depth.complete_olci,3384,integer,data/processed/gloria.parquet,secchi_primary & complete_olci
+t1.Secchi_depth.anyband_le0_olci,1,integer,data/processed/gloria.parquet,secchi_primary & complete_olci; any olci band <= 0
+t2.Chla.random.n_splits,20,integer,data/processed/splits_Chla.parquet,"protocol == random; distinct (seed, fold, test_unit)"
+t2.Chla.random.n_seeds,20,integer,data/processed/splits_Chla.parquet,protocol == random; nunique seed
+t2.Chla.random.n_descriptive,0,integer,data/processed/splits_Chla.parquet,protocol == random; descriptive_only splits
+t2.Chla.random.train.rows_median,2685.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == random; role == train; median over splits of row count
+t2.Chla.random.train.wb_median,225.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == random; role == train; median over splits of nunique wb_group
+t2.Chla.random.cal.rows_median,894.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == random; role == cal; median over splits of row count
+t2.Chla.random.cal.wb_median,147.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == random; role == cal; median over splits of nunique wb_group
+t2.Chla.random.test.rows_median,893.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == random; role == test; median over splits of row count
+t2.Chla.random.test.wb_median,151.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == random; role == test; median over splits of nunique wb_group
+t2.Chla.waterbody.n_splits,20,integer,data/processed/splits_Chla.parquet,"protocol == waterbody; distinct (seed, fold, test_unit)"
+t2.Chla.waterbody.n_seeds,20,integer,data/processed/splits_Chla.parquet,protocol == waterbody; nunique seed
+t2.Chla.waterbody.n_descriptive,0,integer,data/processed/splits_Chla.parquet,protocol == waterbody; descriptive_only splits
+t2.Chla.waterbody.train.rows_median,2648.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == waterbody; role == train; median over splits of row count
+t2.Chla.waterbody.train.wb_median,153.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == waterbody; role == train; median over splits of nunique wb_group
+t2.Chla.waterbody.cal.rows_median,843.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == waterbody; role == cal; median over splits of row count
+t2.Chla.waterbody.cal.wb_median,52.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == waterbody; role == cal; median over splits of nunique wb_group
+t2.Chla.waterbody.test.rows_median,957.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == waterbody; role == test; median over splits of row count
+t2.Chla.waterbody.test.wb_median,52.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == waterbody; role == test; median over splits of nunique wb_group
+t2.Chla.waterbody_5km.n_splits,10,integer,data/processed/splits5km_Chla.parquet,"protocol == waterbody_5km; distinct (seed, fold, test_unit)"
+t2.Chla.waterbody_5km.n_seeds,10,integer,data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; nunique seed
+t2.Chla.waterbody_5km.n_descriptive,0,integer,data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; descriptive_only splits
+t2.Chla.waterbody_5km.train.rows_median,2819.5,"integer (median, half up)",data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; role == train; median over splits of row count
+t2.Chla.waterbody_5km.train.wb_median,142.0,"integer (median, half up)",data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; role == train; median over splits of nunique wb_5km
+t2.Chla.waterbody_5km.cal.rows_median,798.0,"integer (median, half up)",data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; role == cal; median over splits of row count
+t2.Chla.waterbody_5km.cal.wb_median,48.0,"integer (median, half up)",data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; role == cal; median over splits of nunique wb_5km
+t2.Chla.waterbody_5km.test.rows_median,802.5,"integer (median, half up)",data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; role == test; median over splits of row count
+t2.Chla.waterbody_5km.test.wb_median,48.0,"integer (median, half up)",data/processed/splits5km_Chla.parquet,protocol == waterbody_5km; role == test; median over splits of nunique wb_5km
+t2.Chla.contributor_ds.n_splits,50,integer,data/processed/splits_Chla.parquet,"protocol == contributor_ds; distinct (seed, fold, test_unit)"
+t2.Chla.contributor_ds.n_seeds,10,integer,data/processed/splits_Chla.parquet,protocol == contributor_ds; nunique seed
+t2.Chla.contributor_ds.n_descriptive,0,integer,data/processed/splits_Chla.parquet,protocol == contributor_ds; descriptive_only splits
+t2.Chla.contributor_ds.train.rows_median,2311.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor_ds; role == train; median over splits of row count
+t2.Chla.contributor_ds.train.wb_median,154.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor_ds; role == train; median over splits of nunique wb_group
+t2.Chla.contributor_ds.cal.rows_median,794.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor_ds; role == cal; median over splits of row count
+t2.Chla.contributor_ds.cal.wb_median,54.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor_ds; role == cal; median over splits of nunique wb_group
+t2.Chla.contributor_ds.test.rows_median,892.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor_ds; role == test; median over splits of row count
+t2.Chla.contributor_ds.test.wb_median,42.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor_ds; role == test; median over splits of nunique wb_group
+t2.Chla.contributor.n_splits,50,integer,data/processed/splits_Chla.parquet,"protocol == contributor; distinct (seed, fold, test_unit)"
+t2.Chla.contributor.n_seeds,10,integer,data/processed/splits_Chla.parquet,protocol == contributor; nunique seed
+t2.Chla.contributor.n_descriptive,0,integer,data/processed/splits_Chla.parquet,protocol == contributor; descriptive_only splits
+t2.Chla.contributor.train.rows_median,2707.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor; role == train; median over splits of row count
+t2.Chla.contributor.train.wb_median,130.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor; role == train; median over splits of nunique wb_group
+t2.Chla.contributor.cal.rows_median,1002.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor; role == cal; median over splits of row count
+t2.Chla.contributor.cal.wb_median,73.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor; role == cal; median over splits of nunique wb_group
+t2.Chla.contributor.test.rows_median,657.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor; role == test; median over splits of row count
+t2.Chla.contributor.test.wb_median,51.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == contributor; role == test; median over splits of nunique wb_group
+t2.Chla.region.n_splits,30,integer,data/processed/splits_Chla.parquet,"protocol == region; distinct (seed, fold, test_unit)"
+t2.Chla.region.n_seeds,5,integer,data/processed/splits_Chla.parquet,protocol == region; nunique seed
+t2.Chla.region.n_descriptive,10,integer,data/processed/splits_Chla.parquet,protocol == region; descriptive_only splits
+t2.Chla.region.train.rows_median,2711.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region; role == train; median over splits of row count
+t2.Chla.region.train.wb_median,159.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region; role == train; median over splits of nunique wb_group
+t2.Chla.region.cal.rows_median,1052.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region; role == cal; median over splits of row count
+t2.Chla.region.cal.wb_median,54.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region; role == cal; median over splits of nunique wb_group
+t2.Chla.region.test.rows_median,516.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region; role == test; median over splits of row count
+t2.Chla.region.test.wb_median,44.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region; role == test; median over splits of nunique wb_group
+t2.Chla.region_na.n_splits,20,integer,data/processed/splits_Chla.parquet,"protocol == region_na; distinct (seed, fold, test_unit)"
+t2.Chla.region_na.n_seeds,5,integer,data/processed/splits_Chla.parquet,protocol == region_na; nunique seed
+t2.Chla.region_na.n_descriptive,10,integer,data/processed/splits_Chla.parquet,protocol == region_na; descriptive_only splits
+t2.Chla.region_na.train.rows_median,2995.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region_na; role == train; median over splits of row count
+t2.Chla.region_na.train.wb_median,182.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region_na; role == train; median over splits of nunique wb_group
+t2.Chla.region_na.cal.rows_median,783.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region_na; role == cal; median over splits of row count
+t2.Chla.region_na.cal.wb_median,61.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region_na; role == cal; median over splits of nunique wb_group
+t2.Chla.region_na.test.rows_median,510.5,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region_na; role == test; median over splits of row count
+t2.Chla.region_na.test.wb_median,13.0,"integer (median, half up)",data/processed/splits_Chla.parquet,protocol == region_na; role == test; median over splits of nunique wb_group
+t2.TSS.random.n_splits,20,integer,data/processed/splits_TSS.parquet,"protocol == random; distinct (seed, fold, test_unit)"
+t2.TSS.random.n_seeds,20,integer,data/processed/splits_TSS.parquet,protocol == random; nunique seed
+t2.TSS.random.n_descriptive,0,integer,data/processed/splits_TSS.parquet,protocol == random; descriptive_only splits
+t2.TSS.random.train.rows_median,2616.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == random; role == train; median over splits of row count
+t2.TSS.random.train.wb_median,270.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == random; role == train; median over splits of nunique wb_group
+t2.TSS.random.cal.rows_median,869.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == random; role == cal; median over splits of row count
+t2.TSS.random.cal.wb_median,174.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == random; role == cal; median over splits of nunique wb_group
+t2.TSS.random.test.rows_median,870.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == random; role == test; median over splits of row count
+t2.TSS.random.test.wb_median,175.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == random; role == test; median over splits of nunique wb_group
+t2.TSS.waterbody.n_splits,20,integer,data/processed/splits_TSS.parquet,"protocol == waterbody; distinct (seed, fold, test_unit)"
+t2.TSS.waterbody.n_seeds,20,integer,data/processed/splits_TSS.parquet,protocol == waterbody; nunique seed
+t2.TSS.waterbody.n_descriptive,0,integer,data/processed/splits_TSS.parquet,protocol == waterbody; descriptive_only splits
+t2.TSS.waterbody.train.rows_median,2560.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == waterbody; role == train; median over splits of row count
+t2.TSS.waterbody.train.wb_median,187.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == waterbody; role == train; median over splits of nunique wb_group
+t2.TSS.waterbody.cal.rows_median,828.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == waterbody; role == cal; median over splits of row count
+t2.TSS.waterbody.cal.wb_median,63.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == waterbody; role == cal; median over splits of nunique wb_group
+t2.TSS.waterbody.test.rows_median,808.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == waterbody; role == test; median over splits of row count
+t2.TSS.waterbody.test.wb_median,63.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == waterbody; role == test; median over splits of nunique wb_group
+t2.TSS.waterbody_5km.n_splits,10,integer,data/processed/splits5km_TSS.parquet,"protocol == waterbody_5km; distinct (seed, fold, test_unit)"
+t2.TSS.waterbody_5km.n_seeds,10,integer,data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; nunique seed
+t2.TSS.waterbody_5km.n_descriptive,0,integer,data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; descriptive_only splits
+t2.TSS.waterbody_5km.train.rows_median,2681.5,"integer (median, half up)",data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; role == train; median over splits of row count
+t2.TSS.waterbody_5km.train.wb_median,161.0,"integer (median, half up)",data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; role == train; median over splits of nunique wb_5km
+t2.TSS.waterbody_5km.cal.rows_median,887.5,"integer (median, half up)",data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; role == cal; median over splits of row count
+t2.TSS.waterbody_5km.cal.wb_median,54.0,"integer (median, half up)",data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; role == cal; median over splits of nunique wb_5km
+t2.TSS.waterbody_5km.test.rows_median,882.0,"integer (median, half up)",data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; role == test; median over splits of row count
+t2.TSS.waterbody_5km.test.wb_median,54.0,"integer (median, half up)",data/processed/splits5km_TSS.parquet,protocol == waterbody_5km; role == test; median over splits of nunique wb_5km
+t2.TSS.contributor_ds.n_splits,50,integer,data/processed/splits_TSS.parquet,"protocol == contributor_ds; distinct (seed, fold, test_unit)"
+t2.TSS.contributor_ds.n_seeds,10,integer,data/processed/splits_TSS.parquet,protocol == contributor_ds; nunique seed
+t2.TSS.contributor_ds.n_descriptive,0,integer,data/processed/splits_TSS.parquet,protocol == contributor_ds; descriptive_only splits
+t2.TSS.contributor_ds.train.rows_median,2421.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor_ds; role == train; median over splits of row count
+t2.TSS.contributor_ds.train.wb_median,192.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor_ds; role == train; median over splits of nunique wb_group
+t2.TSS.contributor_ds.cal.rows_median,784.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor_ds; role == cal; median over splits of row count
+t2.TSS.contributor_ds.cal.wb_median,62.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor_ds; role == cal; median over splits of nunique wb_group
+t2.TSS.contributor_ds.test.rows_median,870.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor_ds; role == test; median over splits of row count
+t2.TSS.contributor_ds.test.wb_median,57.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor_ds; role == test; median over splits of nunique wb_group
+t2.TSS.contributor.n_splits,50,integer,data/processed/splits_TSS.parquet,"protocol == contributor; distinct (seed, fold, test_unit)"
+t2.TSS.contributor.n_seeds,10,integer,data/processed/splits_TSS.parquet,protocol == contributor; nunique seed
+t2.TSS.contributor.n_descriptive,0,integer,data/processed/splits_TSS.parquet,protocol == contributor; descriptive_only splits
+t2.TSS.contributor.train.rows_median,2646.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor; role == train; median over splits of row count
+t2.TSS.contributor.train.wb_median,168.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor; role == train; median over splits of nunique wb_group
+t2.TSS.contributor.cal.rows_median,953.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor; role == cal; median over splits of row count
+t2.TSS.contributor.cal.wb_median,64.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor; role == cal; median over splits of nunique wb_group
+t2.TSS.contributor.test.rows_median,683.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor; role == test; median over splits of row count
+t2.TSS.contributor.test.wb_median,58.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == contributor; role == test; median over splits of nunique wb_group
+t2.TSS.region.n_splits,30,integer,data/processed/splits_TSS.parquet,"protocol == region; distinct (seed, fold, test_unit)"
+t2.TSS.region.n_seeds,5,integer,data/processed/splits_TSS.parquet,protocol == region; nunique seed
+t2.TSS.region.n_descriptive,10,integer,data/processed/splits_TSS.parquet,protocol == region; descriptive_only splits
+t2.TSS.region.train.rows_median,2865.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region; role == train; median over splits of row count
+t2.TSS.region.train.wb_median,195.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region; role == train; median over splits of nunique wb_group
+t2.TSS.region.cal.rows_median,811.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region; role == cal; median over splits of row count
+t2.TSS.region.cal.wb_median,65.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region; role == cal; median over splits of nunique wb_group
+t2.TSS.region.test.rows_median,578.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region; role == test; median over splits of row count
+t2.TSS.region.test.wb_median,52.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region; role == test; median over splits of nunique wb_group
+t2.TSS.region_na.n_splits,20,integer,data/processed/splits_TSS.parquet,"protocol == region_na; distinct (seed, fold, test_unit)"
+t2.TSS.region_na.n_seeds,5,integer,data/processed/splits_TSS.parquet,protocol == region_na; nunique seed
+t2.TSS.region_na.n_descriptive,0,integer,data/processed/splits_TSS.parquet,protocol == region_na; descriptive_only splits
+t2.TSS.region_na.train.rows_median,2966.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region_na; role == train; median over splits of row count
+t2.TSS.region_na.train.wb_median,213.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region_na; role == train; median over splits of nunique wb_group
+t2.TSS.region_na.cal.rows_median,1020.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region_na; role == cal; median over splits of row count
+t2.TSS.region_na.cal.wb_median,71.5,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region_na; role == cal; median over splits of nunique wb_group
+t2.TSS.region_na.test.rows_median,464.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region_na; role == test; median over splits of row count
+t2.TSS.region_na.test.wb_median,28.0,"integer (median, half up)",data/processed/splits_TSS.parquet,protocol == region_na; role == test; median over splits of nunique wb_group
+t2.aCDOM440.random.n_splits,20,integer,data/processed/splits_aCDOM440.parquet,"protocol == random; distinct (seed, fold, test_unit)"
+t2.aCDOM440.random.n_seeds,20,integer,data/processed/splits_aCDOM440.parquet,protocol == random; nunique seed
+t2.aCDOM440.random.n_descriptive,0,integer,data/processed/splits_aCDOM440.parquet,protocol == random; descriptive_only splits
+t2.aCDOM440.random.train.rows_median,2459.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == random; role == train; median over splits of row count
+t2.aCDOM440.random.train.wb_median,219.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == random; role == train; median over splits of nunique wb_group
+t2.aCDOM440.random.cal.rows_median,821.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == random; role == cal; median over splits of row count
+t2.aCDOM440.random.cal.wb_median,152.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == random; role == cal; median over splits of nunique wb_group
+t2.aCDOM440.random.test.rows_median,823.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == random; role == test; median over splits of row count
+t2.aCDOM440.random.test.wb_median,150.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == random; role == test; median over splits of nunique wb_group
+t2.aCDOM440.waterbody.n_splits,20,integer,data/processed/splits_aCDOM440.parquet,"protocol == waterbody; distinct (seed, fold, test_unit)"
+t2.aCDOM440.waterbody.n_seeds,20,integer,data/processed/splits_aCDOM440.parquet,protocol == waterbody; nunique seed
+t2.aCDOM440.waterbody.n_descriptive,0,integer,data/processed/splits_aCDOM440.parquet,protocol == waterbody; descriptive_only splits
+t2.aCDOM440.waterbody.train.rows_median,2347.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == waterbody; role == train; median over splits of row count
+t2.aCDOM440.waterbody.train.wb_median,150.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == waterbody; role == train; median over splits of nunique wb_group
+t2.aCDOM440.waterbody.cal.rows_median,731.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == waterbody; role == cal; median over splits of row count
+t2.aCDOM440.waterbody.cal.wb_median,50.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == waterbody; role == cal; median over splits of nunique wb_group
+t2.aCDOM440.waterbody.test.rows_median,968.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == waterbody; role == test; median over splits of row count
+t2.aCDOM440.waterbody.test.wb_median,50.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == waterbody; role == test; median over splits of nunique wb_group
+t2.aCDOM440.waterbody_5km.n_splits,10,integer,data/processed/splits5km_aCDOM440.parquet,"protocol == waterbody_5km; distinct (seed, fold, test_unit)"
+t2.aCDOM440.waterbody_5km.n_seeds,10,integer,data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; nunique seed
+t2.aCDOM440.waterbody_5km.n_descriptive,0,integer,data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; descriptive_only splits
+t2.aCDOM440.waterbody_5km.train.rows_median,2394.5,"integer (median, half up)",data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; role == train; median over splits of row count
+t2.aCDOM440.waterbody_5km.train.wb_median,130.0,"integer (median, half up)",data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; role == train; median over splits of nunique wb_5km
+t2.aCDOM440.waterbody_5km.cal.rows_median,835.5,"integer (median, half up)",data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; role == cal; median over splits of row count
+t2.aCDOM440.waterbody_5km.cal.wb_median,44.0,"integer (median, half up)",data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; role == cal; median over splits of nunique wb_5km
+t2.aCDOM440.waterbody_5km.test.rows_median,842.5,"integer (median, half up)",data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; role == test; median over splits of row count
+t2.aCDOM440.waterbody_5km.test.wb_median,44.0,"integer (median, half up)",data/processed/splits5km_aCDOM440.parquet,protocol == waterbody_5km; role == test; median over splits of nunique wb_5km
+t2.aCDOM440.contributor_ds.n_splits,50,integer,data/processed/splits_aCDOM440.parquet,"protocol == contributor_ds; distinct (seed, fold, test_unit)"
+t2.aCDOM440.contributor_ds.n_seeds,10,integer,data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; nunique seed
+t2.aCDOM440.contributor_ds.n_descriptive,0,integer,data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; descriptive_only splits
+t2.aCDOM440.contributor_ds.train.rows_median,2266.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; role == train; median over splits of row count
+t2.aCDOM440.contributor_ds.train.wb_median,145.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; role == train; median over splits of nunique wb_group
+t2.aCDOM440.contributor_ds.cal.rows_median,802.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; role == cal; median over splits of row count
+t2.aCDOM440.contributor_ds.cal.wb_median,56.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; role == cal; median over splits of nunique wb_group
+t2.aCDOM440.contributor_ds.test.rows_median,817.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; role == test; median over splits of row count
+t2.aCDOM440.contributor_ds.test.wb_median,49.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor_ds; role == test; median over splits of nunique wb_group
+t2.aCDOM440.contributor.n_splits,50,integer,data/processed/splits_aCDOM440.parquet,"protocol == contributor; distinct (seed, fold, test_unit)"
+t2.aCDOM440.contributor.n_seeds,10,integer,data/processed/splits_aCDOM440.parquet,protocol == contributor; nunique seed
+t2.aCDOM440.contributor.n_descriptive,0,integer,data/processed/splits_aCDOM440.parquet,protocol == contributor; descriptive_only splits
+t2.aCDOM440.contributor.train.rows_median,2536.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor; role == train; median over splits of row count
+t2.aCDOM440.contributor.train.wb_median,148.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor; role == train; median over splits of nunique wb_group
+t2.aCDOM440.contributor.cal.rows_median,911.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor; role == cal; median over splits of row count
+t2.aCDOM440.contributor.cal.wb_median,48.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor; role == cal; median over splits of nunique wb_group
+t2.aCDOM440.contributor.test.rows_median,600.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor; role == test; median over splits of row count
+t2.aCDOM440.contributor.test.wb_median,48.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == contributor; role == test; median over splits of nunique wb_group
+t2.aCDOM440.region.n_splits,30,integer,data/processed/splits_aCDOM440.parquet,"protocol == region; distinct (seed, fold, test_unit)"
+t2.aCDOM440.region.n_seeds,5,integer,data/processed/splits_aCDOM440.parquet,protocol == region; nunique seed
+t2.aCDOM440.region.n_descriptive,10,integer,data/processed/splits_aCDOM440.parquet,protocol == region; descriptive_only splits
+t2.aCDOM440.region.train.rows_median,2762.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region; role == train; median over splits of row count
+t2.aCDOM440.region.train.wb_median,168.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region; role == train; median over splits of nunique wb_group
+t2.aCDOM440.region.cal.rows_median,878.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region; role == cal; median over splits of row count
+t2.aCDOM440.region.cal.wb_median,56.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region; role == cal; median over splits of nunique wb_group
+t2.aCDOM440.region.test.rows_median,478.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region; role == test; median over splits of row count
+t2.aCDOM440.region.test.wb_median,26.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region; role == test; median over splits of nunique wb_group
+t2.aCDOM440.region_na.n_splits,20,integer,data/processed/splits_aCDOM440.parquet,"protocol == region_na; distinct (seed, fold, test_unit)"
+t2.aCDOM440.region_na.n_seeds,5,integer,data/processed/splits_aCDOM440.parquet,protocol == region_na; nunique seed
+t2.aCDOM440.region_na.n_descriptive,0,integer,data/processed/splits_aCDOM440.parquet,protocol == region_na; descriptive_only splits
+t2.aCDOM440.region_na.train.rows_median,2771.5,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region_na; role == train; median over splits of row count
+t2.aCDOM440.region_na.train.wb_median,168.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region_na; role == train; median over splits of nunique wb_group
+t2.aCDOM440.region_na.cal.rows_median,888.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region_na; role == cal; median over splits of row count
+t2.aCDOM440.region_na.cal.wb_median,57.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region_na; role == cal; median over splits of nunique wb_group
+t2.aCDOM440.region_na.test.rows_median,482.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region_na; role == test; median over splits of row count
+t2.aCDOM440.region_na.test.wb_median,25.0,"integer (median, half up)",data/processed/splits_aCDOM440.parquet,protocol == region_na; role == test; median over splits of nunique wb_group
+t2.Secchi_depth.random.n_splits,20,integer,data/processed/splits_Secchi_depth.parquet,"protocol == random; distinct (seed, fold, test_unit)"
+t2.Secchi_depth.random.n_seeds,20,integer,data/processed/splits_Secchi_depth.parquet,protocol == random; nunique seed
+t2.Secchi_depth.random.n_descriptive,0,integer,data/processed/splits_Secchi_depth.parquet,protocol == random; descriptive_only splits
+t2.Secchi_depth.random.train.rows_median,2225.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == random; role == train; median over splits of row count
+t2.Secchi_depth.random.train.wb_median,283.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == random; role == train; median over splits of nunique wb_group
+t2.Secchi_depth.random.cal.rows_median,741.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == random; role == cal; median over splits of row count
+t2.Secchi_depth.random.cal.wb_median,178.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == random; role == cal; median over splits of nunique wb_group
+t2.Secchi_depth.random.test.rows_median,740.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == random; role == test; median over splits of row count
+t2.Secchi_depth.random.test.wb_median,176.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == random; role == test; median over splits of nunique wb_group
+t2.Secchi_depth.waterbody.n_splits,20,integer,data/processed/splits_Secchi_depth.parquet,"protocol == waterbody; distinct (seed, fold, test_unit)"
+t2.Secchi_depth.waterbody.n_seeds,20,integer,data/processed/splits_Secchi_depth.parquet,protocol == waterbody; nunique seed
+t2.Secchi_depth.waterbody.n_descriptive,0,integer,data/processed/splits_Secchi_depth.parquet,protocol == waterbody; descriptive_only splits
+t2.Secchi_depth.waterbody.train.rows_median,2073.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == waterbody; role == train; median over splits of row count
+t2.Secchi_depth.waterbody.train.wb_median,198.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == waterbody; role == train; median over splits of nunique wb_group
+t2.Secchi_depth.waterbody.cal.rows_median,614.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == waterbody; role == cal; median over splits of row count
+t2.Secchi_depth.waterbody.cal.wb_median,66.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == waterbody; role == cal; median over splits of nunique wb_group
+t2.Secchi_depth.waterbody.test.rows_median,1031.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == waterbody; role == test; median over splits of row count
+t2.Secchi_depth.waterbody.test.wb_median,66.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == waterbody; role == test; median over splits of nunique wb_group
+t2.Secchi_depth.waterbody_5km.n_splits,10,integer,data/processed/splits5km_Secchi_depth.parquet,"protocol == waterbody_5km; distinct (seed, fold, test_unit)"
+t2.Secchi_depth.waterbody_5km.n_seeds,10,integer,data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; nunique seed
+t2.Secchi_depth.waterbody_5km.n_descriptive,0,integer,data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; descriptive_only splits
+t2.Secchi_depth.waterbody_5km.train.rows_median,2247.5,"integer (median, half up)",data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; role == train; median over splits of row count
+t2.Secchi_depth.waterbody_5km.train.wb_median,174.0,"integer (median, half up)",data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; role == train; median over splits of nunique wb_5km
+t2.Secchi_depth.waterbody_5km.cal.rows_median,841.0,"integer (median, half up)",data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; role == cal; median over splits of row count
+t2.Secchi_depth.waterbody_5km.cal.wb_median,58.0,"integer (median, half up)",data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; role == cal; median over splits of nunique wb_5km
+t2.Secchi_depth.waterbody_5km.test.rows_median,611.0,"integer (median, half up)",data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; role == test; median over splits of row count
+t2.Secchi_depth.waterbody_5km.test.wb_median,58.0,"integer (median, half up)",data/processed/splits5km_Secchi_depth.parquet,protocol == waterbody_5km; role == test; median over splits of nunique wb_5km
+t2.Secchi_depth.contributor_ds.n_splits,50,integer,data/processed/splits_Secchi_depth.parquet,"protocol == contributor_ds; distinct (seed, fold, test_unit)"
+t2.Secchi_depth.contributor_ds.n_seeds,10,integer,data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; nunique seed
+t2.Secchi_depth.contributor_ds.n_descriptive,0,integer,data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; descriptive_only splits
+t2.Secchi_depth.contributor_ds.train.rows_median,2010.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; role == train; median over splits of row count
+t2.Secchi_depth.contributor_ds.train.wb_median,197.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; role == train; median over splits of nunique wb_group
+t2.Secchi_depth.contributor_ds.cal.rows_median,687.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; role == cal; median over splits of row count
+t2.Secchi_depth.contributor_ds.cal.wb_median,72.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; role == cal; median over splits of nunique wb_group
+t2.Secchi_depth.contributor_ds.test.rows_median,742.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; role == test; median over splits of row count
+t2.Secchi_depth.contributor_ds.test.wb_median,71.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor_ds; role == test; median over splits of nunique wb_group
+t2.Secchi_depth.contributor.n_splits,50,integer,data/processed/splits_Secchi_depth.parquet,"protocol == contributor; distinct (seed, fold, test_unit)"
+t2.Secchi_depth.contributor.n_seeds,10,integer,data/processed/splits_Secchi_depth.parquet,protocol == contributor; nunique seed
+t2.Secchi_depth.contributor.n_descriptive,0,integer,data/processed/splits_Secchi_depth.parquet,protocol == contributor; descriptive_only splits
+t2.Secchi_depth.contributor.train.rows_median,2254.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor; role == train; median over splits of row count
+t2.Secchi_depth.contributor.train.wb_median,171.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor; role == train; median over splits of nunique wb_group
+t2.Secchi_depth.contributor.cal.rows_median,829.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor; role == cal; median over splits of row count
+t2.Secchi_depth.contributor.cal.wb_median,71.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor; role == cal; median over splits of nunique wb_group
+t2.Secchi_depth.contributor.test.rows_median,586.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor; role == test; median over splits of row count
+t2.Secchi_depth.contributor.test.wb_median,56.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == contributor; role == test; median over splits of nunique wb_group
+t2.Secchi_depth.region.n_splits,30,integer,data/processed/splits_Secchi_depth.parquet,"protocol == region; distinct (seed, fold, test_unit)"
+t2.Secchi_depth.region.n_seeds,5,integer,data/processed/splits_Secchi_depth.parquet,protocol == region; nunique seed
+t2.Secchi_depth.region.n_descriptive,10,integer,data/processed/splits_Secchi_depth.parquet,protocol == region; descriptive_only splits
+t2.Secchi_depth.region.train.rows_median,2488.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region; role == train; median over splits of row count
+t2.Secchi_depth.region.train.wb_median,209.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region; role == train; median over splits of nunique wb_group
+t2.Secchi_depth.region.cal.rows_median,665.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region; role == cal; median over splits of row count
+t2.Secchi_depth.region.cal.wb_median,70.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region; role == cal; median over splits of nunique wb_group
+t2.Secchi_depth.region.test.rows_median,438.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region; role == test; median over splits of row count
+t2.Secchi_depth.region.test.wb_median,50.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region; role == test; median over splits of nunique wb_group
+t2.Secchi_depth.region_na.n_splits,20,integer,data/processed/splits_Secchi_depth.parquet,"protocol == region_na; distinct (seed, fold, test_unit)"
+t2.Secchi_depth.region_na.n_seeds,5,integer,data/processed/splits_Secchi_depth.parquet,protocol == region_na; nunique seed
+t2.Secchi_depth.region_na.n_descriptive,0,integer,data/processed/splits_Secchi_depth.parquet,protocol == region_na; descriptive_only splits
+t2.Secchi_depth.region_na.train.rows_median,2541.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region_na; role == train; median over splits of row count
+t2.Secchi_depth.region_na.train.wb_median,226.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region_na; role == train; median over splits of nunique wb_group
+t2.Secchi_depth.region_na.cal.rows_median,742.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region_na; role == cal; median over splits of row count
+t2.Secchi_depth.region_na.cal.wb_median,76.0,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region_na; role == cal; median over splits of nunique wb_group
+t2.Secchi_depth.region_na.test.rows_median,384.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region_na; role == test; median over splits of row count
+t2.Secchi_depth.region_na.test.wb_median,27.5,"integer (median, half up)",data/processed/splits_Secchi_depth.parquet,protocol == region_na; role == test; median over splits of nunique wb_group
+txt.all.n_rows,7572,integer,data/processed/gloria.parquet,all rows (Fig. 1 box 1)
+txt.all.n_qc_primary,6957,integer,data/processed/gloria.parquet,qc_primary (Fig. 1 box 2)
+txt.all.n_wb_group,387,integer,data/processed/gloria.parquet,all rows; nunique wb_group
+txt.all.n_wb_5km,340,integer,data/processed/gloria.parquet,all rows; nunique wb_5km
+txt.n_manual_merge_sets,8,integer,src/data/groups.py,len(MANUAL_MERGES) + len(EXTRA_MERGES); name sets merged by override
+txt.all.n_wb_group_extent_gt200km,17,integer,data/processed/gloria.parquet,all rows with coordinates; wb_group with max pairwise haversine distance > 200 km
+txt.Chla.primary.n_fluorometry,1610,integer,data/processed/gloria.parquet,chla_primary & chl_technique == fluorometry
+txt.Chla.primary.n_spectrophotometry,1333,integer,data/processed/gloria.parquet,chla_primary & chl_technique == spectrophotometry
+txt.Chla.primary.n_hplc,577,integer,data/processed/gloria.parquet,chla_primary & chl_technique == HPLC
+txt.Chla.primary.n_method_missing,955,integer,data/processed/gloria.parquet,chla_primary & chl_technique == missing
+txt.Chla.primary.n_uncorrected,3008,integer,data/processed/gloria.parquet,chla_primary & chla_uncorrected (Phaeophytin_correction == 0)
+txt.Chla.n_alh_excluded,286,integer,data/processed/gloria.parquet,Chla > 0 & qc_primary & chla_optical_estimate (removed from chla_primary)
+txt.Secchi_depth.primary.n_no_depth,995,integer,data/processed/gloria.parquet,secchi_primary & Depth missing
+txt.dup_spectrum.n_sets,40,integer,data/processed/gloria.parquet,spec_hash values shared by >= 2 rows
+txt.dup_spectrum.n_sets_label_conflict,31,integer,data/processed/gloria.parquet,identical-spectrum sets whose rows differ in any non-null target value
+txt.primary_union.n_dup_spectrum_label_conflict,64,integer,data/processed/gloria.parquet,rows of label-conflict sets in the union of the four primary populations
+txt.srf.min_frac_integral_in_support,0.9987537626252008,"percent, 2 decimals, rounded down",data/interim/srf_bands.csv,S2A B1-B6 and S3A Oa2-Oa11; min frac_integral_in_support
+txt.irrad.max_median_rel_diff,0.0045151117126692,"percent, 2 decimals, rounded up",data/interim/irradiance_weighting.csv,S2A B1-B6 and S3A Oa2-Oa11; max over bands of median relative difference
+txt.msi_B2.positive_p05,0.0013851578940897204,3 significant figures (sr^-1),data/processed/gloria.parquet,all rows; msi_B2 > 0; 5th percentile (linear)
+fig02.union_primary.n_rows,6401,integer,data/processed/gloria.parquet,union of primary populations
+fig02.union_primary.n_wb_group,373,integer,data/processed/gloria.parquet,union of primary populations; nunique wb_group
+fig02.union_primary.n_wb_no_coord,1,integer,data/processed/gloria.parquet,union of primary populations; wb_group with no coordinates (not plotted)
+fig02.region.Africa.n_wb_group,6,integer,data/processed/gloria.parquet,union of primary populations; region_grp (first row) == Africa; legend count
+fig02.region.East_and_South-East_Asia.n_wb_group,24,integer,data/processed/gloria.parquet,union of primary populations; region_grp (first row) == East and South-East Asia; legend count
+fig02.region.Europe.n_wb_group,129,integer,data/processed/gloria.parquet,union of primary populations; region_grp (first row) == Europe; legend count
+fig02.region.North_America.n_wb_group,121,integer,data/processed/gloria.parquet,union of primary populations; region_grp (first row) == North America; legend count
+fig02.region.Oceania.n_wb_group,87,integer,data/processed/gloria.parquet,union of primary populations; region_grp (first row) == Oceania; legend count
+fig02.region.South_America.n_wb_group,6,integer,data/processed/gloria.parquet,union of primary populations; region_grp (first row) == South America; legend count
+fig04.union_primary_complete_hyp.n_rows,5996,integer,data/processed/gloria.parquet,union of primary populations & complete_hyp
+fig04.class.blue_peaked.n_rows,383,integer,data/processed/gloria.parquet,"union of primary populations & complete_hyp; argmax wavelength in [0, 500) nm"
+fig04.class.green_peaked.n_rows,4923,integer,data/processed/gloria.parquet,"union of primary populations & complete_hyp; argmax wavelength in [500, 600) nm"
+fig04.class.red_peaked.n_rows,690,integer,data/processed/gloria.parquet,"union of primary populations & complete_hyp; argmax wavelength in [600, 1000) nm"
