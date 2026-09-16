@@ -429,7 +429,10 @@ def build(out: Path, with_results: bool) -> None:
     tables_src = ROOT / "tables"
     tables_dst = dd / "tables"
     tables_dst.mkdir(parents=True, exist_ok=True)
-    for f in sorted(tables_src.glob("*.csv")):
+    # AUDIT_5 N6 / REVIEW_full_v2 V13: the .tex table bodies and DATA_DICTIONARY.md ship alongside
+    # the ledgers, so a reader of the released CSVs can resolve the method-dependent columns.
+    for f in (sorted(tables_src.glob("*.csv")) + sorted(tables_src.glob("*.tex"))
+              + sorted(tables_src.glob("*.md"))):
         shutil.copy2(f, tables_dst / f.name)
 
     (dd / "LICENSE").write_text(CC_BY_4_LICENSE, encoding="utf-8", newline="")

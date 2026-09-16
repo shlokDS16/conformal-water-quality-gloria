@@ -23,7 +23,8 @@ SKIP_ENVS = ["equation", "equation*", "align", "align*", "table", "tabular", "al
 ALLOW = {"GLORIA", "LightGBM", "NumPy", "SciPy", "PyTorch", "NVIDIA", "RTX", "GB", "SHA256", "ACIX-Aqua",
          "MDN-STREAM", "Sentinel-2A", "Sentinel-3A", "Sentinel-2", "Sentinel-3", "Landsat-8", "ISPRS",
          "CRediT", "PANGAEA", "MultiSpectral", "AI", "WM", "II", "III", "IV",
-         "GNU", "GitHub"}  # proper nouns that are not abbreviations of a defined term
+         "GNU", "GitHub", "Sentinel-3B", "Sentinel-2C", "SentiWiki", "Oa1", "Oa2", "Oa10",
+         "Oa11", "Oa12", "B1", "B4", "B6"}  # proper nouns that are not abbreviations of a defined term
 MIXED = ["Chl-a", "aCDOM", "aLH", "MdSA", "Rrs", "CV+"]
 ABBREV_RE = re.compile(r"(?<![\w\\])([A-Za-z][A-Za-z0-9]*(?:[+\-][A-Za-z0-9]+)*\+?)")
 NO_SPLIT = ["et al.", "e.g.", "i.e.", "Eq.", "Eqs.", "Fig.", "Figs.", "Prop.", "Sect.", "vs.", "cf.", "approx."]
@@ -96,6 +97,54 @@ def sentences(text: str):
 
 def words(s: str) -> int:
     return len(re.findall(r"[A-Za-z0-9][A-Za-z0-9'+\-]*", s))
+
+
+# REVIEW_full_v2 V10: British spellings had returned in generated table notes and in one prose
+# sentence, against the manuscript's American rule. Each pattern maps to the required form. The
+# check runs over the given file AND every file it \input's, because the offenders were in
+# tables/*.tex, which check_text.py did not previously see.
+# Three forms are deliberately absent because they are correct here:
+#   "centre"   only inside the verbatim variable name \texttt{srf_centre_wavelength};
+#   "analyses" the American plural of "analysis" (the verb forms analyse/analysed are checked);
+#   "Colour"   the official instrument name "Ocean and Land Colour Instrument" (OLCI).
+SPELLING = [
+    (r"\brealis(e|ed|es|ing|ation)\b", "realiz..."),
+    (r"\bsummaris(e|ed|es|ing|ation)\b", "summariz..."),
+    (r"\bnormalis(e|ed|es|ing|ation)\b", "normaliz..."),
+    (r"\bjudgement\b", "judgment"),
+    (r"\banalys(e|ed|ing)\b", "analyz..."),
+    (r"\bbehaviour\b", "behavior"),
+    (r"\blabelled\b", "labeled"),
+    (r"\bmodelling\b", "modeling"),
+    (r"\bcolours?\b(?! Instrument)", "color"),
+]
+INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
+
+
+def spelling_check(tex_path: Path) -> int:
+    """Scan tex_path and every file it \\input's for British spellings. Returns the hit count."""
+    root = tex_path.resolve().parents[1]
+    files = [tex_path]
+    raw = tex_path.read_text(encoding="utf-8")
+    for m in INPUT_RE.finditer(strip_comments(raw)):
+        name = m.group(1)
+        if not name.lower().endswith(".tex"):
+            name += ".tex"
+        for cand in (tex_path.parent / name, root / name):
+            if cand.exists():
+                files.append(cand)
+                break
+    hits = 0
+    for f in files:
+        body = strip_comments(f.read_text(encoding="utf-8"))
+        body = re.sub(r"\\texttt\{[^}]*\}", " ", body)     # verbatim variable names
+        for pat, want in SPELLING:
+            for m in re.finditer(pat, body, re.I):
+                ctx = body[max(0, m.start() - 45): m.end() + 45].replace("\n", " ")
+                print(f"  SPELLING {f.name}: {m.group(0)!r} -> {want}   ...{ctx}...")
+                hits += 1
+    print(f"== spelling: {hits} hit(s) over {len(files)} file(s) ==")
+    return hits
 
 
 def main(argv=None):
@@ -172,8 +221,11 @@ def main(argv=None):
             ctx = prose[max(0, first - 50): first + 30].replace("\n", " ")
             print(f"  {tok:12s} {status}   ...{ctx}...")
             n_abbr += status != "ok"
-    print(f"== summary: long sentences {n_long}; dashes {n_dash}; abbreviation hits {n_abbr} ==")
-    return 0 if (n_long == 0 and n_dash == 0) else 1
+    print("== American spelling (this file and every \\input file) ==")
+    n_spell = spelling_check(Path(a.tex))
+    print(f"== summary: long sentences {n_long}; dashes {n_dash}; abbreviation hits {n_abbr}; "
+          f"spelling hits {n_spell} ==")
+    return 0 if (n_long == 0 and n_dash == 0 and n_spell == 0) else 1
 
 
 if __name__ == "__main__":

@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import re
 import shutil
 import sys
@@ -133,6 +134,11 @@ def scrub_tree(base: Path) -> tuple[int, int]:
     for p in sorted(base.rglob("*")):
         if not p.is_file() or p.suffix.lower() not in TEXT_SUFFIXES:
             continue
+        # Never write inside git plumbing: `release/github/.git` is the repository this tree is
+        # pushed from, and several of its files (HEAD, config, COMMIT_EDITMSG) carry no suffix and
+        # would otherwise be read and rewritten by the redaction below.
+        if ".git" in p.relative_to(base).parts:
+            continue
         text = _read_text_keep_newlines(p)
         if text is None:
             continue
@@ -154,16 +160,22 @@ def scrub_tree(base: Path) -> tuple[int, int]:
     return files_changed, replacements
 
 
-def scan_tree(base: Path) -> tuple[list[str], int]:
-    """Scan for identifying strings that must not survive. Returns (findings, allowed_email_hits)."""
+def scan_tree(base: Path, allow_git: bool = False) -> tuple[list[str], int]:
+    """Scan for identifying strings that must not survive. Returns (findings, allowed_email_hits).
+
+    `allow_git` is set only for `release/github/`, which IS the working copy of the repository that
+    is pushed, so a `.git` directory there is expected rather than a leak. In every other tree
+    (the Zenodo staging archive above all) a `.git` directory is still reported."""
     findings: list[str] = []
     allowed_hits = 0
     for p in sorted(base.rglob("*")):
         if p.is_dir():
-            if p.name == ".git":
+            if p.name == ".git" and not allow_git:
                 findings.append(f"{p.relative_to(base).as_posix()}: git metadata directory present")
             continue
         if not p.is_file():
+            continue
+        if ".git" in p.relative_to(base).parts:
             continue
         rel = p.relative_to(base).as_posix()
         if p.suffix.lower() not in TEXT_SUFFIXES:
@@ -196,8 +208,14 @@ def _sha256(path: Path) -> str:
 
 
 def _iter_files(base: Path):
+    """Every file of the release tree, excluding git metadata.
+
+    `release/github/` is itself the working copy of the repository that is pushed, so it carries a
+    `.git` directory that `_reset_dir` deliberately keeps. That directory is repository plumbing,
+    not released content: hashing it into the manifest would make the manifest change with every
+    commit and would report hundreds of loose objects as release files."""
     for p in sorted(base.rglob("*")):
-        if p.is_file():
+        if p.is_file() and ".git" not in p.relative_to(base).parts:
             yield p
 
 
@@ -311,10 +329,8 @@ authors:
     email: {AUTHOR_EMAILS[0]}
     affiliation: "{AFFILIATION}"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"   # ORCID pending, add before release
-  # SECOND AUTHOR: the name was not supplied to the build. Replace both placeholder lines below
-  # with the real given and family names BEFORE creating the repository or the Zenodo record.
-  - family-names: "PLACEHOLDER-FAMILY-NAME"
-    given-names: "PLACEHOLDER-GIVEN-NAMES"
+  - family-names: Manjula
+    given-names: "R."
     email: {AUTHOR_EMAILS[1]}
     affiliation: "{AFFILIATION}"
     # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"   # ORCID pending, add before release
@@ -325,11 +341,11 @@ keywords:
   - domain shift
   - Sentinel-3 OLCI
   - chlorophyll-a
-# repository-code: "https://github.com/OWNER/REPO"        # fill in after the repository exists
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.XXXXXXX"                     # fill in after the Zenodo deposit
-#     description: "Archived code, derived data and full result set"
+repository-code: "https://github.com/shlokDS16/conformal-water-quality-gloria"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22791749"
+    description: "Archived code, derived data and full result set (Zenodo, reserved 2026-09-16)"
 references:
   - type: data
     title: "GLORIA - A global dataset of remote sensing reflectance and water quality from inland and coastal waters"
@@ -361,7 +377,7 @@ def _github_readme(summary_included: bool, summary_bytes: int) -> str:
 
 Code and derived data for the manuscript submitted to the {JOURNAL}.
 
-**Authors**: Shlok Kumar Goenka (<{AUTHOR_EMAILS[0]}>) and a second author (<{AUTHOR_EMAILS[1]}>),
+**Authors**: Shlok Kumar Goenka (<{AUTHOR_EMAILS[0]}>) and R. Manjula (<{AUTHOR_EMAILS[1]}>, corresponding author),
 {AFFILIATION}.
 Version {RELEASE_VERSION}, {RELEASE_DATE}.
 
@@ -432,8 +448,9 @@ The full experiment output (`results/core_v2`, `results/cvplus_v3`, `results/bud
 `results/sens_v2`, `results/noise_v2`) is about 1.55 GB across 9,926 files, so it is not in this
 repository. It is deposited on Zenodo together with a copy of this code and the derived data:
 
-> Zenodo DOI: **10.5281/zenodo.XXXXXXX** (fill in once the record is published; the reserved DOI
-> goes here before submission).
+> Zenodo DOI: **[10.5281/zenodo.22791749](https://doi.org/10.5281/zenodo.22791749)**
+> (reserved 2026-09-16; the record is a draft until the deposit is published, so the link starts
+> resolving only after publication).
 
 {summary_note}
 
@@ -586,10 +603,33 @@ separate: see "Data provenance and licences".
 """
 
 
-def build_github(out: Path) -> dict:
+def _reset_dir(out: Path, keep: tuple[str, ...] = (".git",)) -> list[str]:
+    """Empty `out` without removing `out` itself, and return the names kept.
+
+    `shutil.rmtree(out)` fails on Windows whenever any process holds `out` as its working
+    directory, and it would also delete a `.git` directory if the release tree has been
+    initialised as the repository that is pushed to GitHub. Emptying in place avoids both:
+    the tree is still rebuilt from scratch, but the git history and the working-directory
+    handle survive. Anything named in `keep` is left untouched; everything else goes.
+    """
+    kept = []
     if out.exists():
-        shutil.rmtree(out)
-    out.mkdir(parents=True)
+        for p in sorted(out.iterdir()):
+            if p.name in keep:
+                kept.append(p.name)
+                continue
+            if p.is_dir() and not p.is_symlink():
+                shutil.rmtree(p, onexc=lambda f, path, exc: (os.chmod(path, 0o700), f(path)))
+            else:
+                p.unlink()
+    out.mkdir(parents=True, exist_ok=True)
+    return kept
+
+
+def build_github(out: Path) -> dict:
+    kept = _reset_dir(out)
+    if kept:
+        print(f"[make_release] kept in place, not rebuilt: {', '.join(kept)}")
 
     # code
     _copytree_clean(ROOT / "src", out / "src")
@@ -625,11 +665,15 @@ def build_github(out: Path) -> dict:
     for f in processed:
         shutil.copy2(f, processed_dst / f.name)
 
-    # tables: every ledger CSV under the GitHub per-file threshold, plus the LaTeX table bodies
+    # tables: every ledger CSV under the GitHub per-file threshold, the LaTeX table bodies, and the
+    # data dictionary (AUDIT_5 N6 / REVIEW_full_v2 V13: without it the method-dependent columns
+    # k_cal, calib_scheme, inf_flag, cvplus_fold_units and cvplus_bound are undefined for a reader
+    # of the released CSVs).
     tables_dst = out / "tables"
     tables_dst.mkdir(parents=True, exist_ok=True)
     oversized: list[tuple[str, int]] = []
-    for f in sorted((ROOT / "tables").glob("*.csv")) + sorted((ROOT / "tables").glob("*.tex")):
+    for f in (sorted((ROOT / "tables").glob("*.csv")) + sorted((ROOT / "tables").glob("*.tex"))
+              + sorted((ROOT / "tables").glob("*.md"))):
         size = f.stat().st_size
         if size >= GITHUB_FILE_LIMIT:
             oversized.append((f.name, size))
@@ -656,7 +700,7 @@ def build_github(out: Path) -> dict:
     _write_text_keep_newlines(out / "tables" / "LICENSE", CC_BY_4_LICENSE)
 
     files_changed, replacements = scrub_tree(out)
-    findings, allowed_hits = scan_tree(out)
+    findings, allowed_hits = scan_tree(out, allow_git=True)
 
     rel_files = [(p.relative_to(out).as_posix(), p) for p in _iter_files(out)]
     n_files, total_bytes = _write_manifest(
@@ -742,9 +786,7 @@ def _zenodo_readme_addendum(rows: list[tuple[str, int, int, str]], contents_file
 
 
 def build_zenodo(out: Path, staging: Path, keep_staging: bool) -> dict:
-    if out.exists():
-        shutil.rmtree(out)
-    out.mkdir(parents=True)
+    _reset_dir(out, keep=())
     if staging.exists():
         shutil.rmtree(staging)
 

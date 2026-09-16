@@ -26,9 +26,21 @@ Definitions
                   would equal the corrected one ("effective number of repeats").
 * `reject_threshold`  the smallest mean coverage that would have rejected the null hypothesis of
                   H2 at the one-sided 5 % level, 0.88 + t_{0.95, B-1} se_nb.
-* `power_at_X`    Pr(mean coverage > reject_threshold) when the true mean is X and the per-split
-                  standard deviation is sd_splits, under a normal approximation with the naive
-                  standard error. This is the power the design had, not a claim about the truth.
+* `power_at_X_nb_sd`     the power of the same one-sided test when the sampling spread of the mean
+                  is the SAME Nadeau-Bengio corrected spread that the critical value uses. This is
+                  the internally consistent figure: reject when (mean - 0.88) / se_nb exceeds
+                  t_{0.95, B-1}, so under a true mean X the statistic follows a non-central t with
+                  df = B - 1 and non-centrality (X - 0.88) / se_nb.
+* `power_at_X_naive_sd`  the power of the same test when the realized across-repeat spread
+                  se_naive = s / sqrt(B) is instead taken as the sampling spread of the mean, that
+                  is, when the repeats are treated as independent. This assumption contradicts the
+                  correction the test's own critical value applies, so it is the conservative
+                  figure and is reported second. Normal approximation, as in AUDIT_4.
+
+  AUDIT_5 finding N1: the earlier single `power_at_X` key mixed the two variance models, using the
+  corrected standard error for the threshold and the naive one for the sampling spread. Both are now
+  computed and both are reported, because the honest statement is that the test is underpowered at
+  the preregistered margin under either assumption.
 * `naive_t`, `naive_p`  the same one-sided test with the uncorrected standard error. EXPLORATORY
                   contrast only: it ignores the dependence between overlapping training sets.
 * `n_splits_ge_088`, `n_splits_ge_090`, `split_min`, `split_max`  per-split tallies.
@@ -105,12 +117,38 @@ def main(argv=None) -> None:
         add(b + "test_train_ratio", float(n_te / n_tr), "4 decimals")
         add(b + "ess_repeats", float(1.0 / (1.0 / B + n_te / n_tr)), "1 decimal")
         add(b + "reject_threshold", float(thr), "4 decimals")
+        # REVIEW_full_v2 V3. The manuscript's stated CAUSE of the low power ("the rejection
+        # threshold lies N standard errors above the nominal level") had no key and was wrong: it
+        # said three to four, while the measured distance is 1.02 to 1.14 corrected standard errors
+        # (2.50 to 2.81 naive ones). Only the distance from the preregistered MARGIN of 0.88, which
+        # is t_{0.95,19} = 1.729 by construction, is near four in naive units. All three distances
+        # are written out so the sentence is reproducible and cannot drift again.
+        add(b + "threshold_minus_nominal", float(thr - 0.90), "4 decimals")
+        add(b + "threshold_minus_nominal_over_se_nb", float((thr - 0.90) / se_nb), "2 decimals")
+        add(b + "threshold_minus_nominal_over_se_naive",
+            float((thr - 0.90) / se_naive), "2 decimals")
+        add(b + "threshold_minus_margin_over_se_nb", float((thr - NULL) / se_nb), "3 decimals")
         for mu in (0.90, 0.92):
-            p = float(stats.norm.sf(thr, loc=mu, scale=se_naive))
-            add(b + f"power_at_{int(round(mu * 100))}", p, "3 significant figures")
+            tag = int(round(mu * 100))
+            # (a) internally consistent: the sampling spread of the mean is the corrected spread
+            #     that the critical value already uses (non-central t, df = B - 1).
+            add(b + f"power_at_{tag}_nb_sd",
+                float(stats.nct.sf(tcrit, B - 1, (mu - NULL) / se_nb)), "3 significant figures")
+            # (b) conservative: the realized across-repeat spread is taken as the sampling spread,
+            #     that is, the repeats are treated as independent.
+            add(b + f"power_at_{tag}_naive_sd",
+                float(stats.norm.sf(thr, loc=mu, scale=se_naive)), "3 significant figures")
         tt, pp = stats.ttest_1samp(v, NULL, alternative="greater")
         add(b + "naive_t", float(tt), "3 significant figures")
         add(b + "naive_p", float(pp), "3 significant figures")
+        # AUDIT_5 N7: the H2 variance quantities must be recoverable under the same cell-key
+        # convention that `tables/summary.csv` uses, so a reader who starts from the main ledger can
+        # rebuild se_naive, se_nb and the power without reverse-engineering this module's own names.
+        cb = (f"cell.{t}.{CELL['sensor']}.{CELL['protocol']}.{CELL['population']}."
+              f"{CELL['model']}.{CELL['method']}.a{int(round(CELL['alpha'] * 1000)):03d}.")
+        add(cb + "cov_wb_sd", s, "4 decimals")
+        add(cb + "n_train_wb_mean", n_tr, "1 decimal")
+        add(cb + "n_test_wb_mean", n_te, "1 decimal")
         add(b + "n_splits_ge_088", int((v >= 0.88).sum()), "integer")
         add(b + "n_splits_ge_090", int((v >= 0.90).sum()), "integer")
         add(b + "split_min", float(v.min()), "3 decimals")

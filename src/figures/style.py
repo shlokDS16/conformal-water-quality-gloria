@@ -108,6 +108,13 @@ def apply() -> None:
             "mathtext.rm": FONT,
             "mathtext.it": f"{FONT}:italic",
             "mathtext.bf": f"{FONT}:bold",
+            # REVIEW_full M8: with fontset "custom" matplotlib leaves `mathtext.cal` at its default,
+            # which resolves through `font.cursive` to Comic Sans MS on Windows. One 8 pt
+            # `\mathcal{P}` in Fig. 3 therefore embedded ComicSansMS in a submitted manuscript.
+            # Pinning every mathtext alphabet to Arial makes that impossible for any figure.
+            "mathtext.cal": f"{FONT}:italic",
+            "mathtext.sf": FONT,
+            "mathtext.tt": FONT,
             "mathtext.default": "regular",
             "font.size": SIZE_LABEL,
             "axes.labelsize": SIZE_LABEL,
@@ -142,9 +149,14 @@ def apply() -> None:
     )
 
 
-def panel_letter(ax, letter: str, x: float = -0.02, y: float = 1.02, **kw) -> None:
+def panel_letter(ax, letter: str, x: float = -0.02, y: float = 1.02, ha: str = "right",
+                 va: str = "bottom", **kw) -> None:
+    """Panel letter in axes coordinates.
+
+    `ha` and `va` are overridable (REVIEW_full M9) so that a letter can be set inside the axes
+    where the default position outside the frame would collide with a tick label."""
     ax.text(x, y, f"({letter})", transform=ax.transAxes, fontsize=SIZE_PANEL,
-            fontweight="bold", ha="right", va="bottom", **kw)
+            fontweight="bold", ha=ha, va=va, **kw)
 
 
 def save(fig, name: str, out_dir: Path | str | None = None) -> list[Path]:

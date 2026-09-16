@@ -2,7 +2,7 @@
 \centering
 \caption{Interval performance at $\alpha = 0.10$, water-body protocol, hyperspectral features. Coverage is averaged over test water bodies; width is the water-body mean of the within-body median multiplicative width $10^{u-l}$. Mean over repeats.}
 \label{tab:coverage}
-\footnotesize\renewcommand{\arraystretch}{0.80}
+\footnotesize\renewcommand{\arraystretch}{0.64}
 \setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
@@ -12,6 +12,7 @@ Model and interval method & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
 \quad MDN, mixture quantiles & 0.748 & 0.676 & 0.688 & 0.706 \\
 \quad MDN, recal. (train) & 0.831 & 0.812 & 0.807 & 0.834 \\
 \quad MDN, recal. (calib.) & 0.863 & 0.840 & 0.851 & 0.866 \\
+\quad MDN, norm. conf. (pooled) & 0.912 & 0.908 & 0.921 & 0.921 \\
 \quad MDN, norm. conf. (subs.) & 0.921 & 0.922 & 0.911 & 0.905 \\
 \quad LightGBM, Gaussian & 0.923 & 0.894 & 0.909 & 0.924 \\
 \quad LightGBM, split conf. (pooled) & 0.895 & 0.883 & 0.896 & 0.900 \\
@@ -24,6 +25,7 @@ Model and interval method & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
 \quad MDN, mixture quantiles & 5.54 & 10.5 & 12.7 & 3.84 \\
 \quad MDN, recal. (train) & 11.2 & 31.2 & 26.1$^{\dagger}$ & 11.3 \\
 \quad MDN, recal. (calib.) & 16.3 & 68.2 & 128$^{\dagger}$ & 17.5 \\
+\quad MDN, norm. conf. (pooled) & 24.7$^{\dagger}$ & 374$^{\dagger}$ & $1.4\times10^{3}$$^{\dagger}$ & 22.2$^{\dagger}$ \\
 \quad MDN, norm. conf. (subs.) & 40.6$^{\dagger}$ & 395$^{\dagger}$ & $2.8\times10^{3}$$^{\dagger}$ & 20.0$^{\dagger}$ \\
 \quad LightGBM, Gaussian & 14.4 & 31.2 & 36.4 & 8.97 \\
 \quad LightGBM, split conf. (pooled) & 11.5 & 36.4 & 43.8 & 7.87 \\
@@ -36,6 +38,7 @@ Model and interval method & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
 \quad MDN, mixture quantiles & 0.368 & 0.265 & 0.139 & 0.176 \\
 \quad MDN, recal. (train) & 0.458 & 0.391 & 0.239 & 0.363 \\
 \quad MDN, recal. (calib.) & 0.548 & 0.423 & 0.338 & 0.401 \\
+\quad MDN, norm. conf. (pooled) & 0.621 & 0.561 & 0.530 & 0.537 \\
 \quad MDN, norm. conf. (subs.) & 0.652 & 0.582 & 0.507 & 0.505 \\
 \quad LightGBM, Gaussian & 0.649 & 0.555 & 0.466 & 0.549 \\
 \quad LightGBM, split conf. (pooled) & 0.566 & 0.563 & 0.500 & 0.494 \\
@@ -45,5 +48,5 @@ Model and interval method & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
 \quad LightGBM, group CV+ & 0.616 & 0.603 & 0.437 & 0.530 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\raggedright\footnotesize Subsampled calibration draws one sample per calibration water body (single subsampling, Dunn et al., 2022); pooled calibration uses every calibration row. Interval (Winkler) scores and the percentiles of every cell are in the supplementary CSV. For the conformal rows the theoretical mean coverage of the quantile rule, $\lceil (1-\alpha)(k+1) \rceil / (k+1)$ for the realised $k$, is 0.901 to 0.909. A coverage with a superscript $n\infty$ comes from a cell with $n$ infinite conformal quantiles, which count as covered; that count is zero here. Widths marked $^{\dagger}$ are medians across splits, because their mean is dominated by a minority of splits with unbounded widths; all other widths are means across splits. Worst-water-body coverage is a minimum over roughly 14 to 16 qualifying water bodies per split, and no method claims conditional validity (Remark~\ref{rem:scope}).
+\par\smallskip\raggedright\footnotesize Subsampled calibration draws one sample per calibration water body (single subsampling, \citealp{Dunn2023}); pooled calibration uses every calibration row. Interval scores are in Table~\ref{tab:score}. For the conformal rows the theoretical mean coverage of the quantile rule, $\lceil (1-\alpha)(k+1) \rceil / (k+1)$ for the realized $k$, is 0.901 to 0.909. A superscript $n\infty$ would mark a cell in which $n$ of the 20 splits had an infinite conformal quantile, which counts as covered; that count is zero here. Widths marked $^{\dagger}$ are medians across splits, because their mean is dominated by a minority of splits with unbounded widths; all others are means. Worst-water-body coverage is a minimum over roughly 14 to 16 qualifying water bodies per split, and no method claims conditional validity (Remark~\ref{rem:scope}).
 \end{table*}

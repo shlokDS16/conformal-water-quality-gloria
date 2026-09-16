@@ -1,0 +1,33 @@
+\begin{table}[!htbp]
+\centering
+\caption{Spectral response functions and the 1\% support of each simulated band. The support is the wavelength range over which the response is at least 1\% of its peak; the band value of Eq.~(\ref{eq:band}) is formed over that range only. \emph{Integral} is the fraction of the full response integral the support retains, rounded down to four decimals so that the smallest value printed is a lower bound, and \emph{Spectra} the fraction of quality-controlled GLORIA spectra that carry a reflectance value at every 1\,nm wavelength of the support.}
+\label{tab:srf}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+Band & Support (nm) & FWHM (nm) & Integral & Spectra \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Sentinel-2A MSI}} \\
+\quad B1 & 430 to 455 & 20 & 0.9994 & 1.000 \\
+\quad B2 & 456 to 530 & 65 & 0.9999 & 1.000 \\
+\quad B3 & 539 to 582 & 35 & 0.9998 & 1.000 \\
+\quad B4 & 647 to 683 & 30 & 0.9999 & 1.000 \\
+\quad B5 & 695 to 713 & 14 & 1.0000 & 0.943 \\
+\quad B6 & 732 to 749 & 14 & 1.0000 & 0.942 \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Sentinel-3A OLCI}} \\
+\quad Oa2 & 406 to 418 & 10 & 0.9987 & 1.000 \\
+\quad Oa3 & 437 to 449 & 10 & 0.9987 & 1.000 \\
+\quad Oa4 & 484 to 497 & 10 & 0.9997 & 1.000 \\
+\quad Oa5 & 504 to 517 & 10 & 0.9997 & 1.000 \\
+\quad Oa6 & 554 to 567 & 10 & 0.9997 & 1.000 \\
+\quad Oa7 & 614 to 627 & 10 & 0.9997 & 1.000 \\
+\quad Oa8 & 659 to 672 & 10 & 0.9997 & 1.000 \\
+\quad Oa9 & 669 to 679 & 7 & 0.9993 & 1.000 \\
+\quad Oa10 & 676 to 687 & 8 & 0.9999 & 1.000 \\
+\quad Oa11 & 703 to 715 & 10 & 0.9988 & 0.943 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize Source files: \texttt{\seqsplit{S3A\_OL\_SRF\_20160713\_mean\_rsr.nc4}} (47,804~bytes, SHA-256 \texttt{\seqsplit{e2806df83b6a874e1b5ecd98bd56c70368e4bca6c75e6c7bad6b472cdc5fef7d}}); \texttt{\seqsplit{S3B\_OL\_SRF\_0\_20180109\_mean\_rsr.nc4}} (48,444~bytes, SHA-256 \texttt{\seqsplit{26bfba57971c1c434dd5f1c94f20f128eaa229a46bb3bfbad51c4b22f96e0033}}); \texttt{\seqsplit{S2\_MSI\_SRF\_v5.0.xlsx}} (1,330,493~bytes, SHA-256 \texttt{\seqsplit{42be3ebd8bfcbde11c37caeb2e2fdda65fefa8d2b6f8329559b7806d02cdc9e2}}). The OLCI responses were resampled to 1\,nm by averaging the native curve over each $[\lambda - 0.5, \lambda + 0.5)$\,nm bin; the resulting centroids agree with the \texttt{srf\_centre\_wavelength} variable of the file to within 0.1\,nm. Bands outside the default sets (OLCI Oa1 and Oa12, and the hyperspectral endpoints at 400 and 750\,nm) are retained as extra columns but not used, because fewer than 90\% of spectra cover their supports. Sentinel-2B, Sentinel-2C and Sentinel-3B responses are carried as sensitivity units.
+\end{table}

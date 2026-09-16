@@ -1,0 +1,25 @@
+key,value,rounding,source_file,filter,status
+budget.group.all.max_abs_cov_minus_beta,0.038301623015511876,"3 decimals, rounded up",tables/exploratory_budget_group.csv,"alpha=0.10, primary population, hyperspectral, 4 targets, 6 budgets; 96 cells; scope=all; max at TSS/cqr_pool/n_cal=15",complete
+budget.group.all.n_cells,96.0,integer,tables/exploratory_budget_group.csv,scope=all,complete
+budget.group.gsub.max_abs_cov_minus_beta,0.015188070988126356,"3 decimals, rounded up",tables/exploratory_budget_group.csv,"alpha=0.10, primary population, hyperspectral, 4 targets, 6 budgets; 48 cells; scope=gsub; max at aCDOM440/scp_gsub/n_cal=15",complete
+budget.group.gsub.n_cells,48.0,integer,tables/exploratory_budget_group.csv,scope=gsub,complete
+budget.group.pool.max_abs_cov_minus_beta,0.038301623015511876,"3 decimals, rounded up",tables/exploratory_budget_group.csv,"alpha=0.10, primary population, hyperspectral, 4 targets, 6 budgets; 48 cells; scope=pool; max at TSS/cqr_pool/n_cal=15",complete
+budget.group.pool.n_cells,48.0,integer,tables/exploratory_budget_group.csv,scope=pool,complete
+cvplus.gte.n_splits,1730.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts,complete
+cvplus.gte.n_hold,1425.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts,complete
+cvplus.gte.n_fail,305.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts,complete
+cvplus.gte.n_splits_primary_protocols,480.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; random and waterbody protocols,complete
+cvplus.gte.n_hold_primary_protocols,480.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; random and waterbody protocols,complete
+cvplus.gte.n_second_term_is_minimum,372.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; splits where the second term of Eq. (32) is the smaller one,complete
+cvplus.gte.n_fail_and_second_term_is_minimum,0.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; splits that fail the condition AND would have needed the second term,complete
+cvplus.gte.n_fail.contributor,48.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; protocol=contributor; 200 splits,complete
+cvplus.gte.n_fail.contributor_ds,107.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; protocol=contributor_ds; 600 splits,complete
+cvplus.gte.n_fail.random,0.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; protocol=random; 240 splits,complete
+cvplus.gte.n_fail.region,45.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; protocol=region; 240 splits,complete
+cvplus.gte.n_fail.region_na,105.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; protocol=region_na; 210 splits,complete
+cvplus.gte.n_fail.waterbody,0.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts; protocol=waterbody; 240 splits,complete
+compute.elapsed_wall_hours,8.947222222222223,1 decimal,logs/*.log,"231 jobs in 7 timestamped stream logs; 3 contiguous busy blocks; runs core_v2, cvplus_v3, noise_v2, sens_v2; union of the stream spans",complete
+compute.job_wall_hours,16.384722222222216,1 decimal,logs/*.log,"231 jobs in 7 timestamped stream logs; 3 contiguous busy blocks; runs core_v2, cvplus_v3, noise_v2, sens_v2; sum of per-job START to END durations",complete
+compute.split_compute_hours,20.210846830444517,1 decimal,results/<tag>/metrics_*.csv,"231 jobs in 7 timestamped stream logs; 3 contiguous busy blocks; runs core_v2, cvplus_v3, noise_v2, sens_v2; sum of time_split_s over the reported runs",complete
+compute.n_jobs,231.0,integer,logs/*.log,"231 jobs in 7 timestamped stream logs; 3 contiguous busy blocks; runs core_v2, cvplus_v3, noise_v2, sens_v2",complete
+txt.n_interval_methods,11.0,integer,tables/summary.csv,"distinct interval methods with a cell in cell.Chla.hyp.waterbody.primary.*: cqr_gsub, cqr_pool, cvplus, gauss, native, nscp_gsub, nscp_pool, recal_cal, recal_train20, scp_gsub, scp_pool",complete

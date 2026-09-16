@@ -1,0 +1,33 @@
+\begin{table}[!htbp]
+\centering
+\caption{Irradiance weighting check. Eq.~(\ref{eq:band}) averages remote-sensing reflectance over the band response, whereas the exact band value is the ratio of the response-weighted water-leaving radiance to the response-weighted downwelling irradiance. Both were computed on the GLORIA rows that carry an irradiance spectrum, and the table gives the relative difference between them, $|b_{\mathrm{ratio}} - b_{\mathrm{mean}}| / b_{\mathrm{ratio}}$, per band.}
+\label{tab:irradiance}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Band & Rows & Median (\%) & 95th percentile (\%) \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Sentinel-2A MSI}} \\
+\quad B1 & 1,148 & 0.46 & 0.78 \\
+\quad B2 & 1,159 & 0.21 & 0.71 \\
+\quad B3 & 1,171 & 0.08 & 0.28 \\
+\quad B4 & 1,170 & 0.10 & 0.40 \\
+\quad B5 & 863 & 0.05 & 0.25 \\
+\quad B6 & 748 & 0.08 & 0.39 \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{Sentinel-3A OLCI}} \\
+\quad Oa2 & 1,145 & 0.05 & 0.15 \\
+\quad Oa3 & 1,148 & 0.13 & 0.23 \\
+\quad Oa4 & 1,161 & 0.02 & 0.07 \\
+\quad Oa5 & 1,168 & 0.03 & 0.08 \\
+\quad Oa6 & 1,171 & 0.01 & 0.03 \\
+\quad Oa7 & 1,170 & 0.02 & 0.04 \\
+\quad Oa8 & 1,170 & 0.01 & 0.05 \\
+\quad Oa9 & 1,170 & 0.01 & 0.05 \\
+\quad Oa10 & 1,170 & 0.04 & 0.22 \\
+\quad Oa11 & 858 & 0.09 & 0.47 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize The largest median difference over the bands used is 0.46\%, at the Sentinel-2A B1 coastal-aerosol band, where the response is widest relative to the structure of the spectrum. Every other band stays below that, and no band reaches 1\% at the 95th percentile. The reflectance average was therefore kept, because the irradiance spectra are absent from most GLORIA rows and requiring them would have cut the populations by more than four fifths. 
+\end{table}

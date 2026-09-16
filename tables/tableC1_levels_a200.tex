@@ -1,0 +1,39 @@
+\begin{table*}[!tp]
+\centering
+\caption{Water-body-averaged coverage and median multiplicative width at $\alpha = 0.20$, water-body protocol, hyperspectral features, primary populations. Mean over 20 repeats. The primary level $\alpha = 0.10$ is Table~\ref{tab:coverage} and $\alpha = 0.05$ is Table~\ref{tab:levels050}.}
+\label{tab:levels200}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Model and interval method & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Coverage}} \\
+\quad MDN, mixture quantiles & 0.634 & 0.584 & 0.582 & 0.599 \\
+\quad MDN, recal. (train) & 0.693 & 0.667 & 0.661 & 0.714 \\
+\quad MDN, recal. (calib.) & 0.788 & 0.752 & 0.800 & 0.807 \\
+\quad MDN, norm. conf. (pooled) & 0.811 & 0.800 & 0.824 & 0.833 \\
+\quad MDN, norm. conf. (subs.) & 0.819 & 0.821 & 0.792 & 0.791 \\
+\quad LightGBM, Gaussian & 0.872 & 0.829 & 0.852 & 0.864 \\
+\quad LightGBM, split conf. (pooled) & 0.795 & 0.772 & 0.808 & 0.803 \\
+\quad LightGBM, split conf. (subs.) & 0.812 & 0.823 & 0.804 & 0.802 \\
+\quad LightGBM, CQR (pooled) & 0.792 & 0.769 & 0.818 & 0.820 \\
+\quad LightGBM, CQR (subs.) & 0.813 & 0.818 & 0.812 & 0.792 \\
+\quad LightGBM, group CV+ & 0.831 & 0.812 & 0.813 & 0.812 \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Median multiplicative width}} \\
+\quad MDN, mixture quantiles & 3.41 & 5.43 & 7.08 & 2.67 \\
+\quad MDN, recal. (train) & 4.73 & 8.36 & 10.8 & 3.95 \\
+\quad MDN, recal. (calib.) & 8.30 & 25.4 & 28.3$^{\dagger}$ & 7.42 \\
+\quad MDN, norm. conf. (pooled) & 9.52 & 24.1$^{\dagger}$ & 105$^{\dagger}$ & 12.2 \\
+\quad MDN, norm. conf. (subs.) & 10.6 & 73.9 & 39.9$^{\dagger}$ & 6.63 \\
+\quad LightGBM, Gaussian & 7.99 & 14.4 & 16.2 & 5.50 \\
+\quad LightGBM, split conf. (pooled) & 5.21 & 10.6 & 12.0 & 4.09 \\
+\quad LightGBM, split conf. (subs.) & 6.16 & 15.2 & 11.3 & 4.14 \\
+\quad LightGBM, CQR (pooled) & 5.52 & 11.2 & 13.2 & 4.24 \\
+\quad LightGBM, CQR (subs.) & 6.43 & 15.4 & 11.3 & 4.07 \\
+\quad LightGBM, group CV+ & 5.51 & 11.3 & 9.94 & 3.77 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize Nominal coverage is 0.80. A superscript $n\infty$ would mark a cell in which $n$ of the 20 splits had an infinite conformal quantile, which counts as covered; that count is zero here. Widths marked $^{\dagger}$ are medians across splits rather than means because their mean is dominated by a minority of splits with unbounded widths; the 2.5th and 97.5th percentiles of every such cell are in the released ledger under the same key with the suffix \texttt{\_p025} and \texttt{\_p975}. 
+\end{table*}

@@ -41,11 +41,11 @@ PROTOCOLS = [
     ("contributor_ds", "Dataset\\_ID", "splits"),
     ("contributor", "contrib\\_group", "splits"),
     ("region", "Macro-region", "splits"),
-    ("region_na", "NA sub-region", "splits"),
+    ("region_na", "na\_subregion", "splits"),
 ]
 PROTO_NAME = {"random": "Random", "waterbody": "Water body", "waterbody_5km": "Water body 5 km",
               "contributor_ds": "Contributor", "contributor": "Contributor component", "region": "Region",
-              "region_na": "North American sub-region"}
+              "region_na": "NA sub-region"}
 
 
 class Ledger:
@@ -181,7 +181,7 @@ def table2(L: Ledger, d: pd.DataFrame) -> str:
         r"analyses.}",
         r"\label{tab:splits}",
         r"\small",
-        r"\setlength{\tabcolsep}{3pt}",
+        r"\setlength{\tabcolsep}{5pt}",
         r"\begin{tabular}{@{}llrrrr@{}}",
         r"\toprule",
         r"Protocol & Unit & Splits$^{a}$ & Training & Calibration & Test \\",
@@ -235,6 +235,21 @@ def text_and_figure_counts(L: Ledger, d: pd.DataFrame) -> None:
           "qc_primary (Fig. 1 box 2)")
     L.add("txt.all.n_wb_group", int(d["wb_group"].nunique()), "integer", GLORIA, "all rows; nunique wb_group")
     L.add("txt.all.n_wb_5km", int(d["wb_5km"].nunique()), "integer", GLORIA, "all rows; nunique wb_5km")
+    # REVIEW_full_v2 V8: seven numbers in the new Appendix A prose were verifiable from the project
+    # data but carried no ledger key, against CLAUDE.md section 2 item 1 ("one key per number").
+    # Five are added here and the two band-coverage fractions below.
+    L.add("txt.all.n_qc_strict", int(d["qc_strict"].astype(bool).sum()), "integer", GLORIA,
+          "qc_strict (every flagged spectrum dropped); a subset of qc_primary")
+    wbg = pd.read_csv(DATA / "interim" / "wb_groups.csv")
+    L.add("txt.all.n_wb_raw_names", int(wbg["raw_name"].nunique()), "integer",
+          "data/interim/wb_groups.csv", "nunique raw_name (Site_name as supplied)")
+    L.add("txt.all.n_wb_norm_names", int(wbg["normalised_name"].nunique()), "integer",
+          "data/interim/wb_groups.csv", "nunique normalised_name (before the 2 km link)")
+    gsz = d.groupby("wb_group").size()
+    L.add("txt.all.wb_group_max_samples", int(gsz.max()), "integer", GLORIA,
+          "all rows; largest number of samples in one wb_group")
+    L.add("txt.all.wb_group_median_samples", float(gsz.median()), "integer (median, half up)",
+          GLORIA, "all rows; median number of samples per wb_group")
     L.add("txt.n_manual_merge_sets", len(MANUAL_MERGES) + len(EXTRA_MERGES), "integer", "src/data/groups.py",
           "len(MANUAL_MERGES) + len(EXTRA_MERGES); name sets merged by override")
     ext = []
@@ -274,6 +289,17 @@ def text_and_figure_counts(L: Ledger, d: pd.DataFrame) -> None:
     L.add("txt.srf.min_frac_integral_in_support", float(srf.loc[used, "frac_integral_in_support"].min()),
           "percent, 2 decimals, rounded down", "data/interim/srf_bands.csv",
           "S2A B1-B6 and S3A Oa2-Oa11; min frac_integral_in_support")
+    # REVIEW_full_v2 V8 and V9: the two OLCI bands kept out of the default set are quoted in
+    # Appendix A. The quoted percentage must be `frac_primary_qc`, which is the population the
+    # "Spectra" column of Table A.3 uses ("the fraction of quality-controlled GLORIA spectra"), not
+    # `frac_all`; the two differ (Oa1 0.3591 over all spectra against 0.3677 over the QC set) and
+    # printing one next to the other put two populations for the same statistic one page apart.
+    bcov = pd.read_csv(DATA / "interim" / "band_coverage.csv")
+    for band in ("Oa1", "Oa12"):
+        row = bcov[(bcov["unit"] == "S3A") & (bcov["band"] == band)].iloc[0]
+        L.add(f"txt.srf.frac_spectra.{band}", float(row["frac_primary_qc"]),
+              "percent, integer", "data/interim/band_coverage.csv",
+              f"S3A {band}; frac_primary_qc, the same column Table A.3 prints as Spectra")
     irr = pd.read_csv(DATA / "interim" / "irradiance_weighting.csv")
     iu = (((irr["unit"] == "S2A") & irr["band"].isin([f"B{i}" for i in range(1, 7)]))
           | ((irr["unit"] == "S3A") & irr["band"].isin([f"Oa{i}" for i in range(2, 12)])))
@@ -307,7 +333,8 @@ def text_and_figure_counts(L: Ledger, d: pd.DataFrame) -> None:
 
 
 def main() -> None:
-    cols = (["GLORIA_ID", "Dataset_ID", "wb_group", "wb_5km", "region_grp", "qc_primary"] + TARGETS
+    cols = (["GLORIA_ID", "Dataset_ID", "wb_group", "wb_5km", "region_grp", "qc_primary",
+             "qc_strict"] + TARGETS
             + list(POP.values()) + [f"complete_{s}" for s in SENSORS] + sum(SENSORS.values(), [])
             + ["Latitude", "Longitude", "Depth", "chl_technique", "chla_uncorrected", "chla_optical_estimate",
                "spec_hash"])

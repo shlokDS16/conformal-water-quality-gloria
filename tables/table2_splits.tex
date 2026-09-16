@@ -3,7 +3,7 @@
 \caption{Realized split sizes. Cells give the median over splits of the number of samples, with the number of water bodies in parentheses. Water body 5 km and Contributor component are sensitivity analyses.}
 \label{tab:splits}
 \small
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}llrrrr@{}}
 \toprule
 Protocol & Unit & Splits$^{a}$ & Training & Calibration & Test \\
@@ -15,7 +15,7 @@ Water body 5 km & wb\_5km & 10 & 2,820 (142) & 798 (48) & 803 (48) \\
 Contributor & Dataset\_ID & 50 & 2,311 (154) & 794 (55) & 892 (43) \\
 Contributor component & contrib\_group & 50 & 2,708 (131) & 1,003 (73) & 657 (51) \\
 Region & Macro-region & 30 (10) & 2,711 (159) & 1,053 (54) & 517 (44) \\
-North American sub-region & NA sub-region & 20 (10) & 2,996 (183) & 783 (62) & 511 (13) \\
+NA sub-region & na\_subregion & 20 (10) & 2,996 (183) & 783 (62) & 511 (13) \\
 \midrule
 \multicolumn{6}{@{}l}{\textit{TSS} (g\,m$^{-3}$)} \\
 Random & Sample & 20 & 2,617 (270) & 870 (175) & 871 (175) \\
@@ -24,7 +24,7 @@ Water body 5 km & wb\_5km & 10 & 2,682 (161) & 888 (54) & 882 (54) \\
 Contributor & Dataset\_ID & 50 & 2,421 (192) & 785 (62) & 871 (58) \\
 Contributor component & contrib\_group & 50 & 2,647 (168) & 953 (64) & 683 (59) \\
 Region & Macro-region & 30 (10) & 2,866 (195) & 812 (66) & 578 (53) \\
-North American sub-region & NA sub-region & 20 & 2,966 (214) & 1,021 (72) & 464 (28) \\
+NA sub-region & na\_subregion & 20 & 2,966 (214) & 1,021 (72) & 464 (28) \\
 \midrule
 \multicolumn{6}{@{}l}{\textit{$a_\mathrm{CDOM}(440)$} (m$^{-1}$)} \\
 Random & Sample & 20 & 2,459 (220) & 821 (153) & 823 (151) \\
@@ -33,7 +33,7 @@ Water body 5 km & wb\_5km & 10 & 2,395 (130) & 836 (44) & 843 (44) \\
 Contributor & Dataset\_ID & 50 & 2,267 (145) & 803 (56) & 818 (50) \\
 Contributor component & contrib\_group & 50 & 2,536 (148) & 912 (48) & 601 (48) \\
 Region & Macro-region & 30 (10) & 2,762 (168) & 879 (56) & 478 (26) \\
-North American sub-region & NA sub-region & 20 & 2,772 (168) & 888 (57) & 482 (25) \\
+NA sub-region & na\_subregion & 20 & 2,772 (168) & 888 (57) & 482 (25) \\
 \midrule
 \multicolumn{6}{@{}l}{\textit{Secchi depth} (m)} \\
 Random & Sample & 20 & 2,226 (284) & 741 (178) & 740 (177) \\
@@ -42,7 +42,7 @@ Water body 5 km & wb\_5km & 10 & 2,248 (174) & 841 (58) & 611 (58) \\
 Contributor & Dataset\_ID & 50 & 2,011 (198) & 688 (72) & 742 (72) \\
 Contributor component & contrib\_group & 50 & 2,254 (172) & 830 (72) & 587 (56) \\
 Region & Macro-region & 30 (10) & 2,489 (210) & 665 (70) & 439 (51) \\
-North American sub-region & NA sub-region & 20 & 2,541 (227) & 743 (76) & 385 (28) \\
+NA sub-region & na\_subregion & 20 & 2,541 (227) & 743 (76) & 385 (28) \\
 \bottomrule
 \end{tabular}
 \par\smallskip\raggedright\footnotesize $^{a}$ Seeds times folds; in parentheses, region folds with fewer than 10 test water bodies or from South America and Africa, which are reported descriptively only. Counts are from the split files before the per-sensor completeness filter. Random and Water body: 60/20/20, 20 seeds; Water body 5 km: 10 seeds; Contributor: 10 seeds $\times$ 5 folds; Region: 5 seeds per left-out region; North American sub-region: sub-regions of North America left out in turn. Sample units keep same-time replicates and duplicate spectra together. Water bodies are counted as wb\_group, or wb\_5km for Water body 5 km.

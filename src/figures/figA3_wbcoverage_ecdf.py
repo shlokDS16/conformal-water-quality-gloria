@@ -49,8 +49,8 @@ def body_coverage(target) -> pd.DataFrame:
 def main() -> None:
     args = R.cli(__doc__)
     S.apply()
-    fig, axes = plt.subplots(1, len(R.TARGETS), figsize=(S.DOUBLE_COL, 2.6), sharey=True)
-    fig.subplots_adjust(left=0.072, right=0.995, top=0.90, bottom=0.33, wspace=0.08)
+    fig, axes = plt.subplots(1, len(R.TARGETS), figsize=(S.DOUBLE_COL, 2.7), sharey=True)
+    fig.subplots_adjust(left=0.072, right=0.995, top=0.90, bottom=0.37, wspace=0.08)
     fig.supylabel("Share of test water bodies", fontsize=S.SIZE_LABEL, x=0.012)
     fig.supxlabel("Within-water-body coverage", fontsize=S.SIZE_LABEL, y=0.225)
     for j, target in enumerate(R.TARGETS):
@@ -75,9 +75,9 @@ def main() -> None:
         ax.set_xticklabels(["0", "0.25", "0.50", "0.75", "1.00" if j == len(R.TARGETS) - 1 else ""])
         ax.set_ylim(0, 1.02)
         ax.grid(True)
-        S.panel_letter(ax, "abcd"[j], x=-0.02, y=1.01)
+        S.panel_letter(ax, "abcd"[j], x=0.03, y=0.97, ha="left", va="top")
     h, l = axes[0].get_legend_handles_labels()
-    fig.legend(h, l, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.005), handlelength=2.6,
+    fig.legend(h, l, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.01), handlelength=2.6,
                handletextpad=0.5, columnspacing=1.4)
     S.save(fig, NAME, R.outdir_of(args))
 

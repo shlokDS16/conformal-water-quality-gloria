@@ -1,9 +1,9 @@
 \begin{table*}[!tp]
 \centering
-\caption{Conditional coverage across split protocols and the protocol by method recommendation matrix at $\alpha = 0.10$, hyperspectral features. Panel (a): mean over repeats of the lowest within-body coverage among test water bodies with at least 10 samples, with the water-body-averaged coverage of the same cell in parentheses. Panel (b): \textsc{yes} when the water-body-averaged coverage reaches $1-\alpha-\delta = 0.88$ for every finished target.}
+\caption{Conditional coverage across split protocols and the protocol by method recommendation matrix at $\alpha = 0.10$, hyperspectral features. Panel (a): mean over repeats of the lowest within-body coverage among test water bodies with at least 10 samples, with the water-body-averaged coverage of the same cell in parentheses. Panel (b): \textsc{yes} when the water-body-averaged coverage reaches $1-\alpha-\delta = 0.88$ for every target.}
 \label{tab:worst}
 \footnotesize
-\setlength{\tabcolsep}{2pt}
+\setlength{\tabcolsep}{6pt}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
 Protocol & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
@@ -28,12 +28,12 @@ Protocol & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
 \multicolumn{5}{@{}l}{\textit{(b) Water-body-averaged coverage reaches 0.88 in every target}} \\
 Interval method & Random & Water body & Contributor & Region \\
 \quad Gaussian residual & \textsc{yes} & \textsc{yes} & \textsc{no} & \textsc{no} \\
-\quad Split conformal, pooled & \textsc{yes} & \textsc{yes} & \textsc{no} & \textsc{no} \\
-\quad Split conformal, subsampled & \textsc{yes} & \textsc{yes} & \textsc{no}$^{1\infty}$ & \textsc{no} \\
-\quad CQR, subsampled & \textsc{yes} & \textsc{yes} & \textsc{no}$^{1\infty}$ & \textsc{no} \\
+\quad Split conf. (pooled) & \textsc{yes} & \textsc{yes} & \textsc{no} & \textsc{no} \\
+\quad Split conf. (subs.) & \textsc{yes} & \textsc{yes} & \textsc{no}$^{1\infty}$ & \textsc{no} \\
+\quad CQR (subs.) & \textsc{yes} & \textsc{yes} & \textsc{no}$^{1\infty}$ & \textsc{no} \\
 \quad Group CV+ & \textsc{yes} & \textsc{yes} & \textsc{no} & \textsc{no} \\
-\quad MDN mixture quantiles & \textsc{no} & \textsc{no} & \textsc{no} & \textsc{no} \\
+\quad MDN quantiles & \textsc{no} & \textsc{no} & \textsc{no} & \textsc{no} \\
 \bottomrule
 \end{tabular}
-\par\smallskip\raggedright\footnotesize Panel (a): water bodies with fewer than 10 test samples are excluded from the worst-body statistic. Marginal validity does not imply per-water-body validity, and distribution-free conditional coverage is impossible in general (Foygel Barber et al., 2021). Panel (b): \textsc{yes} means the tolerance $1-\alpha-\delta = 0.88$ is reached for every finished target; it summarises the released cells and is not a hypothesis test. A superscript $n\infty$ marks cells in which $n$ splits had an infinite conformal quantile, which counts as covered. Contributor and region protocols carry no coverage guarantee (Section~\ref{sec:theory}). Cells marked n.a. were not available when this table was generated.
+\par\smallskip\raggedright\footnotesize Panel (a): water bodies with fewer than 10 test samples are excluded from the worst-body statistic. Marginal validity does not imply per-water-body validity, and distribution-free conditional coverage is impossible in general \citep{FoygelBarber2021}. Panel (b): \textsc{yes} means the tolerance $1-\alpha-\delta = 0.88$ is reached for every target; it summarizes the released cells and is not a hypothesis test. A coverage with a superscript $n\infty$ comes from a cell in which $n$ of the 20 splits had an infinite conformal quantile; such a split covers the test sample by construction and is counted as covered, which makes the printed coverage an upper bound for that cell. Contributor and region protocols carry no coverage guarantee (Section~\ref{sec:theory}). 
 \end{table*}

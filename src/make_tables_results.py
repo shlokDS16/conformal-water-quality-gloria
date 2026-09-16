@@ -69,6 +69,7 @@ METHOD_ROWS = [
     ("mdn", "native", "MDN, mixture quantiles"),
     ("mdn", "recal_train20", "MDN, recal. (train)"),
     ("mdn", "recal_cal", "MDN, recal. (calib.)"),
+    ("mdn", "nscp_pool", "MDN, norm. conf. (pooled)"),
     ("mdn", "nscp_gsub", "MDN, norm. conf. (subs.)"),
     ("lgbm", "gauss", "LightGBM, Gaussian"),
     ("lgbm", "scp_pool", "LightGBM, split conf. (pooled)"),
@@ -182,18 +183,40 @@ def cell_key(target, sensor, protocol, population, model, method, atag, stat) ->
 
 
 # ------------------------------------------------------------------ AUDIT_4 printing rules
-def cov_cell(S: Summary, base: str, stat: str = "cov_wb_mean") -> str:
+def cov_cell(S: Summary, base: str, stat: str = "cov_wb_mean",
+             marked: list | None = None) -> str:
     """Coverage, with the number of infinite splits appended when it is not zero (A4-8).
 
     An infinite conformal quantile makes the interval the whole line, so the split counts as covered
-    by construction. Wherever that happened the reader must see how often."""
+    by construction. Wherever that happened the reader must see how often.
+
+    REVIEW_full_v2 V6: pass `marked` to record whether a superscript was actually emitted, so the
+    table note can describe the marker in the indicative only when the body carries one. This is the
+    same defect AUDIT_5 N5 raised for the dagger, which `dagger_note` already handles."""
     txt = S.fmt(base + stat)
     if txt == NA:
         return NA
     n_inf = S.num(base + "n_splits_infinite")
     if n_inf:
         txt += rf"$^{{{int(round(n_inf))}\infty}}$"
+        if marked is not None:
+            marked.append(base)
     return txt
+
+
+def inf_note(marked: list) -> str:
+    """The `n\\infty` sentence, in the indicative only when `cov_cell` emitted a superscript.
+
+    REVIEW_full_v2 V6: four Appendix C tables asserted that a superscript in the body marks infinite
+    conformal quantiles, while `n_splits_infinite` is zero for every cell they print, so a reviewer
+    hunts the body for a marker that is not there. The conditional wording is Table 6's."""
+    if marked:
+        return ("A coverage with a superscript $n\\infty$ comes from a cell in which $n$ of the 20 "
+                "splits had an infinite conformal quantile; such a split covers the test sample by "
+                "construction and is counted as covered, which makes the printed coverage an upper "
+                "bound for that cell. ")
+    return ("A superscript $n\\infty$ would mark a cell in which $n$ of the 20 splits had an "
+            "infinite conformal quantile, which counts as covered; that count is zero here. ")
 
 
 def width_cell(S: Summary, base: str, model: str, flagged: list | None = None,
@@ -239,6 +262,28 @@ def header(caption: str, label: str, colspec: str, tabcolsep: str = "4pt", star:
             r"\toprule"]
 
 
+def na_note(lines: list[str]) -> str:
+    """The `n.a.` sentence, emitted only when the table body actually contains an `n.a.` cell.
+
+    REVIEW_full M5: the old wording ("were not available when this table was generated") told the
+    reader that the run was unfinished. Every remaining `n.a.` is a not-applicable cell by design,
+    an empirical algorithm or a sensitivity analysis that exists for one target only. Table 4 has no
+    `n.a.` cell at all, so it must carry no such sentence."""
+    return (NA + ": the analysis does not apply to this target. "
+            if any(NA in ln for ln in lines) else "")
+
+
+def dagger_note(flagged: list, extra: str = "") -> str:
+    """The dagger sentence, emitted only when `width_cell` actually daggered a value.
+
+    AUDIT_5 N5: `tables/table6_sensitivity.tex` carried a note about a symbol that never occurs in
+    its body, which sends a reviewer hunting for it."""
+    if not flagged:
+        return ""
+    return ("Widths marked " + DAGGER + " are medians across splits rather than means"
+            + (extra or "") + ". ")
+
+
 def footer(note: str, star: bool = True) -> list[str]:
     env = "table*" if star else "table"
     return [r"\bottomrule", r"\end{tabular}",
@@ -260,7 +305,9 @@ def table3_point(S: Summary, sensors: list[str] | None = None) -> str:
             for t in TARGETS:
                 base = cell_key(t, sensor, "waterbody", "primary", model, "point", "point", "")
                 mdsa = S.fmt(base + "mdsa_mean", "percent, 0 decimals")
-                sspb = S.fmt(base + "sspb_mean", "percent, 0 decimals")
+                # REVIEW_full m3: the text quotes SSPB to one decimal, so the table must too;
+                # an integer rule prints "-0" for a small negative bias.
+                sspb = S.fmt(base + "sspb_mean", "percent, 1 decimal")
                 cells.append(NA if mdsa == NA else f"{mdsa} ({sspb})")
             if all(c == NA for c in cells):
                 continue
@@ -271,14 +318,14 @@ def table3_point(S: Summary, sensors: list[str] | None = None) -> str:
         lines.append(rf"\multicolumn{{{1 + len(TARGETS)}}}{{@{{}}l}}{{\textit{{{SENSOR_NAME[sensor]}}}}} \\")
         lines += block
     lines += footer(
-        "Water-body protocol, primary population. MdSA and SSPB follow Morley et al. (2018); log-MAE, log-bias "
+        "Water-body protocol, primary population. MdSA and SSPB follow \\citet{Morley2018}; log-MAE, log-bias "
         "and log-RMSE for the same cells are in the supplementary CSV. "
         "Empirical rows appear only for the targets that define them (OC-type and NDCI for Chl-a, Nechad-type "
         "for TSS, band-ratio regressions for $a_\\mathrm{CDOM}(440)$ and Secchi depth). "
         "The refitted OC-type polynomial extrapolates without bound outside its training range of the band "
         "ratio, which is visible in its accuracy here and in its interval widths in Table~\\ref{tab:coverage}. "
         "Point accuracy is read from the point rows of the metrics files, never from interval rows. "
-        "Cells marked " + NA + " were not available when this table was generated.")
+        + na_note(lines))
     return "\n".join(lines) + "\n"
 
 
@@ -291,12 +338,13 @@ def table4_coverage(S: Summary) -> str:
          "test water bodies with at least 10 samples"),
     ]
     flagged: list[str] = []
+    marked: list[str] = []
     lines = header(
         "Interval performance at $\\alpha = 0.10$, water-body protocol, hyperspectral features. Coverage is "
         "averaged over test water bodies; width is the water-body mean of the within-body median multiplicative "
         "width $10^{u-l}$. Mean over repeats.",
         "tab:coverage", "@{}l" + "r" * len(TARGETS) + "@{}", "5pt",
-        size=r"\footnotesize\renewcommand{\arraystretch}{0.80}")
+        size=r"\footnotesize\renewcommand{\arraystretch}{0.64}")
     lines.append("Model and interval method & " + " & ".join(TARGET_HEAD[t] for t in TARGETS) + r" \\")
     for title, stat, note in blocks:
         lines.append(r"\midrule")
@@ -308,7 +356,7 @@ def table4_coverage(S: Summary) -> str:
             for t in TARGETS:
                 base = cell_key(t, "hyp", "waterbody", "primary", model, method, ALPHA_TAG, "")
                 if stat == "cov":
-                    cells.append(cov_cell(S, base))
+                    cells.append(cov_cell(S, base, marked=marked))
                 elif stat == "width":
                     cells.append(width_cell(S, base, model, flagged,
                                             f"{name}, {TARGET_HEAD[t]}"))
@@ -319,17 +367,16 @@ def table4_coverage(S: Summary) -> str:
             lines.append(" & ".join([rf"\quad {name}"] + cells) + r" \\")
     beta = beta_range(S, [(m, me) for m, me, _ in METHOD_ROWS])
     lines += footer(
-        "Subsampled calibration draws one sample per calibration water body (single subsampling, Dunn et al., "
-        "2022); pooled calibration uses every calibration row. "
-        "Interval (Winkler) scores and the percentiles of every cell are in the supplementary CSV. "
+        "Subsampled calibration draws one sample per calibration water body "
+        "(single subsampling, \\citealp{Dunn2023}); pooled calibration uses every calibration row. "
+        "Interval scores are in Table~\\ref{tab:score}. "
         "For the conformal rows the theoretical mean coverage of the quantile rule, "
-        "$\\lceil (1-\\alpha)(k+1) \\rceil / (k+1)$ for the realised $k$, is " + beta + ". "
-        "A coverage with a superscript $n\\infty$ comes from a cell with $n$ infinite conformal quantiles, "
-        "which count as covered; that count is zero here. "
-        "Widths marked " + DAGGER + " are medians across splits, because their mean is dominated by a minority "
-        "of splits with unbounded widths; all other widths are means across splits. "
-        "Worst-water-body coverage is a minimum over roughly 14 to 16 qualifying water bodies per split, and no "
-        "method claims conditional validity (Remark~\\ref{rem:scope}).")
+        "$\\lceil (1-\\alpha)(k+1) \\rceil / (k+1)$ for the realized $k$, is " + beta + ". "
+        + inf_note(marked)
+        + "Widths marked " + DAGGER + " are medians across splits, because their mean is dominated by a minority "
+        "of splits with unbounded widths; all others are means. "
+        "Worst-water-body coverage is a minimum over roughly 14 to 16 qualifying water bodies per split, and "
+        "no method claims conditional validity (Remark~\\ref{rem:scope}).")
     return "\n".join(lines) + "\n"
 
 
@@ -340,13 +387,14 @@ WORST_BY_PROTOCOL = [("lgbm", "scp_gsub", "Split conformal, subsampled"),
 
 
 def table5_worstgroup(S: Summary) -> str:
+    marked: list[str] = []
     lines = header(
         "Conditional coverage across split protocols and the protocol by method recommendation matrix at "
         "$\\alpha = 0.10$, hyperspectral features. Panel (a): mean over repeats of the lowest within-body "
         "coverage among test water bodies with at least 10 samples, with the water-body-averaged coverage of "
         "the same cell in parentheses. Panel (b): \\textsc{yes} when the water-body-averaged coverage reaches "
-        "$1-\\alpha-\\delta = 0.88$ for every finished target.",
-        "tab:worst", "@{}l" + "r" * len(TARGETS) + "@{}", "2pt")
+        "$1-\\alpha-\\delta = 0.88$ for every target.",
+        "tab:worst", "@{}l" + "r" * len(TARGETS) + "@{}", "6pt")
     lines.append("Protocol & " + " & ".join(TARGET_HEAD[t] for t in TARGETS) + r" \\")
     lines.append(r"\midrule")
     lines.append(rf"\multicolumn{{{1 + len(TARGETS)}}}{{@{{}}l}}{{\textit{{(a) Worst-water-body coverage "
@@ -358,7 +406,7 @@ def table5_worstgroup(S: Summary) -> str:
             for t in TARGETS:
                 base = cell_key(t, "hyp", proto, "primary", model, method, ALPHA_TAG, "")
                 worst = S.fmt(base + "cov_worst_ge10_mean")
-                cov = cov_cell(S, base)
+                cov = cov_cell(S, base, marked=marked)
                 cells.append(NA if worst == NA else f"{worst} ({cov})")
             if all(c == NA for c in cells):
                 continue
@@ -372,11 +420,11 @@ def table5_worstgroup(S: Summary) -> str:
                  rf"reaches 0.88 in every target}}}} \\")
     lines.append(r"Interval method & " + " & ".join(p for _, p in PROTOCOL_ROWS) + r" \\")
     matrix_methods = [("lgbm", "gauss", "Gaussian residual"),
-                      ("lgbm", "scp_pool", "Split conformal, pooled"),
-                      ("lgbm", "scp_gsub", "Split conformal, subsampled"),
-                      ("lgbm", "cqr_gsub", "CQR, subsampled"),
+                      ("lgbm", "scp_pool", "Split conf. (pooled)"),
+                      ("lgbm", "scp_gsub", "Split conf. (subs.)"),
+                      ("lgbm", "cqr_gsub", "CQR (subs.)"),
                       ("lgbm", "cvplus", "Group CV+"),
-                      ("mdn", "native", "MDN mixture quantiles")]
+                      ("mdn", "native", "MDN quantiles")]
     for model, method, name in matrix_methods:
         cells = []
         for proto, _ in PROTOCOL_ROWS:
@@ -396,18 +444,19 @@ def table5_worstgroup(S: Summary) -> str:
     lines += footer(
         "Panel (a): water bodies with fewer than 10 test samples are excluded from the worst-body statistic. "
         "Marginal validity does not imply per-water-body validity, and distribution-free conditional coverage "
-        "is impossible in general (Foygel Barber et al., 2021). "
-        "Panel (b): \\textsc{yes} means the tolerance $1-\\alpha-\\delta = 0.88$ is reached for every finished "
-        "target; it summarises the released cells and is not a hypothesis test. "
-        "A superscript $n\\infty$ marks cells in which $n$ splits had an infinite conformal quantile, which "
-        "counts as covered. "
-        "Contributor and region protocols carry no coverage guarantee (Section~\\ref{sec:theory}). "
-        "Cells marked " + NA + " were not available when this table was generated.")
+        "is impossible in general \\citep{FoygelBarber2021}. "
+        "Panel (b): \\textsc{yes} means the tolerance $1-\\alpha-\\delta = 0.88$ is reached for every "
+        "target; it summarizes the released cells and is not a hypothesis test. "
+        + inf_note(marked)
+        + "Contributor and region protocols carry no coverage guarantee (Section~\\ref{sec:theory}). "
+        + na_note(lines))
     return "\n".join(lines) + "\n"
 
 
 # ------------------------------------------------------------------ Table 6: sensitivity summary
 def table6_sensitivity(S: Summary) -> str:
+    flagged: list[str] = []
+    marked: list[str] = []
     lines = header(
         "Sensitivity analyses at $\\alpha = 0.10$ with LightGBM. Each cell gives the water-body-averaged "
         "coverage with the median multiplicative width in parentheses, as the mean over repeats. The first row "
@@ -422,8 +471,8 @@ def table6_sensitivity(S: Summary) -> str:
             cells = []
             for t in TARGETS:
                 base = cell_key(t, sensor, protocol, population, "lgbm", method, ALPHA_TAG, "")
-                cov = cov_cell(S, base)
-                wid = width_cell(S, base, "lgbm")
+                cov = cov_cell(S, base, marked=marked)
+                wid = width_cell(S, base, "lgbm", flagged, f"{label}, {TARGET_HEAD[t]}")
                 cells.append(NA if cov == NA else f"{cov} ({wid})")
             if all(c == NA for c in cells):
                 continue
@@ -433,10 +482,9 @@ def table6_sensitivity(S: Summary) -> str:
         "a recorded depth of at least 3 m; Secchi rows with any recorded depth; exclusion of rows with a "
         "non-positive band (exploratory). Strict band sets have no red-edge band, so the NDCI ratio feature is "
         "not used. The 5 km analysis replaces the 2 km water-body unit everywhere, including the metric unit. "
-        "Widths marked " + DAGGER + " are medians across splits rather than means (see "
-        "Table~\\ref{tab:coverage}). "
-        "Sensitivity cells use seeds 0 to 9, the primary cell seeds 0 to 19. "
-        "Cells marked " + NA + " were not available when this table was generated.")
+        + dagger_note(flagged, " (see Table~\\ref{tab:coverage})")
+        + "Sensitivity cells use seeds 0 to 9, the primary cell seeds 0 to 19. "
+        + na_note(lines))
     return "\n".join(lines) + "\n"
 
 
@@ -451,7 +499,7 @@ def table7_budget_local(S: Summary) -> str:
         "Local calibration budget at $\\alpha = 0.10$: water-body-averaged coverage when the $k$ earliest-dated "
         "samples of each test water body are added to calibration, evaluated on that water body's later samples "
         "only. Each cell gives the coverage with the infinite-interval rate in parentheses.",
-        "tab:localbudget", "@{}l" + "r" * len(LOCAL_VARIANTS) + "@{}", "2pt")
+        "tab:localbudget", "@{}l" + "r" * len(LOCAL_VARIANTS) + "@{}", "6pt")
     lines.append("Local samples & "
                  + " & ".join(v for _, v in LOCAL_VARIANTS) + r" \\")
     for target in LOCAL_TARGETS:
@@ -493,10 +541,125 @@ def table7_budget_local(S: Summary) -> str:
     return "\n".join(lines) + "\n"
 
 
+# ================================================================== Appendix C tables
+# REVIEW_full B4: Section 4.4 quotes coverages at alpha = 0.05 and 0.20 and Section 3.6 promises
+# per-sensor results, with no table behind either; the interval (Winkler) score was moved out of the
+# main coverage table and pointed at "the supplementary CSV". All three now appear in Appendix C.
+# AUDIT_4 A4-8 applies to the alpha = 0.05 block: `cov_cell` appends the number of splits with an
+# infinite conformal quantile, and the caption states that such a split counts as covered.
+APPENDIX_ALPHAS = [("a050", r"$\alpha = 0.05$"), ("a200", r"$\alpha = 0.20$")]
+APPENDIX_SENSORS = ["hyp", "msi", "olci"]
+
+
+def _cov_width_block(S: Summary, sensor: str, atag: str, caption: str, label: str,
+                     note_head: str) -> str:
+    """One coverage block and one width block for a single (sensor, alpha) combination.
+
+    A single float holding both nominal levels, or all three spectral configurations, is 200 to
+    460 pt taller than the text block, which LaTeX reports as "Float too large for page". Each
+    combination therefore gets its own float of 24 body rows."""
+    flagged: list[str] = []
+    marked: list[str] = []
+    lines = header(caption, label, "@{}l" + "r" * len(TARGETS) + "@{}", "6pt")
+    lines.append("Model and interval method & " + " & ".join(TARGET_HEAD[t] for t in TARGETS) + r" \\")
+    for title, stat in (("Coverage", "cov"), ("Median multiplicative width", "width")):
+        body = []
+        for model, method, name in METHOD_ROWS:
+            cells = []
+            for t in TARGETS:
+                base = cell_key(t, sensor, "waterbody", "primary", model, method, atag, "")
+                cells.append(cov_cell(S, base, marked=marked) if stat == "cov"
+                             else width_cell(S, base, model, flagged, f"{name}, {TARGET_HEAD[t]}"))
+            if all(c == NA for c in cells):
+                continue
+            body.append(" & ".join([rf"\quad {name}"] + cells) + r" \\")
+        if not body:
+            continue
+        lines.append(r"\midrule")
+        lines.append(rf"\multicolumn{{{1 + len(TARGETS)}}}{{@{{}}l}}{{\textit{{{title}}}}} \\")
+        lines += body
+    note = (note_head
+            + inf_note(marked)
+            + dagger_note(flagged, " because their mean is dominated by a minority of splits with unbounded "
+                                   "widths; the 2.5th and 97.5th percentiles of every such cell are in the "
+                                   "released ledger under the same key with the suffix "
+                                   "\\texttt{\\_p025} and \\texttt{\\_p975}")
+            + na_note(lines))
+    lines += footer(note)
+    return "\n".join(lines) + "\n"
+
+
+def tableC1_levels_a050(S: Summary) -> str:
+    return _cov_width_block(
+        S, "hyp", "a050",
+        "Water-body-averaged coverage and median multiplicative width at $\\alpha = 0.05$, water-body "
+        "protocol, hyperspectral features, primary populations. Mean over 20 repeats. The primary level "
+        "$\\alpha = 0.10$ is Table~\\ref{tab:coverage} and $\\alpha = 0.20$ is Table~\\ref{tab:levels200}.",
+        "tab:levels050", "Nominal coverage is 0.95. ")
+
+
+def tableC1_levels_a200(S: Summary) -> str:
+    return _cov_width_block(
+        S, "hyp", "a200",
+        "Water-body-averaged coverage and median multiplicative width at $\\alpha = 0.20$, water-body "
+        "protocol, hyperspectral features, primary populations. Mean over 20 repeats. The primary level "
+        "$\\alpha = 0.10$ is Table~\\ref{tab:coverage} and $\\alpha = 0.05$ is Table~\\ref{tab:levels050}.",
+        "tab:levels200", "Nominal coverage is 0.80. ")
+
+
+def tableC2_sensors_msi(S: Summary) -> str:
+    return _cov_width_block(
+        S, "msi", ALPHA_TAG,
+        "Water-body-averaged coverage and median multiplicative width for the Sentinel-2A MSI band set "
+        "(B1 to B6) at $\\alpha = 0.10$, water-body protocol, primary populations. Mean over 20 repeats. "
+        "The hyperspectral cell is Table~\\ref{tab:coverage} and Sentinel-3A OLCI is "
+        "Table~\\ref{tab:sensorolci}.",
+        "tab:sensormsi", "Band sets are defined in Section~\\ref{sec:bands}. ")
+
+
+def tableC2_sensors_olci(S: Summary) -> str:
+    return _cov_width_block(
+        S, "olci", ALPHA_TAG,
+        "Water-body-averaged coverage and median multiplicative width for the Sentinel-3A OLCI band set "
+        "(Oa2 to Oa11) at $\\alpha = 0.10$, water-body protocol, primary populations. Mean over 20 "
+        "repeats. The hyperspectral cell is Table~\\ref{tab:coverage} and Sentinel-2A MSI is "
+        "Table~\\ref{tab:sensormsi}.",
+        "tab:sensorolci", "Band sets are defined in Section~\\ref{sec:bands}. ")
+
+
+def tableC3_score(S: Summary) -> str:
+    """Interval (Winkler) score, moved out of the main coverage table."""
+    lines = header(
+        "Interval score of Eq.~(\\ref{eq:winkler}) at $\\alpha = 0.10$, water-body protocol, hyperspectral "
+        "features, primary populations, in $\\log_{10}$ units. Mean over 20 repeats of the water-body average. "
+        "Lower is better, and the score rewards a narrow interval only when it covers.",
+        "tab:score", "@{}l" + "r" * len(TARGETS) + "@{}", "6pt")
+    lines.append("Model and interval method & " + " & ".join(TARGET_HEAD[t] for t in TARGETS) + r" \\")
+    lines.append(r"\midrule")
+    for model, method, name in METHOD_ROWS:
+        cells = [S.fmt(cell_key(t, "hyp", "waterbody", "primary", model, method, ALPHA_TAG,
+                                "winkler_wb_mean")) for t in TARGETS]
+        if all(c == NA for c in cells):
+            continue
+        lines.append(" & ".join([rf"\quad {name}"] + cells) + r" \\")
+    lines += footer(
+        "The interval score is not comparable across targets, because each is a $\\log_{10}$ concentration on "
+        "its own scale; it ranks methods within a column. A cell whose interval is unbounded in some splits "
+        "carries an unbounded score in those splits, so the rows of the normalized conformal method on "
+        "$a_\\mathrm{CDOM}(440)$ should be read with the widths of Table~\\ref{tab:coverage}. "
+        + na_note(lines))
+    return "\n".join(lines) + "\n"
+
+
 # ------------------------------------------------------------------ main
 TABLES = {"table3_point": table3_point, "table4_coverage": table4_coverage,
           "table5_worstgroup": table5_worstgroup, "table6_sensitivity": table6_sensitivity,
-          "table7_budget_local": table7_budget_local}
+          "table7_budget_local": table7_budget_local,
+          "tableC1_levels_a050": tableC1_levels_a050,
+          "tableC1_levels_a200": tableC1_levels_a200,
+          "tableC2_sensors_msi": tableC2_sensors_msi,
+          "tableC2_sensors_olci": tableC2_sensors_olci,
+          "tableC3_score": tableC3_score}
 
 
 def main(argv=None):

@@ -498,6 +498,19 @@ def marked_preprint(e: dict) -> bool:
             or "ssrn" in blob)
 
 
+# DOIs that are reserved but deliberately not yet registered with DataCite or Crossref, so a
+# resolution failure is the expected state rather than a defect. A key listed here still has every
+# other field checked; only the "did not resolve" failure is downgraded to a note, and the reason
+# must be recorded next to it.
+#   GoenkaZenodo  the study's own Zenodo archive. The concept DOI 10.5281/zenodo.22791749 was
+#                 reserved on 2026-09-16 while the record is still a draft; Zenodo registers a
+#                 reserved DOI with DataCite only when the record is published, which happens on
+#                 acceptance. Remove this entry once the record is public and the DOI resolves.
+UNRESOLVABLE_BY_DESIGN = {
+    "GoenkaZenodo": "reserved Zenodo draft DOI; registered with DataCite only on publication",
+}
+
+
 def check_entry(net: Net, e: dict) -> tuple[list[str], list[str], Record | None]:
     """Return (failures, notes, record)."""
     fails: list[str] = []
@@ -509,7 +522,11 @@ def check_entry(net: Net, e: dict) -> tuple[list[str], list[str], Record | None]
     if doi:
         rec = fetch_record(net, doi)
         if rec is None:
-            fails.append(f"DOI {doi} did not resolve on Crossref or DataCite")
+            msg = f"DOI {doi} did not resolve on Crossref or DataCite"
+            if key in UNRESOLVABLE_BY_DESIGN:
+                notes.append(msg + f" (expected: {UNRESOLVABLE_BY_DESIGN[key]})")
+            else:
+                fails.append(msg)
         else:
             notes.append(f"resolved on {rec.source}")
             if doi.lower().startswith("http") or doi.lower().startswith("doi:"):
@@ -619,6 +636,64 @@ def check_entry(net: Net, e: dict) -> tuple[list[str], list[str], Record | None]
     return fails, notes, rec
 
 
+# ----------------------------------------------------------------------------- BibTeX log
+#
+# REVIEW_full_v2 V1. This checker reads refs.bib directly, so it cannot see a BibTeX *parse* error:
+# an inline `%` comment inside `@article{TM2026,` aborted that entry, BibTeX skipped the rest of it,
+# and the compiled PDF printed an empty reference and an author-less in-text citation. Nothing in
+# the build failed. `paper/main.blg` is the only place that records it, so it is checked here.
+#
+# Accepted warnings. `Warning--empty pages in <key>` is raised for the five NeurIPS proceedings
+# entries, which are cited by their official proceedings URL and carry no page range in the online
+# record. Each is listed by key below with that reason; any warning for any other key, and any
+# warning of any other kind, fails the check.
+BLG_ACCEPTED_WARNINGS = {
+    "empty pages in Ke2017": "NeurIPS 30 proceedings entry, cited by proceedings URL; no pages online",
+    "empty pages in Lakshminarayanan2017": "NeurIPS 30 proceedings entry, cited by proceedings URL; no pages online",
+    "empty pages in Paszke2019": "NeurIPS 32 proceedings entry, cited by proceedings URL; no pages online",
+    "empty pages in Romano2019": "NeurIPS 32 proceedings entry, cited by proceedings URL; no pages online",
+    "empty pages in Tibshirani2019": "NeurIPS 32 proceedings entry, cited by proceedings URL; no pages online",
+}
+
+
+def check_blg(blg_path: Path) -> tuple[list[str], list[str]]:
+    """Parse paper/main.blg. Return (failures, notes). Any error message, any unaccepted warning
+    and any missing-field warning is a failure."""
+    fails: list[str] = []
+    notes: list[str] = []
+    if not blg_path.exists():
+        return [f"{blg_path} does not exist; run bibtex before this checker"], notes
+    text = read_text(blg_path)
+
+    n_err = 0
+    m = re.search(r"\(There (?:was|were) (\d+) error messages?\)", text)
+    if m:
+        n_err = int(m.group(1))
+    for line in text.splitlines():
+        s = line.strip()
+        if not s:
+            continue
+        # BibTeX reports parse errors as free text, e.g. "You're missing a field name---line 453 ..."
+        if re.search(r"---line \d+ of file|I'm skipping whatever remains of this entry"
+                     r"|Illegal, another \\bibstyle|Sorry---you've exceeded", s):
+            fails.append(f"BibTeX error: {s}")
+        if s.startswith("Warning--"):
+            w = s[len("Warning--"):].strip()
+            if w in BLG_ACCEPTED_WARNINGS:
+                notes.append(f"accepted warning: {w} ({BLG_ACCEPTED_WARNINGS[w]})")
+            else:
+                fails.append(f"BibTeX warning: {w}")
+        if re.match(r"Repeated entry|Duplicate entry", s):
+            fails.append(f"BibTeX: {s}")
+    n_warn_total = len(re.findall(r"^Warning--", text, re.M))
+    n_warn_unaccepted = n_warn_total - len(notes)
+    if n_err:
+        fails.append(f"main.blg reports {n_err} error message(s)")
+    notes.append(f"main.blg: {n_err} errors, {n_warn_total} warnings "
+                 f"({len(notes)} accepted, {n_warn_unaccepted} not accepted)")
+    return fails, notes
+
+
 # ----------------------------------------------------------------------------- report
 
 MARKER = "<!-- AUTOGENERATED SECTION: check_references.py -- edits below the closing marker are kept -->"
@@ -671,9 +746,21 @@ def main() -> int:
     ap.add_argument("--tex", default=str(root / "paper" / "main.tex"))
     ap.add_argument("--out", default=str(root / "research" / "REFERENCE_AUDIT.md"))
     ap.add_argument("--cache", default=str(root / "research" / ".refcache.json"))
+    ap.add_argument("--blg", default=str(root / "paper" / "main.blg"))
     ap.add_argument("--refresh", action="store_true")
     ap.add_argument("--offline", action="store_true")
+    ap.add_argument("--blg-only", action="store_true",
+                    help="check paper/main.blg only; skip the metadata verification")
     args = ap.parse_args()
+
+    blg_fails, blg_notes = check_blg(Path(args.blg))
+    for s in blg_notes:
+        print(f"[blg] {s}")
+    for s in blg_fails:
+        print(f"[blg] FAIL {s}")
+    if args.blg_only:
+        print(f"\nblg failures {len(blg_fails)}")
+        return 1 if blg_fails else 0
 
     bib_path, tex_path, out_path = Path(args.bib), Path(args.tex), Path(args.out)
     entries = parse_bib(read_text(bib_path))
@@ -708,9 +795,10 @@ def main() -> int:
 
     n_fail = sum(1 for r in results if r["fails"])
     print(f"\nentries {len(entries)}; mismatched {n_fail}; uncited {len(uncited)}; "
-          f"missing {len(missing)}; duplicate keys {len(dupes)}; API errors {len(set(net.errors))}")
+          f"missing {len(missing)}; duplicate keys {len(dupes)}; API errors {len(set(net.errors))}; "
+          f"blg failures {len(blg_fails)}")
     print(f"report written to {out_path}")
-    bad = n_fail or uncited or missing or dupes or net.errors
+    bad = n_fail or uncited or missing or dupes or net.errors or blg_fails
     return 1 if bad else 0
 
 

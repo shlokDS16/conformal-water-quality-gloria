@@ -1,0 +1,25 @@
+\begin{table*}[!tp]
+\centering
+\caption{Interval score of Eq.~(\ref{eq:winkler}) at $\alpha = 0.10$, water-body protocol, hyperspectral features, primary populations, in $\log_{10}$ units. Mean over 20 repeats of the water-body average. Lower is better, and the score rewards a narrow interval only when it covers.}
+\label{tab:score}
+\footnotesize
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Model and interval method & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
+\midrule
+\quad MDN, mixture quantiles & 1.67 & 2.33 & 2.42 & 1.27 \\
+\quad MDN, recal. (train) & 1.55 & 1.97 & 2.18 & 1.15 \\
+\quad MDN, recal. (calib.) & 1.53 & 1.93 & 2.14 & 1.13 \\
+\quad MDN, norm. conf. (pooled) & 1.55 & 2.00 & 2.27 & 1.20 \\
+\quad MDN, norm. conf. (subs.) & 1.58 & 2.01 & 2.22 & 1.17 \\
+\quad LightGBM, Gaussian & 1.53 & 2.01 & 2.13 & 1.23 \\
+\quad LightGBM, split conf. (pooled) & 1.53 & 2.05 & 2.21 & 1.26 \\
+\quad LightGBM, split conf. (subs.) & 1.58 & 2.04 & 2.19 & 1.24 \\
+\quad LightGBM, CQR (pooled) & 1.53 & 1.82 & 2.00 & 1.12 \\
+\quad LightGBM, CQR (subs.) & 1.60 & 1.80 & 1.99 & 1.10 \\
+\quad LightGBM, group CV+ & 1.48 & 1.94 & 2.08 & 1.18 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize The interval score is not comparable across targets, because each is a $\log_{10}$ concentration on its own scale; it ranks methods within a column. A cell whose interval is unbounded in some splits carries an unbounded score in those splits, so the rows of the normalized conformal method on $a_\mathrm{CDOM}(440)$ should be read with the widths of Table~\ref{tab:coverage}. 
+\end{table*}

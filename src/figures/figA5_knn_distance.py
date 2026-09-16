@@ -100,9 +100,9 @@ def binned(target: str) -> dict:
 def main() -> None:
     args = R.cli(__doc__)
     S.apply()
-    fig, axes = plt.subplots(2, len(R.TARGETS), figsize=(S.DOUBLE_COL, 4.1))
-    fig.subplots_adjust(left=0.10, right=0.993, top=0.94, bottom=0.28, wspace=0.32, hspace=0.22)
-    fig.supxlabel("Mean distance to the five nearest training spectra", fontsize=S.SIZE_LABEL, y=0.205)
+    fig, axes = plt.subplots(2, len(R.TARGETS), figsize=(S.DOUBLE_COL, 4.2))
+    fig.subplots_adjust(left=0.10, right=0.993, top=0.94, bottom=0.29, wspace=0.32, hspace=0.32)
+    fig.supxlabel("Mean distance to the five nearest training spectra", fontsize=S.SIZE_LABEL, y=0.175)
     for j, target in enumerate(R.TARGETS):
         b = binned(target)
         ax, axw = axes[0, j], axes[1, j]
@@ -130,10 +130,10 @@ def main() -> None:
         if j == 0:
             ax.set_ylabel("Coverage")
             axw.set_ylabel("Median width")
-        S.panel_letter(ax, "abcd"[j], x=-0.02, y=1.01)
-        S.panel_letter(axw, "efgh"[j], x=-0.02, y=1.01)
+        S.panel_letter(ax, "abcd"[j], x=0.0, y=1.02, ha="left", va="bottom")
+        S.panel_letter(axw, "efgh"[j], x=0.0, y=1.02, ha="left", va="bottom")
     h, l = axes[0, 0].get_legend_handles_labels()
-    fig.legend(h, l, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.005), handletextpad=0.4,
+    fig.legend(h, l, loc="lower center", ncol=3, bbox_to_anchor=(0.5, 0.01), handletextpad=0.4,
                columnspacing=1.2)
     S.save(fig, NAME, R.outdir_of(args))
 

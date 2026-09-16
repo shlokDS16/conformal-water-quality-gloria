@@ -319,6 +319,11 @@ txt.all.n_rows,7572,integer,data/processed/gloria.parquet,all rows (Fig. 1 box 1
 txt.all.n_qc_primary,6957,integer,data/processed/gloria.parquet,qc_primary (Fig. 1 box 2)
 txt.all.n_wb_group,387,integer,data/processed/gloria.parquet,all rows; nunique wb_group
 txt.all.n_wb_5km,340,integer,data/processed/gloria.parquet,all rows; nunique wb_5km
+txt.all.n_qc_strict,5793,integer,data/processed/gloria.parquet,qc_strict (every flagged spectrum dropped); a subset of qc_primary
+txt.all.n_wb_raw_names,486,integer,data/interim/wb_groups.csv,nunique raw_name (Site_name as supplied)
+txt.all.n_wb_norm_names,473,integer,data/interim/wb_groups.csv,nunique normalised_name (before the 2 km link)
+txt.all.wb_group_max_samples,614,integer,data/processed/gloria.parquet,all rows; largest number of samples in one wb_group
+txt.all.wb_group_median_samples,4.0,"integer (median, half up)",data/processed/gloria.parquet,all rows; median number of samples per wb_group
 txt.n_manual_merge_sets,8,integer,src/data/groups.py,len(MANUAL_MERGES) + len(EXTRA_MERGES); name sets merged by override
 txt.all.n_wb_group_extent_gt200km,17,integer,data/processed/gloria.parquet,all rows with coordinates; wb_group with max pairwise haversine distance > 200 km
 txt.Chla.primary.n_fluorometry,1610,integer,data/processed/gloria.parquet,chla_primary & chl_technique == fluorometry
@@ -332,6 +337,8 @@ txt.dup_spectrum.n_sets,40,integer,data/processed/gloria.parquet,spec_hash value
 txt.dup_spectrum.n_sets_label_conflict,31,integer,data/processed/gloria.parquet,identical-spectrum sets whose rows differ in any non-null target value
 txt.primary_union.n_dup_spectrum_label_conflict,64,integer,data/processed/gloria.parquet,rows of label-conflict sets in the union of the four primary populations
 txt.srf.min_frac_integral_in_support,0.9987537626252008,"percent, 2 decimals, rounded down",data/interim/srf_bands.csv,S2A B1-B6 and S3A Oa2-Oa11; min frac_integral_in_support
+txt.srf.frac_spectra.Oa1,0.3677,"percent, integer",data/interim/band_coverage.csv,"S3A Oa1; frac_primary_qc, the same column Table A.3 prints as Spectra"
+txt.srf.frac_spectra.Oa12,0.8772,"percent, integer",data/interim/band_coverage.csv,"S3A Oa12; frac_primary_qc, the same column Table A.3 prints as Spectra"
 txt.irrad.max_median_rel_diff,0.0045151117126692,"percent, 2 decimals, rounded up",data/interim/irradiance_weighting.csv,S2A B1-B6 and S3A Oa2-Oa11; max over bands of median relative difference
 txt.msi_B2.positive_p05,0.0013851578940897204,3 significant figures (sr^-1),data/processed/gloria.parquet,all rows; msi_B2 > 0; 5th percentile (linear)
 fig02.union_primary.n_rows,6401,integer,data/processed/gloria.parquet,union of primary populations
