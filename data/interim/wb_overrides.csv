@@ -1,0 +1,11 @@
+rule,names,reason,source
+merge,ijsselmeer | ijsselmeer de oude zeug,same lake; station 24.9 km from main samples,AUDIT_1 L2
+merge,"aransas bay, tx | aransas pass, tx | aransas channel, tx | lydia ann channel, tx","connected Aransas estuary channels, 8-18 km apart",AUDIT_1 L2
+merge,minnetonka halstead's bay | minnetonka maxwell bay | minnetonka north arm | minnetonka stubbs bay | minnetonka upper lake | minnetonka west arm | minnetonka west upper lake,"bays and arms of Lake Minnetonka, 4-7 km apart",AUDIT_1 L2
+merge,amsterdam-rhine canal | amsterdam-rijn kanaal weesp,"same canal, English and Dutch names, 14.7 km",AUDIT_1 L2
+merge,"gulf of mexico, la | northern gulf of mexico","same sea (Louisiana shelf), closest samples 2.4 km",pipeline review of candidates
+merge,ijmeer durgerdam | markermeer de hemmelanden,"IJmeer is the south-western part of Markermeer, 9.9 km",pipeline review of candidates
+merge,sognefjord | sognefjord/north sea,same fjord (inner fjord and fjord mouth),pipeline review of candidates
+merge,south china sea | south china sea (bornean coast),"same named sea, same macro-region (1 Bornean sample)",pipeline review of candidates
+split by macro-region,atlantic ocean,"one raw name covers Bay of Biscay/Galicia (Europe, 14 rows) and US East Coast/Bahamas (North America, 48 rows)",AUDIT_1 L2
+region override,Guiana,Country = France but French Guiana lies in South America,pipeline review

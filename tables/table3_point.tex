@@ -1,0 +1,44 @@
+\begin{table*}[!tp]
+\centering
+\caption{Point accuracy under the water-body protocol. Each cell gives the median symmetric accuracy MdSA with the symmetric signed percentage bias SSPB in parentheses, both in per cent, as the mean over repeats.}
+\label{tab:point}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Model & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
+ & MdSA (SSPB) & MdSA (SSPB) & MdSA (SSPB) & MdSA (SSPB) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Hyperspectral, 405 to 745 nm}} \\
+\quad Training median & 328 (86) & 156 (10) & 166 (45) & 118 (16) \\
+\quad Ridge, log bands & 54 (-7) & 69 (2) & 66 (-6) & 41 (7) \\
+\quad Empirical, OC ratio & 101 (21) & n.a. & n.a. & n.a. \\
+\quad Empirical, NDCI & 57 (-5) & n.a. & n.a. & n.a. \\
+\quad Empirical, Nechad & n.a. & 83 (7) & n.a. & n.a. \\
+\quad Empirical, band ratio & n.a. & n.a. & 81 (-5) & 56 (4) \\
+\quad LightGBM & 44 (-1) & 71 (1) & 71 (5) & 39 (6) \\
+\quad MDN & 41 (-0) & 59 (-1) & 63 (8) & 31 (4) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{S2A MSI B1 to B6}} \\
+\quad Training median & 328 (86) & 156 (10) & 166 (45) & 118 (16) \\
+\quad Ridge, log bands & 57 (-7) & 72 (4) & 69 (-6) & 43 (7) \\
+\quad Empirical, OC ratio & 104 (20) & n.a. & n.a. & n.a. \\
+\quad Empirical, NDCI & 59 (-7) & n.a. & n.a. & n.a. \\
+\quad Empirical, Nechad & n.a. & 82 (7) & n.a. & n.a. \\
+\quad Empirical, band ratio & n.a. & n.a. & 79 (-5) & 56 (4) \\
+\quad LightGBM & 45 (-1) & 78 (-1) & 78 (5) & 41 (5) \\
+\quad MDN & 41 (4) & 63 (-3) & 69 (12) & 33 (7) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{S3A OLCI Oa2 to Oa11}} \\
+\quad Training median & 326 (85) & 156 (10) & 165 (45) & 118 (15) \\
+\quad Ridge, log bands & 57 (-7) & 69 (4) & 64 (-5) & 42 (6) \\
+\quad Empirical, OC ratio & 103 (22) & n.a. & n.a. & n.a. \\
+\quad Empirical, NDCI & 60 (-7) & n.a. & n.a. & n.a. \\
+\quad Empirical, Nechad & n.a. & 83 (7) & n.a. & n.a. \\
+\quad Empirical, band ratio & n.a. & n.a. & 82 (-4) & 56 (4) \\
+\quad LightGBM & 47 (-3) & 75 (-0) & 74 (5) & 40 (6) \\
+\quad MDN & 41 (2) & 63 (-3) & 65 (10) & 33 (4) \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize Water-body protocol, primary population. MdSA and SSPB follow Morley et al. (2018); log-MAE, log-bias and log-RMSE for the same cells are in the supplementary CSV. Empirical rows appear only for the targets that define them (OC-type and NDCI for Chl-a, Nechad-type for TSS, band-ratio regressions for $a_\mathrm{CDOM}(440)$ and Secchi depth). The refitted OC-type polynomial extrapolates without bound outside its training range of the band ratio, which is visible in its accuracy here and in its interval widths in Table~\ref{tab:coverage}. Point accuracy is read from the point rows of the metrics files, never from interval rows. Cells marked n.a. were not available when this table was generated.
+\end{table*}

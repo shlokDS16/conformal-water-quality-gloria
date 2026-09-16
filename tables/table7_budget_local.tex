@@ -1,0 +1,45 @@
+\begin{table*}[!tp]
+\centering
+\caption{Local calibration budget at $\alpha = 0.10$: water-body-averaged coverage when the $k$ earliest-dated samples of each test water body are added to calibration, evaluated on that water body's later samples only. Each cell gives the coverage with the infinite-interval rate in parentheses.}
+\label{tab:localbudget}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Local samples & Global & Global and local & Local only & Hybrid \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Chl-a, split conformal}} \\
+\quad $k = 0$ & 0.884 (0.00) & 0.884 (0.00) & inf.\ int. & 0.884 (0.00) \\
+\quad $k = 1$ & 0.884 (0.00) & 0.885 (0.00) & inf.\ int. & 0.885 (0.00) \\
+\quad $k = 2$ & 0.884 (0.00) & 0.887 (0.00) & inf.\ int. & 0.887 (0.00) \\
+\quad $k = 5$ & 0.884 (0.00) & 0.893 (0.00) & inf.\ int. & 0.893 (0.00) \\
+\quad $k = 10$ & 0.884 (0.00) & 0.886 (0.00) & 0.814 (0.00) & 0.814 (0.00) \\
+\quad $k = 20$ & 0.884 (0.00) & 0.882 (0.00) & 0.826 (0.00) & 0.826 (0.00) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Chl-a, CQR}} \\
+\quad $k = 0$ & 0.894 (0.00) & 0.894 (0.00) & inf.\ int. & 0.894 (0.00) \\
+\quad $k = 1$ & 0.894 (0.00) & 0.896 (0.00) & inf.\ int. & 0.896 (0.00) \\
+\quad $k = 2$ & 0.894 (0.00) & 0.898 (0.00) & inf.\ int. & 0.898 (0.00) \\
+\quad $k = 5$ & 0.894 (0.00) & 0.901 (0.00) & inf.\ int. & 0.901 (0.00) \\
+\quad $k = 10$ & 0.894 (0.00) & 0.888 (0.00) & 0.794 (0.00) & 0.794 (0.00) \\
+\quad $k = 20$ & 0.894 (0.00) & 0.882 (0.00) & 0.802 (0.00) & 0.802 (0.00) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{TSS, split conformal}} \\
+\quad $k = 0$ & 0.904 (0.00) & 0.904 (0.00) & inf.\ int. & 0.904 (0.00) \\
+\quad $k = 1$ & 0.904 (0.00) & 0.907 (0.00) & inf.\ int. & 0.907 (0.00) \\
+\quad $k = 2$ & 0.904 (0.00) & 0.907 (0.00) & inf.\ int. & 0.907 (0.00) \\
+\quad $k = 5$ & 0.904 (0.00) & 0.910 (0.00) & inf.\ int. & 0.910 (0.00) \\
+\quad $k = 10$ & 0.904 (0.00) & 0.908 (0.00) & 0.829 (0.00) & 0.829 (0.00) \\
+\quad $k = 20$ & 0.904 (0.00) & 0.910 (0.00) & 0.857 (0.00) & 0.857 (0.00) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{TSS, CQR}} \\
+\quad $k = 0$ & 0.921 (0.00) & 0.921 (0.00) & inf.\ int. & 0.921 (0.00) \\
+\quad $k = 1$ & 0.921 (0.00) & 0.923 (0.00) & inf.\ int. & 0.923 (0.00) \\
+\quad $k = 2$ & 0.921 (0.00) & 0.923 (0.00) & inf.\ int. & 0.923 (0.00) \\
+\quad $k = 5$ & 0.921 (0.00) & 0.926 (0.00) & inf.\ int. & 0.926 (0.00) \\
+\quad $k = 10$ & 0.921 (0.00) & 0.921 (0.00) & 0.817 (0.00) & 0.817 (0.00) \\
+\quad $k = 20$ & 0.921 (0.00) & 0.923 (0.00) & 0.855 (0.00) & 0.855 (0.00) \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize Local samples are the earliest-dated samples of the test water body, so no later sample informs its own interval; the evaluation set is held fixed across $k$ (water bodies with more than 20 dated samples, on average 7.5 water bodies per split for Chl-a). \textit{inf.\ int.} marks a cell whose interval is infinite in every split, which happens whenever the number of calibration scores is below $\lceil 1/\alpha \rceil - 1 = 9$: the conformal rank $\lceil (1-\alpha)(k+1) \rceil$ then exceeds $k$ (Eq.~(\ref{eq:qhat})). Such a cell has a coverage of 1.000 by construction and is not a coverage result. The bracketed number is the infinite-interval rate of the cell. All rows are exploratory (Section~\ref{sec:stats}).
+\end{table*}

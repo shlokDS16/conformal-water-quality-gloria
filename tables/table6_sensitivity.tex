@@ -1,0 +1,35 @@
+\begin{table*}[!tp]
+\centering
+\caption{Sensitivity analyses at $\alpha = 0.10$ with LightGBM. Each cell gives the water-body-averaged coverage with the median multiplicative width in parentheses, as the mean over repeats. The first row of each block is the primary cell for reference.}
+\label{tab:sensitivity}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Analysis & Chl-a & TSS & $a_\mathrm{CDOM}(440)$ & Secchi \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Split conformal, subsampled}} \\
+\quad Primary cell (reference) & 0.901 (15.5) & 0.905 (38.9) & 0.903 (42.3) & 0.895 (7.32) \\
+\quad All quality flags dropped & 0.905 (18.8) & 0.916 (51.8) & 0.899 (64.9) & 0.892 (9.26) \\
+\quad Chl-a HPLC or corrected & 0.908 (32.7) & n.a. & n.a. & n.a. \\
+\quad Depth at least 3 m & 0.933 (21.7) & 0.891 (34.9) & 0.913 (70.7) & 0.900 (7.06) \\
+\quad Secchi rows with a depth & n.a. & n.a. & n.a. & 0.893 (9.06) \\
+\quad Non-positive bands excluded & 0.914 (20.2) & 0.901 (34.8) & 0.898 (42.4) & 0.889 (7.83) \\
+\quad Water bodies at 5 km & 0.906 (15.3) & 0.887 (29.8) & 0.899 (45.4) & 0.925 (8.09) \\
+\quad Strict MSI, B1 to B4 & 0.895 (53.9) & 0.890 (38.6) & 0.911 (56.1) & 0.914 (10.0) \\
+\quad Strict OLCI, Oa2 to Oa10 & 0.908 (47.3) & 0.890 (33.2) & 0.906 (49.8) & 0.914 (9.62) \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{CQR, subsampled}} \\
+\quad Primary cell (reference) & 0.916 (19.7) & 0.910 (34.6) & 0.896 (33.3) & 0.894 (6.79) \\
+\quad All quality flags dropped & 0.901 (29.3) & 0.922 (48.9) & 0.918 (57.8) & 0.899 (8.20) \\
+\quad Chl-a HPLC or corrected & 0.927 (43.1) & n.a. & n.a. & n.a. \\
+\quad Depth at least 3 m & 0.929 (22.0) & 0.885 (31.2) & 0.916 (40.0) & 0.895 (5.70) \\
+\quad Secchi rows with a depth & n.a. & n.a. & n.a. & 0.914 (8.89) \\
+\quad Non-positive bands excluded & 0.912 (19.9) & 0.901 (33.9) & 0.907 (34.3) & 0.885 (6.43) \\
+\quad Water bodies at 5 km & 0.897 (18.1) & 0.884 (23.4) & 0.917 (37.2) & 0.918 (6.50) \\
+\quad Strict MSI, B1 to B4 & 0.889 (54.3) & 0.904 (51.8) & 0.920 (40.3) & 0.897 (8.40) \\
+\quad Strict OLCI, Oa2 to Oa10 & 0.889 (38.2) & 0.903 (43.4) & 0.916 (39.6) & 0.898 (7.76) \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize Populations: drop-all-flagged quality control; the Chl-a HPLC or phaeophytin-corrected subset; rows with a recorded depth of at least 3 m; Secchi rows with any recorded depth; exclusion of rows with a non-positive band (exploratory). Strict band sets have no red-edge band, so the NDCI ratio feature is not used. The 5 km analysis replaces the 2 km water-body unit everywhere, including the metric unit. Widths marked $^{\dagger}$ are medians across splits rather than means (see Table~\ref{tab:coverage}). Sensitivity cells use seeds 0 to 9, the primary cell seeds 0 to 19. Cells marked n.a. were not available when this table was generated.
+\end{table*}

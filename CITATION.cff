@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this software or the derived data, please cite the article and this software record."
+title: "Group-aware conformal calibration for water-quality retrieval: marginal validity under water-body shift, poor conditional coverage: code and derived data"
+abstract: >-
+  Code, derived data tables and reproduction instructions for the study of group-aware conformal
+  calibration for hyperspectral water-quality retrieval (chlorophyll-a, total suspended solids,
+  Secchi depth, aCDOM(440)) under water-body and regional shift, using the GLORIA dataset with
+  Sentinel-2 MSI and Sentinel-3 OLCI band simulation.
+type: software
+version: "v1.0.0"
+date-released: "2026-09-16"
+license: MIT
+authors:
+  - family-names: Goenka
+    given-names: "Shlok Kumar"
+    email: shlok.goenka2023@vitstudent.ac.in
+    affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, 632014, Tamil Nadu, India"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"   # ORCID pending, add before release
+  - family-names: Manjula
+    given-names: "R."
+    email: rmanjula@vit.ac.in
+    affiliation: "School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, 632014, Tamil Nadu, India"
+    # orcid: "https://orcid.org/XXXX-XXXX-XXXX-XXXX"   # ORCID pending, add before release
+keywords:
+  - water quality
+  - conformal prediction
+  - uncertainty quantification
+  - domain shift
+  - Sentinel-3 OLCI
+  - chlorophyll-a
+# repository-code: "https://github.com/OWNER/REPO"        # fill in after the repository exists
+# identifiers:
+#   - type: doi
+#     value: "10.5281/zenodo.XXXXXXX"                     # fill in after the Zenodo deposit
+#     description: "Archived code, derived data and full result set"
+references:
+  - type: data
+    title: "GLORIA - A global dataset of remote sensing reflectance and water quality from inland and coastal waters"
+    authors:
+      - name: "The GLORIA data contributors"
+    year: 2022
+    doi: "10.1594/PANGAEA.948492"
+    license: CC-BY-4.0
+    notes: "Raw data, cited and not redistributed. Data descriptor: Lehmann, M.K. et al., 2023, Scientific Data 10:100, doi:10.1038/s41597-023-01973-y"

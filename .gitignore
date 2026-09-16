@@ -1,0 +1,38 @@
+# Raw third-party data: never committed. GLORIA is cited, not redistributed
+# (see README.md, "Data provenance"); the Sentinel SRF files are fetched by src/data/srf.py.
+data/raw/
+
+# Experiment output: about 1.55 GB, archived on Zenodo instead (see README.md).
+results/
+logs/
+build/
+
+# Working manuscript build artefacts. Figure PDFs ARE tracked (see the negation below).
+*.pdf
+!figures/*.pdf
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,35 @@
+\begin{table*}[!tp]
+\centering
+\caption{GLORIA samples per target after quality control and label rules. Band counts refer to rows with complete features for the sensor.}
+\label{tab:data}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+ & \begin{tabular}[b]{@{}r@{}}Chl-a\\(mg\,m$^{-3}$)\end{tabular} & \begin{tabular}[b]{@{}r@{}}TSS\\(g\,m$^{-3}$)\end{tabular} & \begin{tabular}[b]{@{}r@{}}$a_\mathrm{CDOM}(440)$\\(m$^{-1}$)\end{tabular} & \begin{tabular}[b]{@{}r@{}}Secchi\\depth (m)\end{tabular} \\
+\midrule
+\multicolumn{5}{@{}l}{\textit{Samples}} \\
+\quad Target $>0$, no QC & 5,131 & 4,621 & 4,387 & 3,945 \\
+\quad Target $>0$, primary QC & 4,761 & 4,357 & 4,101 & 3,723 \\
+\quad Primary population$^{a}$ & 4,475 & 4,357 & 4,101 & 3,709 \\
+\multicolumn{5}{@{}l}{\textit{Units in the primary population}} \\
+\quad Water bodies, 2 km & 257 & 313 & 250 & 330 \\
+\quad Water bodies, 5 km & 238 & 269 & 218 & 290 \\
+\quad Datasets & 43 & 38 & 38 & 33 \\
+\quad Macro-regions & 6 & 6 & 6 & 6 \\
+\multicolumn{5}{@{}l}{\textit{Target value}} \\
+\quad Median & 9.95 & 9.67 & 0.568 & 1.14 \\
+\quad 5th percentile & 0.451 & 0.800 & 0.0312 & 0.250 \\
+\quad 95th percentile & 111 & 76.5 & 4.31 & 6.50 \\
+\multicolumn{5}{@{}l}{\textit{Rows with complete features}} \\
+\quad Hyperspectral & 4,420 & 4,242 & 4,049 & 3,377 \\
+\quad S2A MSI & 4,420 & 4,242 & 4,049 & 3,377 \\
+\quad S3A OLCI & 4,427 & 4,250 & 4,057 & 3,384 \\
+\multicolumn{5}{@{}l}{\textit{Complete rows with a non-positive band}$^{b}$} \\
+\quad Hyperspectral & 232 & 14 & 215 & 15 \\
+\quad S2A MSI & 177 & 4 & 163 & 5 \\
+\quad S3A OLCI & 31 & 1 & 32 & 1 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize $^{a}$ Primary QC (no Suspect, QWIP\_fail, Baseline\_shift, Noisy\_red or Noisy\_blue flag), target $>0$; Chl-a without absorption line height estimates; Secchi depth without rows where it is at least 0.95 of the recorded water depth (bottom-limited). $^{b}$ Bands are floored at $10^{-5}$ sr$^{-1}$ before any logarithm or ratio. Hyperspectral: 405 to 745 nm at 5 nm; S2A MSI: B1 to B6; S3A OLCI: Oa2 to Oa11. S2A: Sentinel-2A; S3A: Sentinel-3A.
+\end{table*}
