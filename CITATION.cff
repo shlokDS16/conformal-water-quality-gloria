@@ -28,11 +28,11 @@ keywords:
   - domain shift
   - Sentinel-3 OLCI
   - chlorophyll-a
-# repository-code: "https://github.com/OWNER/REPO"        # fill in after the repository exists
-# identifiers:
-#   - type: doi
-#     value: "10.5281/zenodo.XXXXXXX"                     # fill in after the Zenodo deposit
-#     description: "Archived code, derived data and full result set"
+repository-code: "https://github.com/shlokDS16/conformal-water-quality-gloria"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.22791749"
+    description: "Archived code, derived data and full result set (Zenodo, reserved 2026-09-16)"
 references:
   - type: data
     title: "GLORIA - A global dataset of remote sensing reflectance and water quality from inland and coastal waters"

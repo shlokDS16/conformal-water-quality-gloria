@@ -74,8 +74,9 @@ The full experiment output (`results/core_v2`, `results/cvplus_v3`, `results/bud
 `results/sens_v2`, `results/noise_v2`) is about 1.55 GB across 9,926 files, so it is not in this
 repository. It is deposited on Zenodo together with a copy of this code and the derived data:
 
-> Zenodo DOI: **10.5281/zenodo.XXXXXXX** (fill in once the record is published; the reserved DOI
-> goes here before submission).
+> Zenodo DOI: **[10.5281/zenodo.22791749](https://doi.org/10.5281/zenodo.22791749)**
+> (reserved 2026-09-16; the record is a draft until the deposit is published, so the link starts
+> resolving only after publication).
 
 `tables/summary.csv` (the per-cell result ledger, 212,838 rows, 50.22 MiB) is **not** in this repository: it is above the 50 MiB per-file threshold above which GitHub warns, so it lives in the Zenodo record together with the raw result files. Rebuild it locally with `python -m src.make_summary` once `results/` is in place, or download it from Zenodo.
 
