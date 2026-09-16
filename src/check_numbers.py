@@ -186,6 +186,32 @@ def claims(vals: dict) -> list[tuple[str, str, str, str]]:
         ", ".join(fmt(vals[f"h2.{t}.reject_threshold"], "d3") for t in TARGETS[:3])
         + " and " + fmt(vals["h2.Secchi_depth.reject_threshold"], "d3"))
 
+    # ---- REVIEW_final F1: coverage by quintile of spectral distance to the training set.
+    # The sentence these keys back used to assert the opposite of the figure it cited and carried
+    # no key at all, which is exactly what this checker exists to prevent. The keys are written by
+    # src/analysis/conditional_shares.py through the figure's own binned() code path.
+    def knn(target: str, method: str, q: int) -> float:
+        return vals[f"cond.{target}.lgbm_{method}.knnq{q}.cov"]
+
+    for t, lo_hi in (("Chla", "0.930 to 0.865"), ("TSS", "0.887 to 0.847"),
+                     ("Secchi_depth", "0.919 to 0.848")):
+        add(f"knn.fall_{t}", "body", lo_hi,
+            f"{fmt(knn(t, 'scp_gsub', 1), 'd3')} to {fmt(knn(t, 'scp_gsub', 5), 'd3')}")
+    add("knn.rise_aCDOM440", "body", "from 0.817 to 0.922",
+        "from " + fmt(knn("aCDOM440", "scp_gsub", 1), "d3")
+        + " to " + fmt(knn("aCDOM440", "scp_gsub", 5), "d3"))
+    add("knn.cqr_aCDOM440", "body", "between 0.796 and 0.855",
+        rng(vals, [f"cond.aCDOM440.lgbm_cqr_gsub.knnq{q}.cov" for q in range(1, 6)], "d3")
+        .replace(" to ", " and ").replace("0.796", "between 0.796"))
+    # The direction claim itself: coverage must FALL from the first to the last quintile in
+    # exactly three of the four targets, and the fall must end below the tolerance in each.
+    falls = [t for t in TARGETS if knn(t, "scp_gsub", 5) < knn(t, "scp_gsub", 1)]
+    add("knn.three_of_four", "body", "three of the four targets",
+        f"{ {3: 'three'}[len(falls)] } of the four targets"
+        if len(falls) == 3 and all(knn(t, "scp_gsub", 5) < 0.88 for t in falls) else
+        f"{len(falls)} targets fall, of which "
+        f"{sum(knn(t, 'scp_gsub', 5) < 0.88 for t in falls)} end below 0.88")
+
     # ---- V8 / V9: the Appendix A numbers that had no key
     add("appA.qc_strict", "body", "5,793", fmt(vals["txt.all.n_qc_strict"], "i1"))
     add("appA.raw_names", "body", "486 raw site names",

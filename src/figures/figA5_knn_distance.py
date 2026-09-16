@@ -93,7 +93,7 @@ def binned(target: str) -> dict:
             p = p.assign(hit=((p["y"] >= p["lower"]) & (p["y"] <= p["upper"])).astype(float),
                          width=10.0 ** (p["upper"].to_numpy(float) - p["lower"].to_numpy(float)))
         g = p.groupby("bin", observed=True).agg(cov=("hit", "mean"), width=("width", "median"))
-        out[f"{model}:{method}"] = g.join(centres.rename("centre"))
+        out[f"{model}:{method}"] = g.join(centres.rename("center"))
     return out
 
 
@@ -116,10 +116,10 @@ def main() -> None:
             if mm not in b:
                 continue
             g, e = b[mm], ENC[f"{model}:{method}"]
-            ax.plot(g["centre"], g["cov"], marker=e["marker"], color=e["color"], linestyle=e["linestyle"],
+            ax.plot(g["center"], g["cov"], marker=e["marker"], color=e["color"], linestyle=e["linestyle"],
                     linewidth=0.9, label=f"{R.MODEL_LABEL[model]}, {R.METHOD_LABEL[method]}" if j == 0 else None,
                     **R.MARKER_KW)
-            axw.plot(g["centre"], g["width"], marker=e["marker"], color=e["color"], linestyle=e["linestyle"],
+            axw.plot(g["center"], g["width"], marker=e["marker"], color=e["color"], linestyle=e["linestyle"],
                      linewidth=0.9, **R.MARKER_KW)
         axw.set_yscale("log")
         R.log_plain(axw, "y")

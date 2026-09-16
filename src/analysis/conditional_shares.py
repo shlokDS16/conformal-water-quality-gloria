@@ -23,6 +23,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from src.figures import figA5_knn_distance as KNN
 from src.figures import resultsio as R
 from src.figures import style as S
 
@@ -90,6 +91,30 @@ def main(argv=None) -> None:
             for stat, (value, rounding) in out.items():
                 rows.append(dict(key=base + stat, value=value, rounding=rounding,
                                  source_file=src, filter=filt))
+
+    # REVIEW_final F1. The manuscript stated that the conformal methods "held their coverage in
+    # every quintile" of spectral distance to the training set. Fig. C.2 shows the opposite, and
+    # the claim carried no ledger key, so nothing could catch it. The quintile coverages are
+    # written here through the figure's own code path (`figA5_knn_distance.binned`), so the ledger
+    # and the plotted line cannot drift apart. Five repeats, pooled over test rows, exactly as the
+    # figure draws them.
+    for target in R.TARGETS:
+        b = KNN.binned(target)
+        for mm, g in b.items():
+            model, method = mm.split(":")
+            base = f"cond.{target}.{model}_{method}."
+            tag = dict((f"{m}:{h}", s) for m, h, s in KNN.SHOWN)[mm]
+            filt = (f"{KNN.SENSOR}, {KNN.PROTOCOL}, primary, alpha={KNN.ALPHA}, seeds "
+                    f"{min(KNN.SEEDS)}-{max(KNN.SEEDS)}, quintile of the mean distance to the "
+                    f"{KNN.K_NEIGHBOURS} nearest training spectra, pooled over test rows "
+                    f"(NOT averaged over water bodies); the quantity drawn in Fig. C.2; EXPLORATORY")
+            for i, (_, r) in enumerate(g.sort_index().iterrows(), start=1):
+                rows.append(dict(key=f"{base}knnq{i}.cov", value=float(r["cov"]),
+                                 rounding="3 decimals", source_file=f"{tag}/pred_*.parquet",
+                                 filter=filt))
+                rows.append(dict(key=f"{base}knnq{i}.width_median", value=float(r["width"]),
+                                 rounding="3 significant figures",
+                                 source_file=f"{tag}/pred_*.parquet", filter=filt))
 
     d = pd.DataFrame(rows, columns=["key", "value", "rounding", "source_file", "filter"])
     if d["key"].duplicated().any():

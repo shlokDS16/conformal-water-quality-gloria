@@ -318,8 +318,11 @@ def table3_point(S: Summary, sensors: list[str] | None = None) -> str:
         lines.append(rf"\multicolumn{{{1 + len(TARGETS)}}}{{@{{}}l}}{{\textit{{{SENSOR_NAME[sensor]}}}}} \\")
         lines += block
     lines += footer(
+        # REVIEW_final F3: the note named a supplementary CSV that the submission did not carry.
+        # src/make_supplementary.py now emits it and make_upload_package.py ships it, so the note
+        # names the file itself.
         "Water-body protocol, primary population. MdSA and SSPB follow \\citet{Morley2018}; log-MAE, log-bias "
-        "and log-RMSE for the same cells are in the supplementary CSV. "
+        "and log-RMSE for the same cells are in Supplementary Table S1. "
         "Empirical rows appear only for the targets that define them (OC-type and NDCI for Chl-a, Nechad-type "
         "for TSS, band-ratio regressions for $a_\\mathrm{CDOM}(440)$ and Secchi depth). "
         "The refitted OC-type polynomial extrapolates without bound outside its training range of the band "

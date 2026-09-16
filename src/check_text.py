@@ -51,6 +51,11 @@ def delatex(t: str) -> str:
     t = re.sub(r"\\\[.*?\\\]", " MATH ", t, flags=re.S)
     t = re.sub(r"\$[^$]*\$", " MATH ", t)
     t = re.sub(r"\\PENDING\{(?:[^{}]|\{[^{}]*\})*\}", " ", t)
+    # REVIEW_final F7: an \input{...} left its literal path in the prose stream, so the sentence
+    # before it was joined to the paragraph after it (the splitter needs [A-Z(\[] after the stop)
+    # and was reported as one long sentence. Layout edit L6 moved such an \input into the middle of
+    # a subsection, which is when the join started to matter. File names are not prose; drop them.
+    t = re.sub(r"\\(?:input|include|includegraphics)(\[[^\]]*\])?\{[^{}]*\}", " ", t)
     # title-page metadata is not prose: it carries no sentences and no abbreviation definitions
     for macro in ("title", "author", "ead", "cortext", "affiliation", "journal"):
         t = re.sub(r"\\" + macro + r"(\[[^\]]*\])?\{(?:[^{}]|\{[^{}]*\})*\}", " ", t)
@@ -107,6 +112,14 @@ def words(s: str) -> int:
 #   "centre"   only inside the verbatim variable name \texttt{srf_centre_wavelength};
 #   "analyses" the American plural of "analysis" (the verb forms analyse/analysed are checked);
 #   "Colour"   the official instrument name "Ocean and Land Colour Instrument" (OLCI).
+#
+# REVIEW_final F4: the V10 fix reached main.tex and its \input files only, so two British words
+# survived inside figure IMAGES ("Normalised split (MDN)" in Fig. 1, "Realised coverage" on the
+# y axis of Fig. 9), where no text check could see them, and six "grey"/"greyscale" and one
+# "licence" survived in captions because they were not on the word list. The list below is the
+# whole mix the Guide forbids ("American or British usage is accepted, but not a mixture"), and the
+# scan now covers three populations: main.tex and its \input files, the FIGURE SOURCES that draw
+# the labels, and the RENDERED TEXT of every figure PDF.
 SPELLING = [
     (r"\brealis(e|ed|es|ing|ation)\b", "realiz..."),
     (r"\bsummaris(e|ed|es|ing|ation)\b", "summariz..."),
@@ -117,12 +130,98 @@ SPELLING = [
     (r"\blabelled\b", "labeled"),
     (r"\bmodelling\b", "modeling"),
     (r"\bcolours?\b(?! Instrument)", "color"),
+    (r"\bcoloured\b", "colored"),
+    (r"\bgrey(s|ish)?\b", "gray"),
+    (r"\bgreyscale\b", "grayscale"),
+    (r"\blicence\b", "license"),
+    (r"\bcentres?\b", "center"),
+    (r"\bfibre\b", "fiber"),
+    (r"\bmetres?\b", "meter"),
+    (r"\bfavour(s|ed|ing|able)?\b", "favor..."),
+    (r"\bneighbour(s|ing|hood)?\b", "neighbor..."),
+    (r"\bcatalogu(e|ed|es|ing)\b", "catalog..."),
+    (r"\bparameteris(e|ed|es|ing|ation)\b", "parameteriz..."),
+    (r"\bcharacteris(e|ed|es|ing|ation)\b", "characteriz..."),
+    (r"\bstandardis(e|ed|es|ing|ation)\b", "standardiz..."),
+    (r"\bminimis(e|ed|es|ing|ation)\b", "minimiz..."),
+    (r"\bmaximis(e|ed|es|ing|ation)\b", "maximiz..."),
+    (r"\bemphasis(e|ed|es|ing)\b", "emphasiz..."),
+    (r"\brecognis(e|ed|es|ing)\b", "recogniz..."),
+    (r"\bgeneralis(e|ed|es|ing|ation)\b", "generaliz..."),
+    (r"\bmodelled\b", "modeled"),
+    (r"\btravelled\b", "traveled"),
+]
+# Proper names and verbatim identifiers that are correct as they stand and must not be "fixed".
+# "Organisation" is EUMETSAT's registered name; "Colour" is the instrument name behind OLCI;
+# "srf_centre_wavelength" is a column name in the released tables; "analyses" is the American
+# plural of "analysis" and is not matched by the verb pattern above.
+SPELLING_EXEMPT = [
+    r"European Organisation",
+    r"Ocean and Land Colour Instrument",
+    r"srf_centre_wavelength",
 ]
 INPUT_RE = re.compile(r"\\input\{([^}]+)\}")
+FIGURE_SRC_DIR = "src/figures"
+FIGURE_PDF_DIR = "figures"
 
 
-def spelling_check(tex_path: Path) -> int:
-    """Scan tex_path and every file it \\input's for British spellings. Returns the hit count."""
+def _mask(body: str) -> str:
+    """Blank the exempt proper names, keeping offsets, so the scan cannot hit them."""
+    for pat in SPELLING_EXEMPT:
+        body = re.sub(pat, lambda m: " " * len(m.group(0)), body)
+    return body
+
+
+def _drawable_python(src: str) -> str:
+    """Only the string literals a figure script can actually DRAW.
+
+    Docstrings and ``#`` comments describe the figure; they never reach the page, so scanning them
+    would report British words that no reader of the article can see. This mirrors the LaTeX pass,
+    which has always stripped ``%`` comments before looking. Everything else that is a string
+    constant (axis labels, titles, legend entries, CLI flags) is returned for scanning.
+    """
+    import ast
+    try:
+        tree = ast.parse(src)
+    except SyntaxError:
+        return src
+    docstrings = set()
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Module, ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+            b = getattr(node, "body", None)
+            if b and isinstance(b[0], ast.Expr) and isinstance(b[0].value, ast.Constant) \
+                    and isinstance(b[0].value.value, str):
+                docstrings.add(id(b[0].value))
+    out = []
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str) \
+                and id(node) not in docstrings:
+            out.append(node.value)
+    return "\n".join(out)
+
+
+def _figure_pdf_text(pdf: Path) -> str:
+    import fitz
+    doc = fitz.open(str(pdf))
+    try:
+        return "\n".join(doc[i].get_text() for i in range(doc.page_count))
+    finally:
+        doc.close()
+
+
+def _scan(label: str, body: str) -> int:
+    body = _mask(body)
+    hits = 0
+    for pat, want in SPELLING:
+        for m in re.finditer(pat, body, re.I):
+            ctx = body[max(0, m.start() - 45): m.end() + 45].replace("\n", " ")
+            print(f"  SPELLING {label}: {m.group(0)!r} -> {want}   ...{ctx}...")
+            hits += 1
+    return hits
+
+
+def spelling_check(tex_path: Path, figures: bool = True) -> int:
+    """Scan the manuscript, the figure sources and the rendered figure PDFs. Returns the hits."""
     root = tex_path.resolve().parents[1]
     files = [tex_path]
     raw = tex_path.read_text(encoding="utf-8")
@@ -138,12 +237,26 @@ def spelling_check(tex_path: Path) -> int:
     for f in files:
         body = strip_comments(f.read_text(encoding="utf-8"))
         body = re.sub(r"\\texttt\{[^}]*\}", " ", body)     # verbatim variable names
-        for pat, want in SPELLING:
-            for m in re.finditer(pat, body, re.I):
-                ctx = body[max(0, m.start() - 45): m.end() + 45].replace("\n", " ")
-                print(f"  SPELLING {f.name}: {m.group(0)!r} -> {want}   ...{ctx}...")
-                hits += 1
-    print(f"== spelling: {hits} hit(s) over {len(files)} file(s) ==")
+        hits += _scan(f.name, body)
+    n_src = n_pdf = 0
+    if figures:
+        for f in sorted((root / FIGURE_SRC_DIR).glob("*")):
+            if f.suffix == ".py":
+                hits += _scan(f.name, _drawable_python(f.read_text(encoding="utf-8")))
+            elif f.suffix == ".tex":
+                hits += _scan(f.name, strip_comments(f.read_text(encoding="utf-8")))
+            else:
+                continue
+            n_src += 1
+        for f in sorted((root / FIGURE_PDF_DIR).glob("*.pdf")):
+            try:
+                hits += _scan(f.name, _figure_pdf_text(f))
+            except ImportError:
+                print("  WARN PyMuPDF not installed; the rendered-figure pass was skipped")
+                break
+            n_pdf += 1
+    print(f"== spelling: {hits} hit(s) over {len(files)} manuscript file(s), "
+          f"{n_src} figure source(s) and {n_pdf} rendered figure(s) ==")
     return hits
 
 
@@ -152,6 +265,8 @@ def main(argv=None):
     ap.add_argument("tex")
     ap.add_argument("--max-words", type=int, default=45)
     ap.add_argument("--all", action="store_true", help="list every abbreviation found")
+    ap.add_argument("--no-figures", action="store_true",
+                    help="skip the figure-source and rendered-figure spelling passes")
     a = ap.parse_args(argv)
     tex = strip_comments(Path(a.tex).read_text(encoding="utf-8"))
     body_start = tex.find("\\begin{document}")
@@ -221,8 +336,9 @@ def main(argv=None):
             ctx = prose[max(0, first - 50): first + 30].replace("\n", " ")
             print(f"  {tok:12s} {status}   ...{ctx}...")
             n_abbr += status != "ok"
-    print("== American spelling (this file and every \\input file) ==")
-    n_spell = spelling_check(Path(a.tex))
+    print("== American spelling (this file, every \\input file, the figure sources "
+          "and the rendered figures) ==")
+    n_spell = spelling_check(Path(a.tex), figures=not a.no_figures)
     print(f"== summary: long sentences {n_long}; dashes {n_dash}; abbreviation hits {n_abbr}; "
           f"spelling hits {n_spell} ==")
     return 0 if (n_long == 0 and n_dash == 0 and n_spell == 0) else 1

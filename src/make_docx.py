@@ -91,6 +91,44 @@ def read_group(s: str, i: int):
     raise ValueError("unbalanced braces at %d: %r" % (i, s[i : i + 60]))
 
 
+def drop_two_group_command(s: str, name: str) -> str:
+    """Delete every ``\\name{...}{...}`` from s, reading both groups brace-balanced.
+
+    A plain regex of the form ``\\{[^}]*\\}\\{[^}]*\\}`` stops at the first inner closing
+    brace, so a definition whose body itself contains a group (for example
+    ``\\renewcommand{\\theHtable}{\\thesection.\\arabic{table}}``) leaves a stray ``}``
+    behind, which pandoc rejects.
+    """
+    out = []
+    i = 0
+    tok = "\\" + name
+    while True:
+        j = s.find(tok, i)
+        if j == -1:
+            out.append(s[i:])
+            return "".join(out)
+        k = j + len(tok)
+        # an optional [n] between the two groups is allowed by \newcommand
+        try:
+            if k < len(s) and s[k] == "{":
+                _, k = read_group(s, k)
+                if k < len(s) and s[k] == "[":
+                    close = s.index("]", k)
+                    k = close + 1
+                if k < len(s) and s[k] == "{":
+                    _, k = read_group(s, k)
+                else:
+                    raise ValueError("no second group")
+            else:
+                raise ValueError("no first group")
+        except ValueError:
+            out.append(s[i:j + len(tok)])
+            i = j + len(tok)
+            continue
+        out.append(s[i:j])
+        i = k
+
+
 def read_optional(s: str, i: int):
     """If s[i] == '[', return (content, index after ']'), else (None, i)."""
     if i < len(s) and s[i] == "[":
@@ -222,7 +260,7 @@ def parse_aux(path: Path):
         if not payload.startswith("{"):
             continue
         number, _ = read_group(payload, 0)
-        labels[name] = number.replace("~", " ").strip()
+        labels[name] = re.sub(r"(?<!\\)~", " ", number).strip()   # LAYOUT_LOG D4
     for m in re.finditer(r"\\bibcite\{", text):
         i = m.end() - 1
         key, j = read_group(text, i)
@@ -252,8 +290,13 @@ BBL_PREAMBLE = r"""
 \providecommand{\ArXivprefix}{arXiv:}
 \providecommand{\URLprefix}{URL: }
 \providecommand{\Pubmedprefix}{pmid:}
-\providecommand{\doi}[1]{doi:#1}
-\providecommand{\Pubmed}[1]{pmid:#1}
+%% LAYOUT_LOG D7: elsarticle-harv.bst writes the prefix and the identifier as two commands,
+%% "\DOIprefix\doi{10.x/y}", and elsarticle defines \doi to print the identifier alone. Here
+%% \doi added a second "doi:", so every one of the 51 references in the Word file read
+%% "doi:doi:10...". The identifier is now printed on its own, as in the PDF. The same applies
+%% to \Pubmed, which follows \Pubmedprefix.
+\providecommand{\doi}[1]{#1}
+\providecommand{\Pubmed}[1]{#1}
 \providecommand{\urlprefix}{URL: }
 \providecommand{\newblock}{ }
 """
@@ -292,7 +335,11 @@ def _cite_names(keys, bibcites, missing):
             missing.append(k)
             out.append((k, "????"))
         else:
-            out.append((rec["short"].replace("~", " "), rec["year"]))
+            # LAYOUT_LOG D4: the tie in "et~al." has to become a space, but a plain
+            # replace also hit the tilde accent that BibTeX writes inside a name, so
+            # "Reyes-Mu{\~{n}}oz" became "Reyes-Mu{\ {n}}oz" and the Word file printed
+            # "Reyes-Mu noz". Only a tie that is not part of an accent command is replaced.
+            out.append((re.sub(r"(?<!\\)~", " ", rec["short"]), rec["year"]))
     return out
 
 
@@ -913,6 +960,14 @@ class Builder:
         # pandoc's math reader rejects non-letter macro names such as \1
         raw = re.sub(r"\\1(?![0-9A-Za-z])", r"\\mathbf{1}", raw)
         raw = raw.replace("\\operatorname*{med}", "\\operatorname{med}")
+        # LAYOUT_LOG D6: \seqsplit (used to break the two SHA-256 digests in Section 3.7)
+        # is unknown to pandoc, which dropped the command AND its argument, so the Word file
+        # read "the SHA256 digest ... is ." with no digest at all. Word wraps a long token on
+        # its own, so the command is simply removed and the digest kept.
+        while "\\seqsplit{" in raw:
+            k = raw.index("\\seqsplit{")
+            arg, j = read_group(raw, k + len("\\seqsplit"))
+            raw = raw[:k] + arg + raw[j:]
         self.macros = self.extract_macros(raw)
         body = raw[raw.index("\\begin{document}") + len("\\begin{document}") :]
         body = body[: body.rindex("\\end{document}")]
@@ -1159,15 +1214,72 @@ class Builder:
         if m:
             title, _ = read_group(fm, m.end() - 1)
             parts.append("\\title{%s}" % title.strip())
-        authors = []
-        for am in re.finditer(r"\\author(\[[^\]]*\])?\{", fm):
+        # LAYOUT_LOG D3: the title block used to copy the raw argument of \author and
+        # \affiliation, so the Word file printed the elsarticle key=value list
+        # ("organization=School of ..., city=Vellore, postcode=632014, ...") where the PDF
+        # prints an address, and it dropped the corresponding-author mark and the e-mail
+        # addresses entirely. The block below reproduces what elsarticle typesets: authors
+        # with their affiliation letter and the corresponding-author star, the affiliation
+        # as a comma-separated address in the order the keys are written, and the two
+        # footnote lines.
+        author_lines = []
+        names = []
+        aff_of = []
+        corr = []
+        for am in re.finditer(r"\\author(\[([^\]]*)\])?\{", fm):
+            a, end = read_group(fm, am.end() - 1)
+            label = (am.group(2) or "").strip()
+            is_corr = "\\corref" in a
+            name = re.sub(r"\\corref\{[^}]*\}", "", a).strip()
+            name = re.sub(r"\\fnref\{[^}]*\}", "", name).strip()
+            names.append(name)
+            aff_of.append(label)
+            corr.append(is_corr)
+        emails = [m for m in re.finditer(r"\\ead(\[[^\]]*\])?\{", fm)]
+        email_vals = []
+        for em in emails:
+            if em.group(1):          # \ead[url]{...} is a homepage, not an address
+                continue
+            v, _ = read_group(fm, em.end() - 1)
+            email_vals.append(v.strip())
+        if names:
+            marks = []
+            for name, label, is_corr in zip(names, aff_of, corr):
+                sup = label + (",$\\ast$" if is_corr else "")
+                marks.append("%s\\textsuperscript{%s}" % (name, sup) if sup else name)
+            author_lines.append(", ".join(marks))
+        for am in re.finditer(r"\\affiliation(\[([^\]]*)\])?\{", fm):
             a, _ = read_group(fm, am.end() - 1)
-            authors.append(a.strip())
-        for am in re.finditer(r"\\affiliation(\[[^\]]*\])?\{", fm):
-            a, _ = read_group(fm, am.end() - 1)
-            authors.append(a.strip())
-        if authors:
-            parts.append("\\author{%s}" % " \\\\ ".join(authors))
+            label = (am.group(2) or "").strip()
+            fields = []
+            i = 0
+            while i < len(a):
+                km = re.compile(r"([A-Za-z]+)\s*=\s*").search(a, i)
+                if not km:
+                    break
+                j = km.end()
+                if j < len(a) and a[j] == "{":
+                    val, j = read_group(a, j)
+                else:
+                    k = a.find(",", j)
+                    k = len(a) if k == -1 else k
+                    val, j = a[j:k], k
+                val = val.strip().rstrip(",").strip()
+                if val:
+                    fields.append(val)
+                i = j
+            addr = ", ".join(fields) if fields else a.strip()
+            author_lines.append(("\\textsuperscript{%s}" % label if label else "") + addr)
+        ct = re.search(r"\\cortext(\[[^\]]*\])?\{", fm)
+        if ct and any(corr):
+            note, _ = read_group(fm, ct.end() - 1)
+            author_lines.append("\\textsuperscript{$\\ast$}" + note.strip())
+        if email_vals:
+            pairs = ["\\texttt{%s} (%s)" % (e, n)
+                     for e, n in zip(email_vals, names)]
+            author_lines.append("Email addresses: " + ", ".join(pairs))
+        if author_lines:
+            parts.append("\\author{%s}" % " \\\\ ".join(author_lines))
         parts.append("\\maketitle")
         nn = re.search(r"\\nonumnote\{", fm)
         if nn:
@@ -1223,9 +1335,12 @@ class Builder:
             r"\1\2{}[\3",
             body,
         )
-        body = re.sub(r"\\setcounter\{[^}]*\}\{[^}]*\}", "", body)
-        body = re.sub(r"\\renewcommand\{[^}]*\}\{[^}]*\}", "", body)
-        body = re.sub(r"\\setlength\{[^}]*\}\{[^}]*\}", "", body)
+        # LAYOUT_LOG D1: these three were removed with `\{[^}]*\}\{[^}]*\}`, which stops at
+        # the first inner closing brace. `\renewcommand{\theHtable}{\thesection.\arabic{table}}`
+        # therefore left a stray `}` behind, and pandoc aborted with "unexpected }". The
+        # arguments are now read with the brace-balanced reader.
+        for _cmd in ("setcounter", "renewcommand", "newcommand", "setlength"):
+            body = drop_two_group_command(body, _cmd)
         for cmd in ("FloatBarrier", "linenumbers", "appendix", "clearpage", "newpage",
                     "centering", "small", "footnotesize", "normalsize", "par"):
             body = re.sub(r"\\%s\b" % cmd, "", body)
@@ -1302,6 +1417,15 @@ class Builder:
         self.style_body(doc)
         self.drop_empty_paragraphs(doc)
 
+        # LAYOUT_LOG D5: the URL in Section 3.2 came through pandoc's main run, not through
+        # the fragment renderer, so it kept the Hyperlink character style and printed blue and
+        # underlined while the PDF (hyperref option hidelinks) prints it in the body colour.
+        # The style reference is dropped and the link itself is kept, so the Word file matches
+        # the PDF and the URL is still clickable.
+        for st in list(doc.element.body.iter(qn("w:rStyle"))):
+            if st.get(qn("w:val")) in ("Hyperlink", "FollowedHyperlink"):
+                st.getparent().remove(st)
+
         for section in doc.sections:
             section.page_width = PAGE_W
             section.page_height = PAGE_H
@@ -1376,10 +1500,15 @@ class Builder:
         return count
 
     def caption_label(self, blk):
+        # LAYOUT_LOG D2: the label and the separator now reproduce the compiled PDF exactly.
+        # elsarticle prints "Figure 1: ", "Table 1: " and (through algorithm2e with
+        # \SetAlgoCaptionSeparator{.}) "Algorithm 1. ". The Word file used to print
+        # "Fig. 1. " and "Table 1. ", so the two submitted files disagreed on every caption.
         lab = blk.get("label") or ""
         num = self.labels.get(lab, "?")
-        word = {"figure": "Fig.", "table": "Table", "algorithm": "Algorithm"}[blk["kind"]]
-        return "%s %s. " % (word, num)
+        word, sep = {"figure": ("Figure", ":"), "table": ("Table", ":"),
+                     "algorithm": ("Algorithm", ".")}[blk["kind"]]
+        return "%s %s%s " % (word, num, sep)
 
     def emit_figure(self, doc, anchor, blk):
         src = blk["path"] or ""

@@ -73,7 +73,7 @@ def main() -> None:
         ax.set_xlim(0.765, 0.985)
         ax.set_xlabel("Nominal coverage")
         if j == 0:
-            ax.set_ylabel("Realised coverage")
+            ax.set_ylabel("Realized coverage")
         ax.grid(True, axis="y")
         S.panel_letter(ax, "abcd"[j], x=-0.02, y=1.01)
     h, l = axes[0].get_legend_handles_labels()

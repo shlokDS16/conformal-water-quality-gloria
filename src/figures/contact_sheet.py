@@ -1,7 +1,7 @@
 """Contact sheet of the finished data-only figures: figures/contact_sheet_data.png.
 
-With --grey, also writes a greyscale copy to the given path for the greyscale legibility review.
-Run: python -m src.figures.contact_sheet [--grey PATH]
+With --gray, also writes a grayscale copy to the given path for the grayscale legibility review.
+Run: python -m src.figures.contact_sheet [--gray PATH]
 """
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ PAD = 40
 
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--grey", default=None)
+    ap.add_argument("--gray", default=None)
     args = ap.parse_args()
     font = ImageFont.truetype("arial.ttf", 28)
     thumbs = []
@@ -45,9 +45,9 @@ def main() -> None:
     out = S.FIG_DIR / "contact_sheet_data.png"
     sheet.save(out)
     print("written", out, sheet.size)
-    if args.grey:
-        sheet.convert("L").save(args.grey)
-        print("written", args.grey)
+    if args.gray:
+        sheet.convert("L").save(args.gray)
+        print("written", args.gray)
 
 
 if __name__ == "__main__":
