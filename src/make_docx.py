@@ -1714,6 +1714,86 @@ class Builder:
         blk["_nlines"] = lineno
 
     # ------------------------------------------------------------------
+    # DOI in a reference entry -> real Word hyperlink. The fragment renderer strips hyperlinks
+    # (sanitise_fragment) because a relationship copied from a fragment document dangles and Word
+    # then refuses to open the file. Here the relationship is created on the TARGET document, which
+    # is what Word expects, so the link is valid. Matches the coloured DOI links in the PDF.
+    DOI_RE = re.compile(r"10\.\d{4,9}/[^\s,;\]\)]+")
+
+    def linkify_dois(self, doc, par) -> int:
+        from docx.opc.constants import RELATIONSHIP_TYPE as RT
+
+        made = 0
+        for run in list(par.runs):
+            m = self.DOI_RE.search(run.text or "")
+            if not m:
+                continue
+            doi = m.group(0).rstrip(".")
+            head, tail = run.text[: m.start()], run.text[m.start() + len(doi):]
+            rid = doc.part.relate_to(f"https://doi.org/{doi}", RT.HYPERLINK, is_external=True)
+            link = OxmlElement("w:hyperlink")
+            link.set(qn("r:id"), rid)
+            link_run = copy.deepcopy(run._r)
+            for t in link_run.findall(qn("w:t")):
+                link_run.remove(t)
+            rpr = link_run.find(qn("w:rPr"))
+            if rpr is None:
+                rpr = OxmlElement("w:rPr")
+                link_run.insert(0, rpr)
+            style = OxmlElement("w:rStyle")
+            style.set(qn("w:val"), "Hyperlink")
+            rpr.insert(0, style)
+            t = OxmlElement("w:t")
+            t.text = doi
+            t.set(qn("xml:space"), "preserve")
+            link_run.append(t)
+            link.append(link_run)
+            run.text = head
+            run._r.addnext(link)
+            if tail:
+                tail_run = copy.deepcopy(run._r)
+                for old in tail_run.findall(qn("w:t")):
+                    tail_run.remove(old)
+                tt = OxmlElement("w:t")
+                tt.text = tail
+                tt.set(qn("xml:space"), "preserve")
+                tail_run.append(tt)
+                link.addnext(tail_run)
+            made += 1
+        return made
+
+    # URL of a reference entry that has no DOI (13 entries: conference papers, Holm 1979, the two
+    # ESA response-function files) -> real Word hyperlink, in the same style as the DOI links.
+    # The fragment renderer delivers each URL as one run of its own, so the whole run is wrapped.
+    URL_RE = re.compile(r"https?://\S+")
+
+    def linkify_urls(self, doc, par) -> int:
+        from docx.opc.constants import RELATIONSHIP_TYPE as RT
+
+        made = 0
+        for run in list(par.runs):
+            url = (run.text or "").strip()
+            if not self.URL_RE.fullmatch(url) or "doi.org/" in url:
+                continue
+            if run._r.getparent().tag == qn("w:hyperlink"):
+                continue
+            rid = doc.part.relate_to(url, RT.HYPERLINK, is_external=True)
+            link = OxmlElement("w:hyperlink")
+            link.set(qn("r:id"), rid)
+            rpr = run._r.find(qn("w:rPr"))
+            if rpr is None:
+                rpr = OxmlElement("w:rPr")
+                run._r.insert(0, rpr)
+            for old in rpr.findall(qn("w:rStyle")):
+                rpr.remove(old)
+            style = OxmlElement("w:rStyle")
+            style.set(qn("w:val"), "Hyperlink")
+            rpr.insert(0, style)
+            run._r.addprevious(link)
+            link.append(run._r)
+            made += 1
+        return made
+
     def insert_references(self, doc):
         target = None
         for par in doc.paragraphs:
@@ -1737,8 +1817,12 @@ class Builder:
             pf.line_spacing = 1.0
             pf.space_after = Pt(4)
             pf.alignment = WD_ALIGN_PARAGRAPH.LEFT
+            self.doi_links = getattr(self, "doi_links", 0) + self.linkify_dois(doc, p)
+            self.url_links = getattr(self, "url_links", 0) + self.linkify_urls(doc, p)
             anchor = p._p
         target._p.getparent().remove(target._p)
+        print(f"  reference DOIs linked      : {getattr(self, 'doi_links', 0)}")
+        print(f"  reference URLs linked      : {getattr(self, 'url_links', 0)}")
         return len(self.ref_ids)
 
     # ------------------------------------------------------------------

@@ -5,6 +5,8 @@ budget.group.gsub.max_abs_cov_minus_beta,0.015188070988126356,"3 decimals, round
 budget.group.gsub.n_cells,48.0,integer,tables/exploratory_budget_group.csv,scope=gsub,complete
 budget.group.pool.max_abs_cov_minus_beta,0.038301623015511876,"3 decimals, rounded up",tables/exploratory_budget_group.csv,"alpha=0.10, primary population, hyperspectral, 4 targets, 6 budgets; 48 cells; scope=pool; max at TSS/cqr_pool/n_cal=15",complete
 budget.group.pool.n_cells,48.0,integer,tables/exploratory_budget_group.csv,scope=pool,complete
+budget.local.earliest.common.augment.max_abs_cov_minus_global,0.01203938174235386,"3 decimals, rounded up",tables/exploratory_budget_local.csv,"order=earliest, eval_set=common, alpha=0.10, variant augment against global; 24 cells; max at Chla/cqr/k=20",complete
+budget.local.earliest.common.augment.n_cells,24.0,integer,tables/exploratory_budget_local.csv,"order=earliest, eval_set=common, variant augment against global",complete
 cvplus.gte.n_splits,1730.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts,complete
 cvplus.gte.n_hold,1425.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts,complete
 cvplus.gte.n_fail,305.0,integer,results/cvplus_v3/metrics_*.csv,one row per CV+ split; non-descriptive splits only; condition G_te >= n/K of Proposition 2 on the realized counts,complete

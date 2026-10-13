@@ -31,7 +31,8 @@ PDF_META_KEYS = ["title", "author", "subject", "keywords", "creator", "producer"
 # else in an author field is an unintended leak.
 INTENDED_PDF_AUTHOR = "Shlok Kumar Goenka; R. Manjula;"
 INTENDED_PDF_TITLE = ("Group-aware conformal calibration for water-quality retrieval: "
-                      "marginal validity under water-body shift, poor conditional coverage")
+                      "marginal validity under random water-body assignment and the conditional "
+                      "coverage gap")
 DOCX_META_KEYS = ["author", "last_modified_by", "title", "subject", "keywords",
                   "category", "comments", "content_status", "identifier", "language"]
 

@@ -172,6 +172,18 @@ def claims(vals: dict) -> list[tuple[str, str, str, str]]:
         "within " + fmt(math.ceil(vals["budget.group.gsub.max_abs_cov_minus_beta"] * 1e3) / 1e3, "d3"))
     add("con.budget_all", "conclusions", "within 0.039",
         "within " + fmt(math.ceil(vals["budget.group.all.max_abs_cov_minus_beta"] * 1e3) / 1e3, "d3"))
+    # C01 (session 2): local augmentation changed mean coverage by at most this much.
+    add("con.local_augment", "conclusions", "by at most 0.013",
+        "by at most " + fmt(math.ceil(
+            vals["budget.local.earliest.common.augment.max_abs_cov_minus_global"] * 1e3) / 1e3, "d3"))
+
+    # ---- T04 (session 3): the introduction now states the two stable findings with their values
+    add("intro.cov_mdn", "body", "cover 0.676 to 0.748 against a nominal 0.90 under water-body hold-out",
+        "cover " + rng(vals, cell("mdn", "native", "cov_wb_mean"), "d3")
+        + " against a nominal 0.90 under water-body hold-out")
+    add("intro.worst", "body", "receives 0.468 to 0.594 from subsampled split conformal",
+        "receives " + rng(vals, cell("lgbm", "scp_gsub", "cov_worst_ge10_mean"), "d3")
+        + " from subsampled split conformal")
 
     # ---- V3: the corrected H2 cause sentence, in Results and in Limitations
     add("h2.dist_nominal", "body", "0.029 to 0.039",

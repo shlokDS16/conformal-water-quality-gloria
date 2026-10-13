@@ -294,7 +294,7 @@ def footer(note: str, star: bool = True) -> list[str]:
 def table3_point(S: Summary, sensors: list[str] | None = None) -> str:
     lines = header(
         "Point accuracy under the water-body protocol. Each cell gives the median symmetric accuracy MdSA with "
-        "the symmetric signed percentage bias SSPB in parentheses, both in per cent, as the mean over repeats.",
+        "the symmetric signed percentage bias SSPB in parentheses, both in percent, as the mean over repeats.",
         "tab:point", "@{}l" + "r" * len(TARGETS) + "@{}", "3pt")
     lines.append(r"Model & " + " & ".join(TARGET_HEAD[t] for t in TARGETS) + r" \\")
     lines.append(r" & " + " & ".join([r"MdSA (SSPB)"] * len(TARGETS)) + r" \\")

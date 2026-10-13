@@ -1,14 +1,14 @@
 cff-version: 1.2.0
 message: "If you use this software or the derived data, please cite the article and this software record."
-title: "Group-aware conformal calibration for water-quality retrieval: marginal validity under water-body shift, poor conditional coverage: code and derived data"
+title: "Group-aware conformal calibration for water-quality retrieval: marginal validity under random water-body assignment and the conditional coverage gap: code and derived data"
 abstract: >-
   Code, derived data tables and reproduction instructions for the study of group-aware conformal
   calibration for hyperspectral water-quality retrieval (chlorophyll-a, total suspended solids,
   Secchi depth, aCDOM(440)) under water-body and regional shift, using the GLORIA dataset with
   Sentinel-2 MSI and Sentinel-3 OLCI band simulation.
 type: software
-version: "v1.0.0"
-date-released: "2026-09-16"
+version: "v1.1.0"
+date-released: "2026-10-13"
 license: MIT
 authors:
   - family-names: Goenka
@@ -31,8 +31,8 @@ keywords:
 repository-code: "https://github.com/shlokDS16/conformal-water-quality-gloria"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.22791749"
-    description: "Archived code, derived data and full result set (Zenodo, reserved 2026-09-16)"
+    value: "10.5281/zenodo.22791748"
+    description: "Archived code, derived data and full result set (Zenodo concept DOI, resolves to the latest version)"
 references:
   - type: data
     title: "GLORIA - A global dataset of remote sensing reflectance and water quality from inland and coastal waters"

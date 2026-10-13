@@ -85,6 +85,35 @@ def budget_gap(path: Path) -> list[dict]:
     return rows
 
 
+# ------------------------------------------------- C01 (session 2): local calibration, augmented
+def local_budget_gap(path: Path) -> list[dict]:
+    """Largest |augmented - global| mean coverage over the local-calibration grid.
+
+    Conclusion (7) said that adding the earliest samples of a test water body to the calibration set
+    "raised coverage at no value of k tested". The grid shows small rises at several k, so the
+    sentence now states the largest absolute change instead, and that number needs a ledger key.
+    Scope: earliest-dated samples, common evaluation set, both targets, both scores, every k."""
+    d = pd.read_csv(path)
+    d = d[(d["order"] == "earliest") & (d["eval_set"] == "common")]
+    idx = ["target", "score", "k", "alpha"]
+    aug = d[d["variant"] == "augment"].set_index(idx)["mean_cov"]
+    glo = d[d["variant"] == "global"].set_index(idx)["mean_cov"]
+    gap = (aug - glo).abs().dropna()
+    top = gap.idxmax()
+    return [
+        dict(key="budget.local.earliest.common.augment.max_abs_cov_minus_global",
+             value=float(gap.max()), rounding="3 decimals, rounded up",
+             source_file="tables/exploratory_budget_local.csv",
+             filter=(f"order=earliest, eval_set=common, alpha=0.10, variant augment against global; "
+                     f"{len(gap)} cells; max at {top[0]}/{top[1]}/k={top[2]}"),
+             status="complete"),
+        dict(key="budget.local.earliest.common.augment.n_cells", value=int(len(gap)),
+             rounding="integer", source_file="tables/exploratory_budget_local.csv",
+             filter="order=earliest, eval_set=common, variant augment against global",
+             status="complete"),
+    ]
+
+
 # ------------------------------------------------------- B1: Proposition 2 condition, per split
 def cvplus_gte_check(results: Path) -> list[dict]:
     """Per-split check of `G_te >= n/K`, and whether a failure can change the CV+ bound.
@@ -232,6 +261,7 @@ def main(argv=None) -> None:
     args = ap.parse_args(argv)
 
     rows = (budget_gap(ROOT / "tables" / "exploratory_budget_group.csv")
+            + local_budget_gap(ROOT / "tables" / "exploratory_budget_local.csv")
             + cvplus_gte_check(ROOT / "results" / CVPLUS_TAG)
             + wall_time(ROOT / "logs", ROOT / "results")
             + n_interval_methods(ROOT / "tables" / "summary.csv"))

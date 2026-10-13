@@ -3,7 +3,7 @@
 One panel per target. Within a panel the x axis carries the point models in a fixed order
 (trivial baseline first, then the refitted empirical algorithms, then the learned models) and the
 series are the split protocols, encoded by Okabe-Ito colour AND marker shape. The y axis is the
-median symmetric accuracy MdSA in per cent on a log scale; the whisker spans the 2.5th to the
+median symmetric accuracy MdSA in percent on a log scale; the whisker spans the 2.5th to the
 97.5th percentile across repeats. A second row of panels repeats the layout for the symmetric
 signed percentage bias SSPB, on a symmetric linear scale with a zero line.
 

@@ -56,14 +56,14 @@ from src.make_submission import build as build_submission_archive
 ROOT = Path(__file__).resolve().parents[1]
 
 # Constants, not derived from the clock, so the build is reproducible.
-RELEASE_DATE = "2026-09-16"
-RELEASE_VERSION = "v1.0.0"
+RELEASE_DATE = "2026-10-13"
+RELEASE_VERSION = "v1.1.0"
 ZIP_EPOCH = (1980, 1, 1, 0, 0, 0)
 ZIP_LEVEL = 1  # result files are already-compressed parquet/npz; level 1 costs far less time
 
 PAPER_TITLE = (
     "Group-aware conformal calibration for water-quality retrieval: marginal validity under "
-    "water-body shift, poor conditional coverage"
+    "random water-body assignment and the conditional coverage gap"
 )
 JOURNAL = "ISPRS Journal of Photogrammetry and Remote Sensing"
 AFFILIATION = (
@@ -344,8 +344,8 @@ keywords:
 repository-code: "https://github.com/shlokDS16/conformal-water-quality-gloria"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.22791749"
-    description: "Archived code, derived data and full result set (Zenodo, reserved 2026-09-16)"
+    value: "10.5281/zenodo.22791748"
+    description: "Archived code, derived data and full result set (Zenodo concept DOI, resolves to the latest version)"
 references:
   - type: data
     title: "GLORIA - A global dataset of remote sensing reflectance and water quality from inland and coastal waters"
@@ -390,7 +390,8 @@ total suspended solids (TSS), Secchi depth and the CDOM absorption coefficient a
 (aCDOM(440)). Reflectance is used at full hyperspectral resolution and also convolved to
 Sentinel-2 MSI and Sentinel-3 OLCI bands. Conformal intervals are calibrated marginally and per
 water-body group, under random, water-body, contributor-dataset and regional splits. The headline
-finding is in the title: marginal validity survives the shift, conditional coverage does not.
+finding is in the title: marginal validity holds under random assignment of water bodies to
+roles, and a coverage gap remains for the individual water body.
 
 Result tables and figures are reproduced exactly by the commands in "Reproduction" below. Every
 number quoted in the manuscript has a key in `tables/summary.csv` (see the Zenodo record, and the
@@ -448,9 +449,8 @@ The full experiment output (`results/core_v2`, `results/cvplus_v3`, `results/bud
 `results/sens_v2`, `results/noise_v2`) is about 1.55 GB across 9,926 files, so it is not in this
 repository. It is deposited on Zenodo together with a copy of this code and the derived data:
 
-> Zenodo DOI: **[10.5281/zenodo.22791749](https://doi.org/10.5281/zenodo.22791749)**
-> (reserved 2026-09-16; the record is a draft until the deposit is published, so the link starts
-> resolving only after publication).
+> Zenodo DOI: **[10.5281/zenodo.22791748](https://doi.org/10.5281/zenodo.22791748)**
+> (concept DOI; it resolves to the latest version of the public record).
 
 {summary_note}
 

@@ -1,10 +1,10 @@
-# Group-aware conformal calibration for water-quality retrieval: marginal validity under water-body shift, poor conditional coverage
+# Group-aware conformal calibration for water-quality retrieval: marginal validity under random water-body assignment and the conditional coverage gap
 
 Code and derived data for the manuscript submitted to the ISPRS Journal of Photogrammetry and Remote Sensing.
 
 **Authors**: Shlok Kumar Goenka (<shlok.goenka2023@vitstudent.ac.in>) and R. Manjula (<rmanjula@vit.ac.in>, corresponding author),
 School of Computer Science and Engineering, Vellore Institute of Technology, Vellore, 632014, Tamil Nadu, India.
-Version v1.0.0, 2026-09-16.
+Version v1.1.0, 2026-10-13.
 
 ## What the paper does
 
@@ -15,7 +15,8 @@ total suspended solids (TSS), Secchi depth and the CDOM absorption coefficient a
 (aCDOM(440)). Reflectance is used at full hyperspectral resolution and also convolved to
 Sentinel-2 MSI and Sentinel-3 OLCI bands. Conformal intervals are calibrated marginally and per
 water-body group, under random, water-body, contributor-dataset and regional splits. The headline
-finding is in the title: marginal validity survives the shift, conditional coverage does not.
+finding is in the title: marginal validity holds under random assignment of water bodies to
+roles, and a coverage gap remains for the individual water body.
 
 Result tables and figures are reproduced exactly by the commands in "Reproduction" below. Every
 number quoted in the manuscript has a key in `tables/summary.csv` (see the Zenodo record, and the
@@ -74,9 +75,8 @@ The full experiment output (`results/core_v2`, `results/cvplus_v3`, `results/bud
 `results/sens_v2`, `results/noise_v2`) is about 1.55 GB across 9,926 files, so it is not in this
 repository. It is deposited on Zenodo together with a copy of this code and the derived data:
 
-> Zenodo DOI: **[10.5281/zenodo.22791749](https://doi.org/10.5281/zenodo.22791749)**
-> (reserved 2026-09-16; the record is a draft until the deposit is published, so the link starts
-> resolving only after publication).
+> Zenodo DOI: **[10.5281/zenodo.22791748](https://doi.org/10.5281/zenodo.22791748)**
+> (concept DOI; it resolves to the latest version of the public record).
 
 `tables/summary.csv` (the per-cell result ledger, 212,838 rows, 50.22 MiB) is **not** in this repository: it is above the 50 MiB per-file threshold above which GitHub warns, so it lives in the Zenodo record together with the raw result files. Rebuild it locally with `python -m src.make_summary` once `results/` is in place, or download it from Zenodo.
 

@@ -28,7 +28,8 @@ TEX = ROOT / "paper" / "main.tex"
 # ---------------------------------------------------------------- author facts
 # Source: paper/main.tex frontmatter (read only) and progress.md user step R1.
 TITLE = ("Group-aware conformal calibration for water-quality retrieval: "
-         "marginal validity under water-body shift, poor conditional coverage")
+         "marginal validity under random water-body assignment and the conditional "
+         "coverage gap")
 AFFIL = ("School of Computer Science and Engineering, Vellore Institute of Technology, "
          "Vellore, 632014, Tamil Nadu, India")
 AUTHORS = [
@@ -36,10 +37,10 @@ AUTHORS = [
     ("R. Manjula", "rmanjula@vit.ac.in", True),
 ]
 REPO = "https://github.com/shlokDS16/conformal-water-quality-gloria"
-ZENODO = "10.5281/zenodo.22791749"
+ZENODO = "10.5281/zenodo.22791748"   # concept DOI (resolves to the latest version); 22791749 is v1.0.0
 
 COVER_LETTER = """\
-16 September 2026
+13 October 2026
 
 Clément Mallet and Qihao Weng
 Editors-in-Chief
@@ -48,7 +49,8 @@ ISPRS Journal of Photogrammetry and Remote Sensing
 Dear Editors-in-Chief,
 
 We submit the manuscript "Group-aware conformal calibration for water-quality retrieval: \
-marginal validity under water-body shift, poor conditional coverage" for consideration as a \
+marginal validity under random water-body assignment and the conditional coverage gap" for \
+consideration as a \
 Paper in the ISPRS Journal of Photogrammetry and Remote Sensing.
 
 The study audits prediction intervals for chlorophyll-a, total suspended solids, colored \
@@ -68,21 +70,21 @@ sensors.
 Three findings matter. Native mixture density network intervals under-cover: 0.676 to 0.748 \
 water-body-averaged coverage against a nominal 0.90. Group-aware conformal calibration held \
 the nominal level under water-body hold-out, at 0.895 to 0.905, and the cost is width, a factor \
-of 15.5 for chlorophyll-a. Conditional coverage is poor for every method we tested, including \
-the valid ones: the worst test water body of a split received 0.468 to 0.594, and no variant \
-repaired it. Marginal validity is achievable and per-water-body validity is not, so a \
-validation report should state both.
+of 15.5 for chlorophyll-a. Conditional coverage stayed below the nominal level for every method we \
+tested, including the valid ones: the worst test water body of a split received 0.468 to \
+0.594, and no variant closed the gap. Marginal validity is achievable and per-water-body \
+validity was not reached, so a validation report should state both.
 
 The analysis was preregistered before the confirmatory runs. None of the 16 preregistered \
 tests was rejected after multiplicity correction, and the non-inferiority test of conformal \
 validity had power 0.14 to 0.17, so the findings rest on effect sizes and descriptive \
 components rather than on confirmatory rejections. The manuscript says so in the abstract and \
-in the Results, and it keeps the negative results that went against our own preregistered \
+in the Results, and it keeps the results that went against our own preregistered \
 expectations.
 
 The code that reproduces every reported number, the water-body grouping table, the split \
 definitions and the result ledgers are public on GitHub and archived on Zenodo under the \
-concept DOI 10.5281/zenodo.22791749, which is published on acceptance. GLORIA itself is \
+concept DOI 10.5281/zenodo.22791748, which resolves to the latest version. GLORIA itself is \
 publicly available from PANGAEA and is cited as a dataset.
 
 We confirm that this work is original, that it has not been published previously, and that it \
@@ -124,7 +126,7 @@ stored precision; nothing is recomputed.
 | Per-water-body conditional coverage and nearest-neighbor distance | Appendix C, Figs. C.1 and C.2 |
 | The water-body grouping table named in Section 2.2 | the deposit, `data/interim/wb_groups.csv` |
 | Code that reproduces every reported number | https://github.com/shlokDS16/conformal-water-quality-gloria |
-| Code, derived data, splits, per-split endpoint files, result ledgers | Zenodo, concept DOI 10.5281/zenodo.22791749 |
+| Code, derived data, splits, per-split endpoint files, result ledgers | Zenodo, concept DOI 10.5281/zenodo.22791748 |
 | The raw GLORIA compilation (not redistributed) | PANGAEA, doi:10.1594/PANGAEA.948492 |
 
 The Zenodo deposit is about 1.36 GiB across 13 files, far larger than a submission system is
@@ -132,11 +134,10 @@ meant to carry, which is why it is a citation and not an upload.
 
 ## Status of the Zenodo record at submission time
 
-The record is a **reserved draft**. The DOI 10.5281/zenodo.22791749 is reserved but does not
-resolve until the record is published. The manuscript says so in the Data availability section,
-so a reviewer who tries the DOI and gets a 404 has been told why. The record is published, and
-the DOI made resolvable, on acceptance. See `research/DATA_AVAILABILITY.md` and
-`submission/ZENODO_SETUP.md`.
+The record is **public**. The concept DOI 10.5281/zenodo.22791748 resolves to the latest
+version; version 1.0.0 (10.5281/zenodo.22791749, published 2026-09-16) predates the review fixes
+and is superseded by the version that holds the files of `release/zenodo/`. See
+`research/DATA_AVAILABILITY.md` and `submission/ZENODO_SETUP.md`.
 
 ## If the editor asks for more
 
@@ -256,9 +257,8 @@ def write_title_page_docx(path: Path) -> None:
     para(d, "Shlok Kumar Goenka: shlok.goenka2023@vitstudent.ac.in", space_after=2)
     para(d, "R. Manjula: rmanjula@vit.ac.in", space_after=10)
 
-    para(d, "ORCID", bold=True)
-    para(d, "Shlok Kumar Goenka: [TO BE FILLED BY THE AUTHOR]", space_after=2)
-    para(d, "R. Manjula: [TO BE FILLED BY THE AUTHOR]", space_after=10)
+    # ORCID (decision 2026-10-13): no ORCID block on the title page. The identifiers are
+    # linked in the Editorial Manager author profiles, so no placeholder can be uploaded.
 
     para(d, "Declarations", bold=True)
     para(d, "Funding: This research did not receive any specific grant from funding agencies "
@@ -276,17 +276,14 @@ def write_title_page_docx(path: Path) -> None:
             "manuscript. After using this tool/service, the authors reviewed and edited the "
             "content as needed and take full responsibility for the content of the published "
             "article.", space_after=6)
-    para(d, "Acknowledgements: The authors thank the data contributors and the compilation team "
-            "of the GLORIA dataset. They also thank the European Space Agency and the European "
-            "Organisation for the Exploitation of Meteorological Satellites (EUMETSAT) for "
-            "making the Sentinel-2 MSI and Sentinel-3 OLCI spectral response functions publicly "
-            "available.", space_after=6)
+    # Guide compliance G20 (2026-10-12): the Guide asks that acknowledgements are not put on the
+    # title page; they stay in the manuscript, before the references.
     para(d, "Data availability: The GLORIA compilation is publicly available from PANGAEA. The "
             "code that reproduces every result reported here, the water-body grouping table, "
             "the split definitions, the per-split endpoint files and the derived result ledgers "
             "are available on GitHub at " + REPO + " and are archived on Zenodo under the "
-            "concept DOI " + ZENODO + ". The Zenodo record is a reserved draft; it is "
-            "published, and the DOI made resolvable, on acceptance.", space_after=6)
+            "concept DOI " + ZENODO + ", which resolves to the latest version of the public "
+            "record.", space_after=6)
 
     clear_docx_metadata(d)
     d.save(str(path))
@@ -311,13 +308,9 @@ TITLE_PAGE_TEX = r"""%% Title page with author details, ISPRS Journal of Photogr
 
 \author[a]{Shlok Kumar Goenka}
 \ead{shlok.goenka2023@vitstudent.ac.in}
-%% ORCID, first author (field present, to be filled by the author):
-%% ORCID:
 
 \author[a]{R. Manjula\corref{cor1}}
 \ead{rmanjula@vit.ac.in}
-%% ORCID, second author (field present, to be filled by the author):
-%% ORCID:
 
 \cortext[cor1]{Corresponding author.}
 
@@ -353,20 +346,13 @@ drafting and to improve the language of the manuscript. After using this tool/se
 authors reviewed and edited the content as needed and take full responsibility for the content
 of the published article.
 
-\section*{Acknowledgements}
-The authors thank the data contributors and the compilation team of the GLORIA dataset. They
-also thank the European Space Agency and the European Organisation for the Exploitation of
-Meteorological Satellites (EUMETSAT) for making the Sentinel-2 MSI and Sentinel-3 OLCI spectral
-response functions publicly available.
-
 \section*{Data availability}
 The GLORIA compilation of in situ hyperspectral remote-sensing reflectance and paired
 water-quality measurements is publicly available from PANGAEA. The code that reproduces every
 result reported here, the water-body grouping table, the split definitions, the per-split
 endpoint files and the derived result ledgers are available on GitHub at
 \url{REPO_GOES_HERE} and are archived on Zenodo under the concept digital object identifier
-(DOI) \texttt{ZENODO_GOES_HERE}. The Zenodo record is a reserved draft; it is published, and
-the DOI made resolvable, on acceptance.
+(DOI) \texttt{ZENODO_GOES_HERE}, which resolves to the latest version of the public record.
 
 \end{document}
 """
